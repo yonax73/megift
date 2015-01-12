@@ -4,6 +4,8 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 import play.Logger;
 import play.db.DB;
@@ -51,6 +53,32 @@ public class UserDao extends Dao {
 			close(conn);			
 		}
 		return counted;
+	}
+
+	public static List<User> loadUsers() {
+		List<User> users = null;
+				CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("{CALL megift_schema.sp_users_LOAD_USERS()}");
+			rs = cst.executeQuery();
+			if (rs.next()) {
+				users = new ArrayList<User>();
+				do {
+					User user = new User(rs.getString(1), rs.getString(2));
+					user.setCreated(rs.getTimestamp(3).toLocalDateTime());
+					users.add(user);
+				} while (rs.next());
+			}
+		} catch (Exception e) {              
+			Logger.error("An error has been occurred trying to load the users.\n"+e.getMessage(),e);			
+		} finally{			
+			if(cst != null) cst = null;
+			close(conn);			
+		}
+		return users;
 	}
 
 }

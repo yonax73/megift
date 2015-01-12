@@ -1,0 +1,44 @@
+@import resources._
+@main("Megift"){
+
+<div class="row">
+  <div class="col-md-12">
+      <h1><span id="total-users"></span>&nbsp;Usuarios Registrados</h1>
+  </div>
+</div>
+<div class="row">
+   <div class="col-md-2">
+      <button class="btn btn-default">Exportar Excel</button>
+   </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div id="table-users" class="ui-table table-responsive"></div>
+  </div>
+</div>
+
+
+<script>
+Http.get('/countUsers',null, function (xhr) {	
+	document.getElementById('total-users').textContent = parseInt(xhr.responseText);    
+});
+
+var tableUser 	= new DataTable(document.getElementById('table-users'),
+		 '/loadUsers',
+		 [{
+			 name:'Name',
+			 value:'name'
+	      },{
+	    	  name:'Email',
+	    	  value:'email'
+	      },{
+	    	  name:'Fecha',
+	    	  value:'formatCreated'
+	      }
+		 ]
+		 );
+
+</script>
+
+
+}

@@ -5,6 +5,7 @@ import java.util.Map;
 import com.megift.user.entity.User;
 import com.megift.user.logic.UserLogic;
 
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -34,5 +35,13 @@ public class UserControl extends Controller {
     
     public static Result countUsers(){
     	return ok(String.valueOf(UserLogic.countUsers()));
+    }
+    
+    public static Result users(){
+    	return ok(views.html.user.users.render());
+    }
+        
+    public static Result loadUsers(){
+    	return ok(Json.toJson(UserLogic.loadUsers()));
     }
 }
