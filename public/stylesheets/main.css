@@ -1,0 +1,93 @@
+@import url(http://fonts.googleapis.com/css?family=Lovers+Quarrel|Titan+One|Luckiest+Guy|Sacramento);
+.bg-landing-page{	  
+    background-attachment: fixed;
+    background-image: url("../images/home/megitf_lp.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    
+}
+.bg-overlay{
+    background-color: rgba(0, 0, 0, 0.05);
+    height: 100%;
+    width: 100%;
+}
+.text-logo{	
+	font-family: 'Sacramento', cursive;
+	color: #fff;
+	font-size: 4em;
+	font-weight: bold;
+	text-shadow: -1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;
+}
+.text-landing-page{	
+	color: #fff;
+	font-family: "arial black";
+	font-size: 2.8em;
+	text-align: center;
+	color: white;
+	text-shadow: -1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;
+}
+.text-landing-page-small{
+    font-size: 2em;	
+}
+.center{
+	display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-control-lg,.btn-lg{
+	font-size: 18px;
+	height: 60px;
+	line-height: 30px;
+	padding: 15px 25px;
+}
+
+#main-text{
+	padding-top: 7em;	
+}
+#main-text p{
+	text-shadow: -2px -2px 1px #000,2px -2px 1px #000,-2px 2px 1px #000,2px 2px 1px #000;
+}
+
+#frm-register{
+	padding-top: 2em;
+}
+#frm-register input,#frm-social-media button{
+	margin-right: 3px;
+}
+
+#counter-users,#frm-social-media{
+	padding-top: 1em;
+}
+
+#popup-background{
+ background-color:#111;
+ opacity: 0.65; 
+position:absolute;
+z-index: 9001;
+top:0px;
+left:0px;
+width:100%;
+height: 100%;
+}
+#popup-register-success{    
+   background-color: #fff;
+    border: 1px solid #e92f2f;    
+    display: table;
+    height: auto;
+    left: 0;
+    padding: 0.5em 5em;
+    position: absolute;
+    top: 20%;
+    width: 100%;
+    z-index: 9002;
+}
+

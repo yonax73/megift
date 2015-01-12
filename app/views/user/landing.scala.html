@@ -1,0 +1,97 @@
+@import resources._
+@main("Megift"){
+
+<div class="row bg-landing-page">
+   <div class="bg-overlay">
+	   <div class="col-md-12">
+	      <div class="row">
+	        <div class="col-md-12 text-logo">
+	          <p>megift</p>
+	        </div>
+	      </div>
+	      <div class="row">
+	        <div class="col-md-12 center">
+	         <div id="alert"></div>
+	        </div>
+	      </div>
+	      <div class="row" id="main-text">	        
+	        <div class="col-md-12 text-landing-page">
+	          <p>&iexcl;Muy Pronto! Recibir&aacute;s regalos por hacer lo que m&aacute;s te gusta.</p>
+	        </div>
+	      </div>
+	      <div class="row">
+	        <div class="col-md-12 text-landing-page text-landing-page-small">
+	          <p>Solicita tu invitaci&oacute;n para ser uno de los primeros en usar megift.</p>
+	        </div>
+	      </div>
+	      <div class="row">
+	        <div class="col-md-12">
+	          <form id="frm-register" action="/registerUser" class="form-inline center">
+				  <div class="form-group">			    
+				    <input type="text" name="user-name" class="form-control form-control-lg" placeholder="Cual es tu nombre?">
+				  </div>
+				  <div class="form-group">			    
+				    <input type="text" name="user-email" class="form-control form-control-lg" placeholder="Cual es tu correo?">
+				  </div>
+				  <button type="button" id="btn-register" class="btn btn-primary btn-lg"><i id="ico-register" class="fa fa-envelope-o fa-lg"></i>&nbsp;Aceptar invitaci&oacute;n</button>
+				</form>
+	        </div>
+	      </div>
+	      <div  class="row">
+	        <div id="counter-users" class="col-md-6 col-md-offset-3 text-landing-page text-landing-page-small">
+	          <p><span id="total-users">1000</span>&nbsp;<i class="fa fa-users"></i></p>
+	        </div>
+	      </div>
+	      <div class="row">
+	        <div class="col-md-12">   
+	            <form id="frm-social-media" class="form-inline center">        
+		           <button class="btn btn-primary"><i class="fa fa-twitter"></i></button>
+		           <button class="btn btn-primary"><i class="fa fa-facebook"></i></button>
+		           <button class="btn btn-primary"><i class="fa fa-instagram"></i></button>
+		           <button class="btn btn-primary"><i class="fa fa-google-plus"></i></button>
+		       </form>
+	        </div>
+	      </div>
+	   </div>      
+   </div>
+</div>
+<div id="popup-background" class="hidden" ></div>
+ <div  id="popup-register-success" class="hidden bg-primary">
+   <h1 class="text-primary">&iexcl;Felicitaciones!</h1>
+   <h3 class="text-muted">Recibir&aacute;s una invitaci&oacute;n en t&uacute; correo electr&oacute;nico. Cu&eacute;ntale a tus amigos para que no pierdan esta oportunidad.</h3>
+   <br/>
+   <button type="button" class="btn btn-primary btn-lg pull-right">Invitar</button>
+</div>
+<script>
+Http.get('/countUsers',null, function (xhr) {	
+	document.getElementById('total-users').textContent = 1000 + parseInt(xhr.responseText);    
+});
+var objAlert = new Alert(document.getElementById('alert'));
+var animationTotalusers = new Animation('ui-ease', 'ui-tada', 'ui-1s', 1000);
+var animationPopup = new Animation('ui-ease', 'ui-bounce-in', 'ui-1s', 1000);
+var frmRegister = document.getElementById('frm-register');
+var btnRegister = document.getElementById('btn-register');
+btnRegister.onclick = function(){
+	Http.post(Utils.serialize(frmRegister), frmRegister.action, function(){
+ 		btnRegister.disabled = true;
+		document.getElementById('ico-register').className = 'fa fa-spinner fa-spin';
+	}, function(xhr){
+ 		btnRegister.disabled = false;
+		document.getElementById('ico-register').className = 'fa fa-envelope-o fa-lg';
+		if(xhr.responseText > 0){
+			document.getElementById('popup-background').className='show';
+			var popup = document.getElementById('popup-register-success');
+			popup.className='show';
+			animationPopup.run(popup);
+			var totalUser = document.getElementById('total-users');
+			totalUser.textContent = 1000 + parseInt(xhr.responseText);
+			animationTotalusers.run(document.getElementById('counter-users'));			
+		}else{
+			objAlert.danger(xhr.responseText);			
+		}		
+	});
+}
+</script>
+
+
+}
