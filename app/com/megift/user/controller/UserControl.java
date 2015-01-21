@@ -1,10 +1,13 @@
 package com.megift.user.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 import com.megift.user.entity.User;
 import com.megift.user.logic.UserLogic;
 
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -43,5 +46,17 @@ public class UserControl extends Controller {
         
     public static Result loadUsers(){
     	return ok(Json.toJson(UserLogic.loadUsers()));
+    }
+    
+    public static Result exportUsersToExcel(){    	
+    	try {
+    		File file = UserLogic.generateExcelUsers();
+    		response().setContentType("application/x-download");
+    		response().setHeader("Content-Disposition", "attachment; filename=mydata.xlsx");    		
+			return ok(file);
+		} catch (IOException e) {
+			Logger.error("Error tryining generate excel users \n"+e.getMessage());
+			return badRequest("Error tryining generate excel users \n"+e.getMessage());
+		}
     }
 }

@@ -7,7 +7,8 @@ GET       /                          com.megift.user.controller.UserControl.land
 POST     /registerUser               com.megift.user.controller.UserControl.registerUser()
 GET      /countUsers                 com.megift.user.controller.UserControl.countUsers()
 GET      /users                      com.megift.user.controller.UserControl.users()
-GET      /loadUsers                  com.megift.user.controller.UserControl.loadUsers() 
+GET      /loadUsers                  com.megift.user.controller.UserControl.loadUsers()
+GET     /exportUsersExcel            com.megift.user.controller.UserControl.exportUsersToExcel()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

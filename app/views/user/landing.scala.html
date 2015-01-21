@@ -5,8 +5,8 @@
    <div class="bg-overlay">
 	   <div class="col-md-12">
 	      <div class="row">
-	        <div class="col-md-12 text-logo">
-	          <p>megift</p>
+	        <div class="col-md-12 logo">
+	          <a href="#"><img src="@routes.Assets.at("images/logo.png")" alt="megift"/></a>
 	        </div>
 	      </div>
 	      <div class="row">
@@ -45,10 +45,10 @@
 	      <div class="row">
 	        <div class="col-md-12">   
 	            <form id="frm-social-media" class="form-inline center">        
-		           <button class="btn btn-primary"><i class="fa fa-twitter"></i></button>
-		           <button class="btn btn-primary"><i class="fa fa-facebook"></i></button>
-		           <button class="btn btn-primary"><i class="fa fa-instagram"></i></button>
-		           <button class="btn btn-primary"><i class="fa fa-google-plus"></i></button>
+		           <a href="#" class="btn btn-primary"><i class="fa fa-twitter"></i></a>
+		           <a href="https://www.facebook.com/megiftcolombia" target="_blank"  class="btn btn-primary"><i class="fa fa-facebook" ></i></a>
+		           <a href="#" class="btn btn-primary"><i class="fa fa-instagram"></i></a>
+		           <a href="#" class="btn btn-primary"><i class="fa fa-google-plus"></i></a>
 		       </form>
 	        </div>
 	      </div>
@@ -58,10 +58,13 @@
 
  <div  id="popup-register-success" class="ui-popup-panel">   
    <h1 class="text-primary">&iexcl;Felicitaciones!</h1>
-   <h3 class="text-muted">Recibir&aacute;s una invitaci&oacute;n en t&uacute; correo electr&oacute;nico.
-    Cu&eacute;ntale a tus amigos para que no pierdan esta oportunidad.</h3>
-   <br/>
-   <button type="button" id="btn-invite" class="btn btn-primary btn-lg pull-right">Invitar</button>   
+<!--    <h3 class="text-muted">Recibir&aacute;s una invitaci&oacute;n en t&uacute; correo electr&oacute;nico. -->
+<!--     Cu&eacute;ntale a tus amigos para que no pierdan esta oportunidad.</h3> -->
+<!--    <br/> -->
+<!--    <button type="button" id="btn-invite" class="btn btn-primary btn-lg pull-right">Invitar</button>    -->
+  <h3 class="text-muted">Recibir&aacute;s una invitaci&oacute;n en t&uacute; correo electr&oacute;nico.
+     Cu&eacute;ntale a tus amigos para que no pierdan esta oportunidad.</h3>
+      <button type="button" id="btn-invite" class="btn btn-primary btn-lg pull-right">Aceptar</button>
 </div>
 <script>
 Http.get('/countUsers',null, function (xhr) {	
