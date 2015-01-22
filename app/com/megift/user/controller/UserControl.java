@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
 import com.megift.user.entity.User;
 import com.megift.user.logic.UserLogic;
 
@@ -51,12 +53,19 @@ public class UserControl extends Controller {
     public static Result exportUsersToExcel(){    	
     	try {
     		File file = UserLogic.generateExcelUsers();
-    		response().setContentType("application/x-download");
-    		response().setHeader("Content-Disposition", "attachment; filename=mydata.xlsx");    		
-			return ok(file);
+    		if (file!=null){
+        		response().setContentType("application/x-download");
+        		response().setHeader("Content-Disposition", "attachment; filename=mydata.xlsx");    		
+    			return ok(file);    			
+    		}else{
+    			return ok("No  hay datos para exportar!");
+    		}
 		} catch (IOException e) {
 			Logger.error("Error tryining generate excel users \n"+e.getMessage());
 			return badRequest("Error tryining generate excel users \n"+e.getMessage());
+		} catch (InvalidFormatException e) {
+			Logger.error("Invalid format exception tryning generate User excel \n"+e.getMessage());
+			return badRequest("Invalid format exception tryning generate User excel \n"+e.getMessage());
 		}
     }
 }

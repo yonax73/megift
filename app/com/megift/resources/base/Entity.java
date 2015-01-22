@@ -2,12 +2,13 @@ package com.megift.resources.base;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import static com.megift.resources.base.utils.Constants.DATE_TIME_FORMATTER;
 
 public abstract class Entity {
 
 	protected int id;
 	protected LocalDateTime created;
-	public final static String DATE_TIME_FORMATTER = "yyyy-MM-dd HH:mm";
+	
 
 	public Entity(int id) {
 		this.id = id;
