@@ -58,8 +58,7 @@ public class UserLogic {
 		        	Cell emailUser = tmpRow.createCell(++cellNumber);
 		        	emailUser.setCellValue(user.getEmail());
 		        	Cell dateUser = tmpRow.createCell(++cellNumber);
-		        	dateUser.setCellValue(user.getFormatCreated());		        	
-	
+		        	dateUser.setCellValue(user.getFormatCreated());		        		
 				}
 	            FileOutputStream fileOut = new FileOutputStream(file);
 	            wb.write(fileOut);
