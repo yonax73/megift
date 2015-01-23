@@ -1,5 +1,6 @@
-@main("Megift"){
 @import resources._
+@main("Megift"){
+
 
 <div class="row">
   <div class="col-md-12">
@@ -38,11 +39,9 @@ var tableUser 	= new DataTable(document.getElementById('table-users'),
 		 ]
 		 );
 		 
-document.getElementById('export-excel').onclick = function(){
+ document.getElementById('export-excel').onclick = function(){
 	window.location="/exportUsersExcel";
-}
+ }
 
 </script>
-
-
 }
