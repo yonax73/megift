@@ -13,5 +13,12 @@ libraryDependencies ++= Seq(
   javaWs,
   "mysql" % "mysql-connector-java" % "5.1.18",
   "org.apache.poi" % "poi" % "3.8",
-  "org.apache.poi" % "poi-ooxml" % "3.9"
+  "org.apache.poi" % "poi-ooxml" % "3.9",
+  "org.brickred" % "socialauth" % "4.2"
 )
+
+
+
+
+
+

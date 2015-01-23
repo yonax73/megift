@@ -20,6 +20,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.megift.user.dao.UserDao;
 import com.megift.user.entity.User;
 
+
+
+
+
 public class UserLogic {
 
 	public static boolean registerUser(User user) {		
@@ -66,5 +70,7 @@ public class UserLogic {
 		    }    
 	        return file;
 	}
+	
+
 
 }
