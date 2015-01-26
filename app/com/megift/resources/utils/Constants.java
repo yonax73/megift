@@ -1,4 +1,4 @@
-package com.megift.resources.base.utils;
+package com.megift.resources.utils;
 
 public class Constants {
     

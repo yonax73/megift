@@ -1,7 +1,7 @@
 package com.megift.user.logic;
 
-import static com.megift.resources.base.utils.Constants.DATA_TEMP_PATH;
-import static com.megift.resources.base.utils.Constants.DATE_FORMATTER;
+import static com.megift.resources.utils.Constants.DATA_TEMP_PATH;
+import static com.megift.resources.utils.Constants.DATE_FORMATTER;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -69,6 +69,10 @@ public class UserLogic {
 	            fileOut.close();		    	
 		    }    
 	        return file;
+	}
+
+	public static boolean existsUser(User user) {		
+		return UserDao.existsUser(user);
 	}
 	
 

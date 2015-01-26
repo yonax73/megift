@@ -1,12 +1,14 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto:900,400);
+@import url(http://fonts.googleapis.com/css?family=Bad+Script);
+body,h1,h3{
+ font-family: 'Bad Script', cursive;
+}
 .bg-landing-page{	  
     background-attachment: fixed;
     background-image: url("../images/home/megitf_lp.jpg");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-    bottom:0;
-    height: auto;
+    height: 100%;
     left: 0;
     margin: 0;
     padding: 0;
@@ -14,22 +16,28 @@
     top: 0;
     width: 100%;    
 }
+.bg-landing-page-mobile{
+	height: 100%;
+}
 .bg-overlay{
     background-color: rgba(0, 0, 0, 0.05);
     height: 100%;
     width: 100%;
 }
-
+.logo{
+	padding-top: 5em;
+	padding-bottom:1em;
+	text-align: center;
+}
 .logo img {
     border: medium none;
-    height: 10%;
+    height: 6em;
     padding: 1em;
-    width: 10%;
+    width: 10em;
 }
 .text-landing-page{	
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    font-size: 3em;
+    color: white;   
+    font-size: 4em;
     font-weight: bold;
     text-align: center;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
@@ -50,9 +58,6 @@
 	padding: 15px 25px;
 }
 
-#main-text{
-	padding-top: 7em;	
-}
 #main-text p{
 	text-shadow: -2px -2px 1px #000,2px -2px 1px #000,-2px 2px 1px #000,2px 2px 1px #000;
 }
@@ -63,6 +68,7 @@
 
 #frm-register input,#frm-register button,#frm-social-media a{
 	border-radius:0px;	
+	
 }
 #frm-register input{
 	color: #eb4646;
@@ -77,5 +83,15 @@
 
 .form-control:FOCUS {
 	border-color:#eb4646;
+}
+
+.text-muted {
+    color: #363636;
+}
+#popup-register-success {
+    border-bottom: 0.2em solid #eb4646;
+}
+#popup-register-success h3{
+	 text-indent: 2em;
 }
 

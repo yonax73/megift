@@ -2,7 +2,8 @@ package com.megift.resources.base;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import static com.megift.resources.base.utils.Constants.DATE_TIME_FORMATTER;
+
+import static com.megift.resources.utils.Constants.DATE_TIME_FORMATTER;
 
 public abstract class Entity {
 

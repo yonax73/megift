@@ -81,4 +81,26 @@ public class UserDao extends Dao {
 		return users;
 	}
 
+	public static boolean existsUser(User user) {
+		boolean exists = false;
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = DB.getConnection();
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("{CALL sp_users_EXISTS_USER(?)}");
+			cst.setString(1,user.getEmail());
+			rs = cst.executeQuery();
+			if(rs.next()){
+				exists = rs.getInt(1) > 0;
+			}
+		} catch (Exception e) {
+			Logger.error("An error has been occurred checking the user.\n"+e.getMessage(),e);	
+		}finally{			
+			if(cst != null) cst = null;
+			close(conn);			
+		}
+		return exists;
+	}
+
 }

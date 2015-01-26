@@ -14,6 +14,8 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import static com.megift.resources.utils.Validator.isEmail;
+
 public class UserControl extends Controller {
 
 	
@@ -26,14 +28,18 @@ public class UserControl extends Controller {
     	User user = null;
     	final Map<String, String[]> req =  request().body().asFormUrlEncoded();
     	user = new User(req.get("user-name")[0], req.get("user-email")[0]);
-    	if(!user.isEmpty()){
-    		if(UserLogic.registerUser(user)){
-    			result = String.valueOf(UserLogic.countUsers());
+    	if(!user.isEmpty() && isEmail(user.getEmail())){
+    		if(!UserLogic.existsUser(user)){
+        		if(UserLogic.registerUser(user)){
+        			result = String.valueOf(UserLogic.countUsers());
+        		}else{
+        			result = "Error al registrar el usuario";
+        		}
     		}else{
-    			result = "Error al registrar el usuario";
+    			result = "Este usuario ya estaba registrado!";	
     		}
     	}else{
-    		result = "El correo es requerido!";
+    		result = "Ingrese un correo valido!";
     	}
     	return ok(result);
     }
