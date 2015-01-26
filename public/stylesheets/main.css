@@ -1,18 +1,18 @@
-
+@import url(http://fonts.googleapis.com/css?family=Roboto:900,400);
 .bg-landing-page{	  
     background-attachment: fixed;
     background-image: url("../images/home/megitf_lp.jpg");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 100%;
+    bottom:0;
+    height: auto;
     left: 0;
     margin: 0;
     padding: 0;
     position: absolute;
     top: 0;
-    width: 100%;
-    
+    width: 100%;    
 }
 .bg-overlay{
     background-color: rgba(0, 0, 0, 0.05);
@@ -28,8 +28,8 @@
 }
 .text-landing-page{	
     color: white;
-    font-family: "Arial Black",Verdana,sans-serif;
-    font-size: 2.5em;
+    font-family: 'Roboto', sans-serif;
+    font-size: 3em;
     font-weight: bold;
     text-align: center;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
@@ -60,13 +60,22 @@
 #frm-register{
 	padding-top: 2em;
 }
-#frm-register input,#frm-social-media button{
-	margin-right: 3px;
+
+#frm-register input,#frm-register button,#frm-social-media a{
+	border-radius:0px;	
+}
+#frm-register input{
+	color: #eb4646;
 }
 
 #counter-users,#frm-social-media{
 	padding-top: 1em;
 }
+#frm-social-media a{
+	margin-right: 0.5em;
+}
 
-
+.form-control:FOCUS {
+	border-color:#eb4646;
+}
 

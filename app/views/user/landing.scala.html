@@ -28,12 +28,12 @@
 	        <div class="col-md-12">
 	          <form id="frm-register" action="/registerUser" class="form-inline center">
 				  <div class="form-group">			    
-				    <input type="text" name="user-name" class="form-control form-control-lg" placeholder="Cual es tu nombre?"/>
+				    <input type="text" name="user-name"	data-required="true"  class="form-control form-control-lg" placeholder="NOMBRE"/>
 				  </div>
 				  <div class="form-group">			    
-				    <input type="text" name="user-email" class="form-control form-control-lg" placeholder="Cual es tu correo?"/>
+				    <input type="text" name="user-email" data-required="true" data-email="true" class="form-control form-control-lg" placeholder="CORREO"/>
 				  </div>
-				  <button type="button" id="btn-register" class="btn btn-primary btn-lg"><i id="ico-register" class="fa fa-envelope-o fa-lg"></i>&nbsp;Aceptar invitaci&oacute;n</button>
+				  <button  id="btn-register" class="btn btn-primary btn-lg"><i id="ico-register" class="fa fa-envelope-o fa-lg"></i>&nbsp;SOLICITAR INVITACI&Oacute;N</button>
 				</form>
 	        </div>
 	      </div>
@@ -74,9 +74,10 @@ var objAlert = new Alert(document.getElementById('alert'));
 var animationTotalusers = new Animation('ui-ease', 'ui-tada', 'ui-1s', 1000);
 var frmRegister = document.getElementById('frm-register');
 var btnRegister = document.getElementById('btn-register');
-var popupRegister = new Popup(document.getElementById('popup-register-success')); 
+var popupRegister = new Popup(document.getElementById('popup-register-success'));
 
 btnRegister.onclick = function(){
+
 	Http.post(Utils.serialize(frmRegister), frmRegister.action, function(){
  		btnRegister.disabled = true;
 		document.getElementById('ico-register').className = 'fa fa-spinner fa-spin';
@@ -92,7 +93,17 @@ btnRegister.onclick = function(){
 			objAlert.danger(xhr.responseText);			
 		}		
 	});
-}
+	
+	
+
+ }
+
+
+form.onsubmit(function() {
+    if (form.isValid()) {            
+                  
+    }
+});
 
 document.getElementById('btn-invite').onclick = function(){
 	popupRegister.close();
