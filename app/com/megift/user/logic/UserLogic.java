@@ -2,14 +2,20 @@ package com.megift.user.logic;
 
 import static com.megift.resources.utils.Constants.DATA_TEMP_PATH;
 import static com.megift.resources.utils.Constants.DATE_FORMATTER;
+import static com.megift.resources.utils.Constants.EMAIL_SERVER_NAME;
+import static com.megift.resources.utils.Constants.EMAIL_SERVER_SECURITY_TYPE_SSL;
+import static com.megift.resources.utils.Constants.EMAIL_USER_NAME;
+import static com.megift.resources.utils.Constants.EMAIL_USER_PASSWORD;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.apache.commons.mail.EmailException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -17,17 +23,17 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import play.Logger;
+
+import com.megift.resources.email.Email;
+import com.megift.resources.email.Resource;
 import com.megift.user.dao.UserDao;
 import com.megift.user.entity.User;
-
-
-
-
 
 public class UserLogic {
 
 	public static boolean registerUser(User user) {		
-		return UserDao.registerUser(user);
+		return sendEmailRegister(user) && UserDao.registerUser(user);
 	}
 	
 	public static int countUsers(){
@@ -73,6 +79,27 @@ public class UserLogic {
 
 	public static boolean existsUser(User user) {		
 		return UserDao.existsUser(user);
+	}
+	
+	public static boolean sendEmailRegister(User user){
+		boolean registered = false;
+		Email email = new Email(EMAIL_SERVER_NAME, EMAIL_USER_NAME, EMAIL_USER_PASSWORD, EMAIL_SERVER_SECURITY_TYPE_SSL);
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("<html><body><table><tr><td>");	
+		buffer.append("<img src='${0}'/>");
+		buffer.append("</td></tr></table></body></html>");	
+		try {
+			Resource image[] = {new Resource("https://cdn.rawgit.com/yonaxTics/megift/master/public/images/templates/register.png", "Megift")};
+			email.sendHTMLMail(EMAIL_USER_NAME, "Megift", new String[]{user.getEmail()}, new String[]{user.getName()}, "Bienvenido", buffer.toString(),image);
+			registered = true;
+		} catch (EmailException e) {
+			Logger.error("Error tryning send register email \n"+e.getMessage());
+		
+		} catch (MalformedURLException e) {
+			Logger.error("Error tryning create the resources for send register email \n"+e.getMessage());
+		
+		}
+		return registered;
 	}
 	
 
