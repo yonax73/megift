@@ -1,7 +1,7 @@
 @import resources._
 @main("Megift"){
 
-<div class="row bg-landing-page">
+<div id="landing-page" class="row bg-landing-page">
    <div class="bg-overlay">
 	   <div class="col-md-12">
 	      <div class="row">
@@ -30,12 +30,14 @@
 	        <div class="col-md-12">
 	          <form id="frm-register" action="/registerUser" class="form-inline center">
 				  <div class="form-group">			    
-				    <input type="text" name="user-name"	data-required="true"  class="form-control form-control-lg" placeholder="NOMBRE"/>
+				    <input type="text" name="user-name"	data-required="true"  class="form-control form-control-lg" placeholder="Nombre"/>
 				  </div>
 				  <div class="form-group">			    
-				    <input type="text" name="user-email" data-required="true" data-email="true" class="form-control form-control-lg" placeholder="CORREO"/>
+				    <input type="text" name="user-email" data-required="true" data-email="true" class="form-control form-control-lg" placeholder="Correo"/>
+				  </div>				  
+				  <div class="form-group">
+				   <button type="button" id="btn-register" class="btn btn-primary btn-lg form-control"><i id="ico-register" class="fa fa-envelope fa-lg"></i>&nbsp;&nbsp;Solicitar Invitaci&oacute;n</button>
 				  </div>
-				  <button type="button" id="btn-register" class="btn btn-primary btn-lg"><i id="ico-register" class="fa fa-envelope fa-lg"></i>&nbsp;&nbsp;Solicitar Invitaci&oacute;n</button>
 				</form>
 	        </div>
 	      </div>
@@ -69,23 +71,36 @@
       <button type="button" id="btn-invite" class="btn btn-primary btn-lg pull-right">Aceptar</button>
 </div>
 <script>
-
-var body = document.body,html = document.documentElement;
-var height = Math.max( body.scrollHeight, body.offsetHeight,html.clientHeight, html.scrollHeight, html.offsetHeight );
-
-if(height <= 643){
-	
-}
-
-
-Http.get('/countUsers',null, function (xhr) {	
-	document.getElementById('total-users').textContent = 1000 + parseInt(xhr.responseText);    
-});
 var objAlert = new Alert(document.getElementById('alert'));
 var animationTotalusers = new Animation('ui-ease', 'ui-tada', 'ui-1s', 1000);
 var frmRegister = document.getElementById('frm-register');
 var btnRegister = document.getElementById('btn-register');
 var popupRegister = new Popup(document.getElementById('popup-register-success'));
+popupRegister.close();
+resize();
+function resize(){
+	var body = document.body,html = document.documentElement;
+	var width = Math.max( body.scrollWidth, body.offsetWidth,html.clientWidth, html.scrollWidth, html.offsetWidth);
+	var landingPage = document.getElementById('landing-page');
+	if(width <= 1280){
+		if(!landingPage.classList.contains('bg-landing-page-mobile')){
+			landingPage.classList.add('bg-landing-page-mobile');			
+		}
+	}else{	
+		if(landingPage.classList.contains('bg-landing-page-mobile')){
+			landingPage.classList.remove('bg-landing-page-mobile');
+		}	
+	}
+}
+window.onresize = function(e) {
+    resize();
+};
+
+
+Http.get('/countUsers',null, function (xhr) {	
+	document.getElementById('total-users').textContent = 1000 + parseInt(xhr.responseText);    
+});
+
 
 btnRegister.onclick = function(){
 	var userName = document.getElementsByName('user-name')[0];

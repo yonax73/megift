@@ -17,7 +17,7 @@ body,h1,h3{
     width: 100%;    
 }
 .bg-landing-page-mobile{
-	height: 100%;
+	height: auto;
 }
 .bg-overlay{
     background-color: rgba(0, 0, 0, 0.05);
