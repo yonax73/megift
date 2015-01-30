@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.brickred.socialauth.AuthProvider;
+import org.brickred.socialauth.SocialAuthConfig;
+import org.brickred.socialauth.SocialAuthManager;
 
 import play.Logger;
 import play.libs.Json;
@@ -74,6 +77,24 @@ public class UserControl extends Controller {
 			Logger.error("Invalid format exception tryning generate User excel \n"+e.getMessage());
 			return badRequest("Invalid format exception tryning generate User excel \n"+e.getMessage());
 		}
+    }
+    
+    public static Result importContacts(){    	
+    	try {
+    		SocialAuthConfig config = SocialAuthConfig.getDefault();
+			config.load();
+			SocialAuthManager manager = new SocialAuthManager();
+			manager.setSocialAuthConfig(config);
+			String successUrl = "http://opensource.brickred.com/socialauthdemo/socialAuthSuccessAction.do";
+  		    // get Provider URL to which you should redirect for authentication.
+		    // id can have values "facebook", "twitter", "yahoo" etc. or the OpenID URL
+			String url = manager.getAuthenticationUrl("google", successUrl);
+			
+		} catch (Exception e) {
+			Logger.error("Error tryning import contacts \n"+e.getMessage());
+			return badRequest("Error tryning import contacts \n"+e.getMessage());
+		}
+    	return ok();
     }
     
 
