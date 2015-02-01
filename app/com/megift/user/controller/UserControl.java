@@ -5,13 +5,16 @@ import static com.megift.resources.utils.Validator.isEmail;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.brickred.socialauth.AuthProvider;
 import org.brickred.socialauth.SocialAuthConfig;
 import org.brickred.socialauth.SocialAuthManager;
+import org.brickred.socialauth.util.SocialAuthUtil;
 
 import play.Logger;
+import play.cache.Cache;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -79,22 +82,41 @@ public class UserControl extends Controller {
 		}
     }
     
-    public static Result importContacts(){    	
+    public static Result social(){
+    	return ok(views.html.user.social.render());
+    }
+    
+    public static Result oAuth(){
+    	SocialAuthManager manager; 
+		String originalURL; 
+		String providerID = "google"; 
+		User profile;
+		String authURL ;
     	try {
-    		SocialAuthConfig config = SocialAuthConfig.getDefault();
-			config.load();
-			SocialAuthManager manager = new SocialAuthManager();
-			manager.setSocialAuthConfig(config);
-			String successUrl = "http://opensource.brickred.com/socialauthdemo/socialAuthSuccessAction.do";
-  		    // get Provider URL to which you should redirect for authentication.
-		    // id can have values "facebook", "twitter", "yahoo" etc. or the OpenID URL
-			String url = manager.getAuthenticationUrl("google", successUrl);
-			
+    		Properties properties = System.getProperties();
+    		properties.put("www.google.com.consumer_key","http://megift.co");
+    		properties.put("www.google.com.consumer_secret","JgL-ph2McJ5TVUJi3JnHPSKd");    		
+    		SocialAuthConfig config = SocialAuthConfig.getDefault(); 
+    		config.load(properties); 
+    		manager = new SocialAuthManager(); 
+    		manager.setSocialAuthConfig(config);    		
+    		authURL =  manager.getAuthenticationUrl(providerID, "http://megift.co/oauth2callback");
+    		Cache.set("authManager", manager, 1000);    		
 		} catch (Exception e) {
 			Logger.error("Error tryning import contacts \n"+e.getMessage());
 			return badRequest("Error tryning import contacts \n"+e.getMessage());
 		}
-    	return ok();
+    	return redirect(authURL);
+    }
+    
+    public static Result successAuth(){
+    	return ok(views.html.user.successAuth.render());
+    }
+    
+    public static Result importContacts(){
+    	String str = request().body().asText();    	
+    	SocialAuthManager manager = (SocialAuthManager) Cache.get("authManager"); 
+    	return ok(str);
     }
     
 

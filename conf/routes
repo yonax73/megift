@@ -9,7 +9,10 @@ GET      /countUsers                 com.megift.user.controller.UserControl.coun
 GET      /dXNlcnMclN                 com.megift.user.controller.UserControl.users()
 GET      /loadUsers                  com.megift.user.controller.UserControl.loadUsers()
 GET     /exportUsersExcel            com.megift.user.controller.UserControl.exportUsersToExcel()
-
+GET     /social                       com.megift.user.controller.UserControl.social()
+GET     /oAuth                       com.megift.user.controller.UserControl.oAuth()
+GET     /successAuth                 com.megift.user.controller.UserControl.successAuth()
+GET     /importContacts              com.megift.user.controller.UserControl.importContacts()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
