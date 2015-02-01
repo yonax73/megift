@@ -86,9 +86,9 @@ public class UserLogic {
 		Email email = new Email(EMAIL_SERVER_NAME, EMAIL_USER_NAME, EMAIL_USER_PASSWORD, EMAIL_SERVER_SECURITY_TYPE_SSL);
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("<html><body>");
-		buffer.append("<table style=\"border-radius: 4px; border: 3px solid rgb(235, 70, 70); font-family: cursive; background-color: rgb(255, 246, 246);\">");
+		buffer.append("<table>");
 		buffer.append("<tbody><tr>");
-		buffer.append("<td style=\"border-bottom: 3px solid rgb(235, 70, 70); padding-bottom: 20px;\"><img src='${0}'/></td>");
+		buffer.append("<td><img style=\"width: 30%;\" src='${0}'/></td>");
 		buffer.append("</tr><tr><td>Bienvenido a megift.<br><br>Hola "+user.getName()+",<br><br>¡Felicitaciones! Tu solicitud ha sido recibida.<br>");
 		buffer.append("Estamos trabajando muy duro, para poderte dar muchos regalos y alegrar tu vida todos los días, porque sabemos que eres alguien especial.<br>");
 		buffer.append("Con Megift podrás recibir regalos por:<ul><li>Salir a comer</li><li>Comprar ropa</li><li>Consentirte</li><li>Y mucho más...</li></ul>");
