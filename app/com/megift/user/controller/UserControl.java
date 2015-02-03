@@ -93,7 +93,7 @@ public class UserControl extends Controller {
     	try {
     		Properties properties = System.getProperties();
     		properties.put("www.google.com.consumer_key","AIzaSyBByQecsZL5lhqRBEvy3-5nSeiEtdlmGfs");
-    		properties.put("www.google.com.consumer_secret","notasecret");    		
+    		properties.put("www.google.com.consumer_secret","QW8J06FFVTM8935mK6zErdm6");    		
     		SocialAuthConfig config = SocialAuthConfig.getDefault(); 
     		config.load(properties); 
     		manager = new SocialAuthManager(); 
