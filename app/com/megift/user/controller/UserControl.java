@@ -8,10 +8,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.brickred.socialauth.AuthProvider;
 import org.brickred.socialauth.SocialAuthConfig;
 import org.brickred.socialauth.SocialAuthManager;
-import org.brickred.socialauth.util.SocialAuthUtil;
 
 import play.Logger;
 import play.cache.Cache;
@@ -94,13 +92,13 @@ public class UserControl extends Controller {
 		String authURL ;
     	try {
     		Properties properties = System.getProperties();
-    		properties.put("www.google.com.consumer_key","http://megift.co");
-    		properties.put("www.google.com.consumer_secret","JgL-ph2McJ5TVUJi3JnHPSKd");    		
+    		properties.put("www.google.com.consumer_key","AIzaSyBByQecsZL5lhqRBEvy3-5nSeiEtdlmGfs");
+    		properties.put("www.google.com.consumer_secret","notasecret");    		
     		SocialAuthConfig config = SocialAuthConfig.getDefault(); 
     		config.load(properties); 
     		manager = new SocialAuthManager(); 
     		manager.setSocialAuthConfig(config);    		
-    		authURL =  manager.getAuthenticationUrl(providerID, "http://megift.co/oauth2callback");
+    		authURL =  manager.getAuthenticationUrl(providerID, "/successAuth");
     		Cache.set("authManager", manager, 1000);    		
 		} catch (Exception e) {
 			Logger.error("Error tryning import contacts \n"+e.getMessage());
