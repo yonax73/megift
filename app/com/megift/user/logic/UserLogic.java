@@ -89,10 +89,10 @@ public class UserLogic {
 		buffer.append("<table>");
 		buffer.append("<tbody><tr>");
 		buffer.append("<td><img style=\"width: 30%;\" src='${0}'/></td>");
-		buffer.append("</tr><tr><td>Bienvenido a megift.<br><br>Hola "+user.getName()+",<br><br>¡Felicitaciones! Tu solicitud ha sido recibida.<br>");
-		buffer.append("Estamos trabajando muy duro, para poderte dar muchos regalos y alegrar tu vida todos los días, porque sabemos que eres alguien especial.<br>");
+		buffer.append("</tr><tr><td>Bienvenido a megift.<br><br>Hola "+user.getName()+",<br><br>¡Felicitaciones! Tu solicitud ha sido recibida.<br><br>");
+		buffer.append("Estamos trabajando muy duro, para poderte dar muchos regalos y alegrar tu vida todos los días, porque sabemos que eres alguien especial.<br><br>");
 		buffer.append("Con Megift podrás recibir regalos por:<ul><li>Salir a comer</li><li>Comprar ropa</li><li>Consentirte</li><li>Y mucho más...</li></ul>");
-		buffer.append("Te pedimos un poco de paciencia, valdrá la pena la espera.<br>Pronto te enviaremos un email con el link de descarga.<br>¡Disfruta el regalo de la vida!<br>Equipo de Megift</td></tr>");
+		buffer.append("Te pedimos un poco de paciencia, valdrá la pena esperar.<br><br>Pronto te enviaremos un email con el link de descarga.<br><br>¡Disfruta el regalo de la vida!<br><br>Equipo de Megift</td></tr>");
 		buffer.append("</table></body></html>");	
 		try {
 			Resource image[] = {new Resource("https://cdn.rawgit.com/yonaxTics/megift/master/public/images/templates/headerMail.png", "Megift")};
