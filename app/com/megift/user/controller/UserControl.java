@@ -1,15 +1,13 @@
 package com.megift.user.controller;
 
+import static com.megift.resources.utils.Constants.CACHE_SOCIAL_AUTH;
 import static com.megift.resources.utils.Validator.isEmail;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.brickred.socialauth.SocialAuthConfig;
-import org.brickred.socialauth.SocialAuthManager;
 
 import play.Logger;
 import play.cache.Cache;
@@ -17,8 +15,10 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import com.megift.resources.oauth.OAuth;
 import com.megift.user.entity.User;
 import com.megift.user.logic.UserLogic;
+
 
 
 public class UserControl extends Controller {
@@ -80,42 +80,30 @@ public class UserControl extends Controller {
 		}
     }
     
-    public static Result social(){
-    	return ok(views.html.user.social.render());
-    }
-    
-    public static Result oAuth(){
-    	SocialAuthManager manager; 
-		String originalURL; 
-		String providerID = "google"; 
-		User profile;
-		String authURL ;
+    public static Result oAuth(String id){
     	try {
-    		Properties properties = System.getProperties();
-    		properties.put("www.google.com.consumer_key","AIzaSyBByQecsZL5lhqRBEvy3-5nSeiEtdlmGfs");
-    		properties.put("www.google.com.consumer_secret","QW8J06FFVTM8935mK6zErdm6");    		
-    		SocialAuthConfig config = SocialAuthConfig.getDefault(); 
-    		config.load(properties); 
-    		manager = new SocialAuthManager(); 
-    		manager.setSocialAuthConfig(config);    		
-    		authURL =  manager.getAuthenticationUrl(providerID, "/successAuth");
-    		Cache.set("authManager", manager, 1000);    		
+    		OAuth socialAuth = new OAuth(id);
+    		if (socialAuth.authenticate()) {
+            	Cache.set(CACHE_SOCIAL_AUTH, socialAuth,60*5);	
+            	return redirect(socialAuth.getAuthURL());
+			}
 		} catch (Exception e) {
-			Logger.error("Error tryning import contacts \n"+e.getMessage());
-			return badRequest("Error tryning import contacts \n"+e.getMessage());
+			Logger.error("Error tryning authenticate \n"+e.getMessage());
+			return badRequest("Error tryning authenticate \n"+e.getMessage());
 		}
-    	return redirect(authURL);
+    	return badRequest("Error tryning authenticate");
     }
     
-    public static Result successAuth(){
-    	return ok(views.html.user.successAuth.render());
+    public static Result successAuth(){      	
+    	OAuth socialAuth = (OAuth) Cache.get(CACHE_SOCIAL_AUTH);
+    	if(socialAuth.loadParamsMap(request().queryString().entrySet())){
+    		if(UserLogic.sendInviteToContacts(socialAuth.getProfile(), socialAuth.getContactsList())){
+    			return ok(views.html.user.successAuth.render());	
+    		}
+    	}
+    	return badRequest("Error tryning load the authenticate");
     }
-    
-    public static Result importContacts(){
-    	String str = request().body().asText();    	
-    	SocialAuthManager manager = (SocialAuthManager) Cache.get("authManager"); 
-    	return ok(str);
-    }
+
     
 
 }

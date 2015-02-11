@@ -2,10 +2,15 @@ package com.megift.resources.email;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
-import static com.megift.resources.utils.Constants.EMAIL_SERVER_SECURITY_TYPE_SSL;
-import static com.megift.resources.utils.Constants.EMAIL_SERVER_SECURITY_TYPE_TLS;
 
 public class Email {
+	
+	public static final String SERVER_NAME = "smtp.zoho.com";
+	public static final int SERVER_SECURITY_TYPE_SSL = 465;
+	public static final int SERVER_SECURITY_TYPE_TLS = 587;
+	public static final String INFO_EMAIL = "info@megift.co";
+	public static final String INFO_EMAIL_PASSWORD = "Megift-12345!";
+	
 	  private String host;
 	  private String username = null;
 	  private String password = null;
@@ -42,12 +47,31 @@ public class Email {
 	  }
 	  }
 	  
+	  public void sendHTMLMail(String fromEmail,String fromName,String toEmail,String toName,String subject,String html,Resource resource) throws EmailException {
+		    HtmlEmail email = new HtmlEmail();
+		    email.setHostName(host);
+		    email.setSmtpPort(smtpPort);
+		    email.setSSLOnConnect(isSecurityTypeSSL());
+		    email.setAuthentication(username, password);	    
+		    email.setFrom(fromEmail, fromName);		    
+		    email.addTo(toEmail, toName);		    
+		    if (resource != null) {		    	
+		          String id = email.embed(resource.getUrl(), resource.getName());
+		          html = html.replaceAll("\\$\\{0\\}", "cid:" + id);
+		    }
+		    email.setSubject(subject);
+		    email.setHtmlMsg(html);
+		    email.send();
+	  }
+		
+
+	  
 	  public boolean isSecurityTypeSSL(){
-		  return smtpPort == EMAIL_SERVER_SECURITY_TYPE_SSL;
+		  return smtpPort == SERVER_SECURITY_TYPE_SSL;
 	  }
 	  
 	  public boolean isSecurityTypeTLS(){
-		  return smtpPort == EMAIL_SERVER_SECURITY_TYPE_TLS;
+		  return smtpPort == SERVER_SECURITY_TYPE_TLS;
 	  }
 
 }

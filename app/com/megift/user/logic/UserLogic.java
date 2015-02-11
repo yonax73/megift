@@ -1,11 +1,14 @@
 package com.megift.user.logic;
 
+import static com.megift.resources.email.Email.INFO_EMAIL;
+import static com.megift.resources.email.Email.INFO_EMAIL_PASSWORD;
+import static com.megift.resources.email.Email.SERVER_NAME;
+import static com.megift.resources.email.Email.SERVER_SECURITY_TYPE_SSL;
+import static com.megift.resources.email.Templates.RESOURCE_HEADER_EMAIL_IMAGE;
+import static com.megift.resources.email.Templates.inviteEmailContacts;
+import static com.megift.resources.email.Templates.successRegister;
 import static com.megift.resources.utils.Constants.DATA_TEMP_PATH;
 import static com.megift.resources.utils.Constants.DATE_FORMATTER;
-import static com.megift.resources.utils.Constants.EMAIL_SERVER_NAME;
-import static com.megift.resources.utils.Constants.EMAIL_SERVER_SECURITY_TYPE_SSL;
-import static com.megift.resources.utils.Constants.EMAIL_USER_NAME;
-import static com.megift.resources.utils.Constants.EMAIL_USER_PASSWORD;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,6 +25,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.brickred.socialauth.Contact;
+import org.brickred.socialauth.Profile;
 
 import play.Logger;
 
@@ -78,34 +83,57 @@ public class UserLogic {
 	}
 
 	public static boolean existsUser(User user) {		
-		return UserDao.existsUser(user);
+		return false;//UserDao.existsUser(user);
 	}
 	
 	public static boolean sendEmailRegister(User user){
 		boolean registered = false;
-		Email email = new Email(EMAIL_SERVER_NAME, EMAIL_USER_NAME, EMAIL_USER_PASSWORD, EMAIL_SERVER_SECURITY_TYPE_SSL);
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("<html><body>");
-		buffer.append("<table>");
-		buffer.append("<tbody><tr>");
-		buffer.append("<td><img style=\"width: 30%;\" src='${0}'/></td>");
-		buffer.append("</tr><tr><td>Bienvenido a megift.<br><br>Hola "+user.getName()+",<br><br>¡Felicitaciones! Tu solicitud ha sido recibida.<br><br>");
-		buffer.append("Estamos trabajando muy duro, para poderte dar muchos regalos y alegrar tu vida todos los días, porque sabemos que eres alguien especial.<br><br>");
-		buffer.append("Con Megift podrás recibir regalos por:<ul><li>Salir a comer</li><li>Comprar ropa</li><li>Consentirte</li><li>Y mucho más...</li></ul>");
-		buffer.append("Te pedimos un poco de paciencia, valdrá la pena esperar.<br><br>Pronto te enviaremos un email con el link de descarga.<br><br>¡Disfruta el regalo de la vida!<br><br>Equipo de Megift</td></tr>");
-		buffer.append("</table></body></html>");	
-		try {
-			Resource image[] = {new Resource("https://cdn.rawgit.com/yonaxTics/megift/master/public/images/templates/headerMail.png", "Megift")};
-			email.sendHTMLMail(EMAIL_USER_NAME, "Megift", new String[]{user.getEmail()}, new String[]{user.getName()}, "Bienvenido", buffer.toString(),image);
+		Email email = new Email(SERVER_NAME, INFO_EMAIL, INFO_EMAIL_PASSWORD,SERVER_SECURITY_TYPE_SSL);
+		try {			
+			email.sendHTMLMail(INFO_EMAIL, "Megift", user.getEmail(),user.getName(), "Bienvenido", successRegister(user.getName()),new Resource(RESOURCE_HEADER_EMAIL_IMAGE, "Megift"));
 			registered = true;
 		} catch (EmailException e) {
 			Logger.error("Error tryning send register email \n"+e.getMessage());
 		
 		} catch (MalformedURLException e) {
-			Logger.error("Error tryning create the resources for send register email \n"+e.getMessage());
-		
+			Logger.error("Error tryning create the resources for send register email \n"+e.getMessage());		
 		}
 		return registered;
+	}
+	
+	public static boolean sendInviteToContacts(Profile profile,List<Contact> contactsList){
+     boolean sent = false;	   	
+ 	   try {
+           if(contactsList!=null && !contactsList.isEmpty()){
+        	   String userName = profile.getFullName() != null ? profile.getFullName() : profile.getDisplayName() != null ? profile.getDisplayName()  : profile.getFirstName()!=null ? profile.getFirstName() : "Equipo Megift";
+        	   for (Contact contact : contactsList) {
+        		   String contactName =  contact.getDisplayName() != null ? contact.getDisplayName()  : contact.getFirstName()!=null ? contact.getFirstName() : "";
+        		   Email email = new Email(SERVER_NAME, INFO_EMAIL, INFO_EMAIL_PASSWORD,SERVER_SECURITY_TYPE_SSL);        		   
+        			try {        				
+        				email.sendHTMLMail(INFO_EMAIL, userName, contact.getEmail(),contactName ,"Invitación a Megift Colombia", inviteEmailContacts(userName, contactName),new Resource(RESOURCE_HEADER_EMAIL_IMAGE, "Megift"));
+        		
+        			} catch (EmailException e) {
+        				Logger.error("Error tryning send register email \n"+e.getMessage());
+        			
+        			} catch (MalformedURLException e) {
+        				Logger.error("Error tryning create the resources for send register email \n"+e.getMessage());		
+        			}
+			    }
+        	   sent = true;
+           }
+		} catch (Exception e) {
+			Logger.error("Error tryning send invitation to  contacts \n"+e.getMessage());
+			
+		}
+		return sent;
+	}
+	
+	public static boolean updateUserDataFromOAuth(){
+		return false;
+	}
+	
+	public static boolean saveUserContacts(){
+		return false;
 	}
 	
 

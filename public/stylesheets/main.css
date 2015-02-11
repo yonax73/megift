@@ -95,4 +95,39 @@ body,h1,h3{
 #popup-register-success h3{
 	 text-indent: 2em;
 }
+.circle {
+	text-align: center;
+}
+.circle a{   
+   border-radius: 60px;
+    color: #fff;
+    display: inline-block;
+    font-size: 25px;
+    height: 100px;
+    margin-right: 10%;
+    margin-top: 5px;
+    padding-top: 30px;
+    text-align: center;
+    width: 100px;
+}
+.circle a:hove{
+	color:#fff;
+}
+.circle a.gmail{
+	 background-color: #eb4646;
+}
+.circle a.outlook{
+	 background-color: #0072c6;
+}
+.circle a.yahoo{
+	 background-color: #500095;
+}
+.info{
+	 border-top: 1px solid #7c7c7c;
+    color: #7c7c7c;
+    font-family: helvetica;
+    font-size: 12px;
+    margin-top: 25px;
+    padding-top: 3px;
+}
 
