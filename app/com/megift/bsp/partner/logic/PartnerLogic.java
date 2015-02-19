@@ -1,5 +1,8 @@
 package com.megift.bsp.partner.logic;
 
+import com.megift.bsp.partner.dao.PartnerDao;
+import com.megift.bsp.partner.entity.Partner;
+
 /**
  * company : Megift S.A<br/>
  * user : YQ<br/>
@@ -13,11 +16,17 @@ package com.megift.bsp.partner.logic;
  */
 public class PartnerLogic {
 
+
     /**
-     * 
+     * @param partner
+     * @return
      */
-    public PartnerLogic() {
-        // TODO Auto-generated constructor stub
+    public static boolean create(Partner partner) {
+        boolean created = false;
+        if(!partner.isEmpty()) {
+            created = PartnerDao.create(partner);
+        }
+        return created;
     }
 
 }

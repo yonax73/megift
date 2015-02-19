@@ -49,7 +49,7 @@ public class UserControl extends Controller {
     	return ok(result);
     }
     
-    public static Result countUsers(){
+    public static Result countUsers() {
     	return ok(String.valueOf(UserLogic.countUsers()));
     }
     

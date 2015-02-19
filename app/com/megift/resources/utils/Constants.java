@@ -8,5 +8,6 @@ public class Constants {
 
 	public static final String CACHE_SOCIAL_AUTH ="AUTH_MANAGER";
 	
+    public static final String SUCCESS_RESPONSE = "OK";
 	
 }

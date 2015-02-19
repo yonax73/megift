@@ -4,7 +4,11 @@ import com.megift.resources.base.Entity;
 
 public class User extends Entity {
 
-	private String name;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private String name;
 	private String email;
 	
 	public User(int id) {

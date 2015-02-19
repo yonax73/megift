@@ -28,4 +28,12 @@ public class Partner extends Person {
         // TODO Auto-generated constructor stub
     }
 
+    /**
+     * @param name
+     */
+    public Partner(String name) {
+        super(0);
+        this.name = name;
+    }
+
 }

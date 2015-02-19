@@ -15,11 +15,4 @@ import play.mvc.Controller;
  */
 public class PartnerControl extends Controller {
 
-    /**
-     * 
-     */
-    public PartnerControl() {
-        // TODO Auto-generated constructor stub
-    }
-
 }

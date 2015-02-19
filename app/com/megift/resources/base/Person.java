@@ -40,52 +40,52 @@ public abstract class Person extends Entity {
      */
     @Override
     public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        return false;
+        return name == null || name == "";
     }
 
     public String getFullName() {
         return name.concat(" ").concat(lastName);
     }
 
-    protected String getDocument() {
+    public String getDocument() {
         return document;
     }
 
-    protected void setDocument(String document) {
+    public void setDocument(String document) {
         this.document = document;
     }
 
-    protected String getName() {
+    public String getName() {
         return name;
     }
 
-    protected void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    protected String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    protected void setLastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    protected Login getLogin() {
+    public Login getLogin() {
         return login;
     }
 
-    protected void setLogin(Login login) {
+    public void setLogin(Login login) {
         this.login = login;
     }
 
-    protected Picture getPicture() {
+    public Picture getPicture() {
         return picture;
     }
 
-    protected void setPicture(Picture picture) {
+    public void setPicture(Picture picture) {
         this.picture = picture;
     }
+
 
 }

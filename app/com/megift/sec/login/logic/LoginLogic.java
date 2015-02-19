@@ -1,5 +1,8 @@
 package com.megift.sec.login.logic;
 
+import com.megift.sec.login.dao.LoginDao;
+import com.megift.sec.login.entity.Login;
+
 /**
  * company : Megift S.A<br/>
  * user : YQ<br/>
@@ -14,10 +17,27 @@ package com.megift.sec.login.logic;
 public class LoginLogic {
 
     /**
-     * 
+     * @param login
+     * @return
      */
-    public LoginLogic() {
-        // TODO Auto-generated constructor stub
+    public static boolean create(Login login) {
+        boolean created = false;
+        if (!login.isEmpty()) {
+            created = LoginDao.create(login);
+        }
+        return created;
+    }
+
+    /**
+     * @param login
+     * @return
+     */
+    public static boolean signIn(Login login) {
+        boolean created = false;
+        if (!login.isEmpty()) {
+            created = LoginDao.signIn(login);
+        }
+        return created;
     }
 
 }
