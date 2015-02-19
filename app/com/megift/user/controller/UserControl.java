@@ -98,7 +98,7 @@ public class UserControl extends Controller {
     	OAuth socialAuth = (OAuth) Cache.get(CACHE_SOCIAL_AUTH);
     	if(socialAuth.loadParamsMap(request().queryString().entrySet())){
     		if(UserLogic.sendInviteToContacts(socialAuth.getProfile(), socialAuth.getContactsList())){
-    			return ok(views.html.user.successAuth.render());	
+    			return redirect("/");	
     		}
     	}
     	return badRequest("Error tryning load the authenticate");

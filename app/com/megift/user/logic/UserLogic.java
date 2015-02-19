@@ -83,7 +83,7 @@ public class UserLogic {
 	}
 
 	public static boolean existsUser(User user) {		
-		return false;//UserDao.existsUser(user);
+		return UserDao.existsUser(user);
 	}
 	
 	public static boolean sendEmailRegister(User user){
@@ -107,17 +107,20 @@ public class UserLogic {
            if(contactsList!=null && !contactsList.isEmpty()){
         	   String userName = profile.getFullName() != null ? profile.getFullName() : profile.getDisplayName() != null ? profile.getDisplayName()  : profile.getFirstName()!=null ? profile.getFirstName() : "Equipo Megift";
         	   for (Contact contact : contactsList) {
-        		   String contactName =  contact.getDisplayName() != null ? contact.getDisplayName()  : contact.getFirstName()!=null ? contact.getFirstName() : "";
-        		   Email email = new Email(SERVER_NAME, INFO_EMAIL, INFO_EMAIL_PASSWORD,SERVER_SECURITY_TYPE_SSL);        		   
-        			try {        				
-        				email.sendHTMLMail(INFO_EMAIL, userName, contact.getEmail(),contactName ,"Invitación a Megift Colombia", inviteEmailContacts(userName, contactName),new Resource(RESOURCE_HEADER_EMAIL_IMAGE, "Megift"));
-        		
-        			} catch (EmailException e) {
-        				Logger.error("Error tryning send register email \n"+e.getMessage());
-        			
-        			} catch (MalformedURLException e) {
-        				Logger.error("Error tryning create the resources for send register email \n"+e.getMessage());		
-        			}
+        		   if(contact.getEmail()!=null && !contact.getEmail().isEmpty()){    
+            			try {        				
+                 		   String contactName =  contact.getDisplayName() != null ? contact.getDisplayName()  : contact.getFirstName()!=null ? contact.getFirstName() : "";
+                		   Email email = new Email(SERVER_NAME, INFO_EMAIL, INFO_EMAIL_PASSWORD,SERVER_SECURITY_TYPE_SSL);    
+            				email.sendHTMLMail(INFO_EMAIL, userName, contact.getEmail(),contactName ,"Invitación a Megift Colombia", inviteEmailContacts(userName, contactName),new Resource(RESOURCE_HEADER_EMAIL_IMAGE, "Megift"));
+            		
+            			} catch (EmailException e) {
+            				Logger.error("Error tryning send register email \n"+e.getMessage());
+            			
+            			} catch (MalformedURLException e) {
+            				Logger.error("Error tryning create the resources for send register email \n"+e.getMessage());		
+            			}
+        		   }
+
 			    }
         	   sent = true;
            }
@@ -127,14 +130,7 @@ public class UserLogic {
 		}
 		return sent;
 	}
-	
-	public static boolean updateUserDataFromOAuth(){
-		return false;
-	}
-	
-	public static boolean saveUserContacts(){
-		return false;
-	}
+
 	
 
 
