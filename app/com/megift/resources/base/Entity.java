@@ -1,13 +1,18 @@
 package com.megift.resources.base;
 
+import static com.megift.resources.utils.Constants.DATE_TIME_FORMATTER;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static com.megift.resources.utils.Constants.DATE_TIME_FORMATTER;
+public abstract class Entity implements Serializable, Cloneable {
 
-public abstract class Entity {
-
-	protected int id;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    protected int id;
 	protected LocalDateTime created;
 	
 
