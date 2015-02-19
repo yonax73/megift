@@ -25,16 +25,16 @@ public class OAuth {
 	private AuthProvider provider;
 	
 
-	private static final String VALUE_GMAIL_KEY = "243898693327-170qb4voajlndqucubdsm3bghtugld92.apps.googleusercontent.com";
-	private static final String VALUE_GMAIL_SECRET = "QW8J06FFVTM8935mK6zErdm6";
-	private static final String KEY_GMAIL_KEY = "www.google.com.consumer_key";
-	private static final String KEY_GMAIL_SECRET = "www.google.com.consumer_secret";
-	private static final String VALUE_OUTLOOK_KEY = "000000004813DD99";
-	private static final String VALUE_OUTLOOK_SECRET = "QZz6X2v7Bes1ujH3PXDaA0kWKzpjlvG1";
-	private static final String KEY_OUTLOOK_KEY = "consent.live.com.consumer_key";
-	private static final String KEY_OUTLOOK_SECRET = "consent.live.com.consumer_secret";
-	private static final String VALUE_YAHOO_KEY = "dj0yJmk9ajZHWk1tOXlNWnhpJmQ9WVdrOWNuWlRSek54TXpBbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD04Zg--";
-	private static final String VALUE_YAHOO_SECRET = "90f07692f1136a1c8e249b43f4d061d3c731b088";
+	private static final String VALUE_GOOGLE_KEY = "243898693327-170qb4voajlndqucubdsm3bghtugld92.apps.googleusercontent.com";
+	private static final String VALUE_GOOGLE_SECRET = "QW8J06FFVTM8935mK6zErdm6";
+	private static final String KEY_GOOGLE_KEY = "www.google.com.consumer_key";
+	private static final String KEY_GOOGLE_SECRET = "www.google.com.consumer_secret";
+	private static final String VALUE_HOTMAIL_KEY = "000000004813DD99";
+	private static final String VALUE_HOTMAIL_SECRET = "QZz6X2v7Bes1ujH3PXDaA0kWKzpjlvG1";
+	private static final String KEY_HOTMAIL_KEY = "consent.live.com.consumer_key";
+	private static final String KEY_HOTMAIL_SECRET = "consent.live.com.consumer_secret";
+	private static final String VALUE_YAHOO_KEY = "dj0yJmk9bXlzZlFaWFdjVnFqJmQ9WVdrOWNuWlRSek54TXpBbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD04Ng--";
+	private static final String VALUE_YAHOO_SECRET = "5e2d3f08d64967069704c0affac97cf160f3597e";
 	private static final String KEY_YAHOO_KEY = "api.login.yahoo.com.consumer_key";
 	private static final String KEY_YAHOO_SECRET = "api.login.yahoo.com.consumer_secret";
 	private static final String AUTHENTICATION_URL ="http://megift.co/successAuth";
@@ -54,22 +54,22 @@ public class OAuth {
 	       		Properties properties = System.getProperties();    	
 	       		switch (id) {
 	   			case ID_GOOGLE:
-	   	    		properties.put(KEY_GMAIL_KEY,VALUE_GMAIL_KEY);
-	   	    		properties.put(KEY_GMAIL_SECRET,VALUE_GMAIL_SECRET);    
+	   	    		properties.put(KEY_GOOGLE_KEY,VALUE_GOOGLE_KEY);
+	   	    		properties.put(KEY_GOOGLE_SECRET,VALUE_GOOGLE_SECRET);  	   	    		
 	   				break;
 	   			case ID_HOTMAIL:
-	   	    		properties.put(KEY_OUTLOOK_KEY,VALUE_OUTLOOK_KEY);
-	   	    		properties.put(KEY_OUTLOOK_SECRET,VALUE_OUTLOOK_SECRET);    
+	   	    		properties.put(KEY_HOTMAIL_KEY,VALUE_HOTMAIL_KEY);
+	   	    		properties.put(KEY_HOTMAIL_SECRET,VALUE_HOTMAIL_SECRET);	   	    	
 	   				break;
 	   			case ID_YAHOO:
 	   	    		properties.put(KEY_YAHOO_KEY,VALUE_YAHOO_KEY);
-	   	    		properties.put(KEY_YAHOO_SECRET,VALUE_YAHOO_SECRET);    
+	   	    		properties.put(KEY_YAHOO_SECRET,VALUE_YAHOO_SECRET);	   	    	
 	   				break;
 	   			}		
-	       		SocialAuthConfig config = SocialAuthConfig.getDefault(); 
+	       		SocialAuthConfig config = new SocialAuthConfig();
 	       		config.load(properties); 
 	       		manager = new SocialAuthManager(); 
-	       		manager.setSocialAuthConfig(config);        		
+	       		manager.setSocialAuthConfig(config); 	      
 	       		authURL =  manager.getAuthenticationUrl(id, AUTHENTICATION_URL);    		
 	       		auth = true;
            }
