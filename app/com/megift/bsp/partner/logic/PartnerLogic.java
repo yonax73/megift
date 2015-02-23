@@ -12,21 +12,24 @@ import com.megift.bsp.partner.entity.Partner;
  * 
  * @version : 0.1 <br/>
  * @author Yonatan Alexis Quintero Rodriguez
- *
+ * 
  */
 public class PartnerLogic {
 
+	/**
+	 * @param partner
+	 * @return
+	 */
+	public static boolean create(Partner partner) {
+		boolean created = false;
+		if (!partner.isEmpty()) {
+			created = PartnerDao.create(partner);
+		}
+		return created;
+	}
 
-    /**
-     * @param partner
-     * @return
-     */
-    public static boolean create(Partner partner) {
-        boolean created = false;
-        if(!partner.isEmpty()) {
-            created = PartnerDao.create(partner);
-        }
-        return created;
-    }
+	public static boolean loadPartner(Partner partner) {
+		return PartnerDao.loadPartner(partner);
+	}
 
 }

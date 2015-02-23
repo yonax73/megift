@@ -12,32 +12,40 @@ import com.megift.sec.login.entity.Login;
  * 
  * @version : 0.1 <br/>
  * @author Yonatan Alexis Quintero Rodriguez
- *
+ * 
  */
 public class LoginLogic {
 
-    /**
-     * @param login
-     * @return
-     */
-    public static boolean create(Login login) {
-        boolean created = false;
-        if (!login.isEmpty()) {
-            created = LoginDao.create(login);
-        }
-        return created;
-    }
+	/**
+	 * @param login
+	 * @return
+	 */
+	public static boolean create(Login login) {
+		boolean created = false;
+		if (!login.isEmpty()) {
+			created = LoginDao.create(login);
+		}
+		return created;
+	}
 
-    /**
-     * @param login
-     * @return
-     */
-    public static boolean signIn(Login login) {
-        boolean created = false;
-        if (!login.isEmpty()) {
-            created = LoginDao.signIn(login);
-        }
-        return created;
-    }
+	/**
+	 * @param login
+	 * @return
+	 */
+	public static boolean signIn(Login login) {
+		boolean created = false;
+		if (!login.isEmpty()) {
+			created = LoginDao.signIn(login);
+		}
+		return created;
+	}
+
+	public static boolean exists(Login login) {
+		boolean result = false;
+		if (!login.isEmpty()) {
+			result = LoginDao.exists(login);
+		}
+		return result;
+	}
 
 }

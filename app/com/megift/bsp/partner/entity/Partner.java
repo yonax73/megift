@@ -1,6 +1,10 @@
 package com.megift.bsp.partner.entity;
 
+import java.time.LocalDate;
+import java.time.Period;
+
 import com.megift.resources.base.Person;
+import com.megift.sec.login.entity.Login;
 
 /**
  * company : Megift S.A<br/>
@@ -11,29 +15,48 @@ import com.megift.resources.base.Person;
  * 
  * @version : 0.1 <br/>
  * @author Yonatan Alexis Quintero Rodriguez
- *
+ * 
  */
 public class Partner extends Person {
 
-    /**
+	/**
      * 
      */
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
+	private LocalDate birthday;
 
-    /**
-     * @param id
-     */
-    public Partner(int id) {
-        super(id);
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * @param id
+	 */
+	public Partner(int id) {
+		super(id);
+		// TODO Auto-generated constructor stub
+	}
 
-    /**
-     * @param name
-     */
-    public Partner(String name) {
-        super(0);
-        this.name = name;
-    }
+	public int getAge() {
+		Period p = Period.between(birthday, LocalDate.now());
+		return p.getYears();
+	}
+
+	/**
+	 * @param name
+	 */
+	public Partner(String name) {
+		super(0);
+		this.name = name;
+	}
+
+	public Partner(Login login) {
+		super(0);
+		this.login = login;
+	}
+
+	public LocalDate getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(LocalDate birthday) {
+		this.birthday = birthday;
+	}
 
 }

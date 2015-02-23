@@ -1,6 +1,7 @@
 package com.megift.resources.base;
 
 import com.megift.sec.login.entity.Login;
+import com.megift.set.master.entity.MasterValue;
 import com.megift.set.picture.entity.Picture;
 
 /**
@@ -12,80 +13,91 @@ import com.megift.set.picture.entity.Picture;
  * 
  * @version : 0.1 <br/>
  * @author Yonatan Alexis Quintero Rodriguez
- *
+ * 
  */
 public abstract class Person extends Entity {
 
-    public final static int FEMALE_GENDER = 1;
-    public final static int MALE_GENDER = 2;
-    /**
+	public final static int FEMALE_GENDER = 1;
+	public final static int MALE_GENDER = 2;
+	/**
      * 
      */
-    private static final long serialVersionUID = 1L;
-    protected String document;
-    protected String name;
-    protected String lastName;
-    protected transient Login login;
-    protected Picture picture;
-    /**
-     * @param id
-     */
-    public Person(int id) {
-        super(id);
-        // TODO Auto-generated constructor stub
-    }
+	private static final long serialVersionUID = 1L;
+	protected String document;
+	protected String name;
+	protected String lastName;
+	protected transient Login login;
+	protected Picture picture;
+	private MasterValue gender;
 
-    /* (non-Javadoc)
-     * @see com.megift.resources.base.Entity#isEmpty()
-     */
-    @Override
-    public boolean isEmpty() {
-        return name == null || name == "";
-    }
+	/**
+	 * @param id
+	 */
+	public Person(int id) {
+		super(id);
+		// TODO Auto-generated constructor stub
+	}
 
-    public String getFullName() {
-        return name.concat(" ").concat(lastName);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.megift.resources.base.Entity#isEmpty()
+	 */
+	@Override
+	public boolean isEmpty() {
+		return name == null || name == "";
+	}
 
-    public String getDocument() {
-        return document;
-    }
+	public String getFullName() {
+		return name.concat(" ").concat(lastName);
+	}
 
-    public void setDocument(String document) {
-        this.document = document;
-    }
+	public String getDocument() {
+		return document;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setDocument(String document) {
+		this.document = document;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public Login getLogin() {
-        return login;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    public void setLogin(Login login) {
-        this.login = login;
-    }
+	public Login getLogin() {
+		return login;
+	}
 
-    public Picture getPicture() {
-        return picture;
-    }
+	public void setLogin(Login login) {
+		this.login = login;
+	}
 
-    public void setPicture(Picture picture) {
-        this.picture = picture;
-    }
+	public Picture getPicture() {
+		return picture;
+	}
 
+	public void setPicture(Picture picture) {
+		this.picture = picture;
+	}
+
+	public MasterValue getGender() {
+		return gender;
+	}
+
+	public void setGender(MasterValue gender) {
+		this.gender = gender;
+	}
 
 }
