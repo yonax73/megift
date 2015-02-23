@@ -7,13 +7,12 @@ import com.megift.resources.base.Entity;
 /**
  * company : Megift S.A<br/>
  * user : YQ<br/>
- * date : Feb 19, 2015<br/>
  * update date : Feb 19, 2015<br/>
  * update by : Yonatan Alexis Quintero Rodriguez<br/>
  * 
  * @version : 0.1 <br/>
+ * @created : Feb 19, 2015<br/>
  * @author Yonatan Alexis Quintero Rodriguez
- * 
  */
 public class Picture extends Entity {
 
@@ -24,6 +23,7 @@ public class Picture extends Entity {
 	private String mime;
 	private String src;
 	private File file;
+    private String coding;
 
 	/**
 	 * @param id
@@ -33,16 +33,22 @@ public class Picture extends Entity {
 		// TODO Auto-generated constructor stub
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.megift.resources.base.Entity#isEmpty()
-	 */
 	@Override
 	public boolean isEmpty() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+    public String getDataURI() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("data:");
+        buffer.append(mime);
+        buffer.append(";");
+        buffer.append(coding);
+        buffer.append(",");
+        buffer.append(src);
+        return buffer.toString();
+    }
 
 	public String getMime() {
 		return mime;
@@ -67,5 +73,20 @@ public class Picture extends Entity {
 	public void setFile(File file) {
 		this.file = file;
 	}
+
+    /**
+     * @return the coding
+     */
+    public String getCoding() {
+        return coding;
+    }
+
+    /**
+     * @param coding
+     *            the coding to set
+     */
+    public void setCoding(String coding) {
+        this.coding = coding;
+    }
 
 }

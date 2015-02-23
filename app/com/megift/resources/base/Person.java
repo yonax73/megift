@@ -49,7 +49,10 @@ public abstract class Person extends Entity {
 	}
 
 	public String getFullName() {
-		return name.concat(" ").concat(lastName);
+        if (name != null && lastName != null) {
+            return name.concat(" ").concat(lastName);
+        }
+        return name;
 	}
 
 	public String getDocument() {

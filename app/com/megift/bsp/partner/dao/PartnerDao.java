@@ -75,12 +75,14 @@ public class PartnerDao extends Dao {
 					partner.getPicture().setMime(rs.getString(3));
 					Blob blob = rs.getBlob(4);
 					partner.getPicture().setSrc(Base64.getEncoder().encodeToString(blob.getBytes(1, (int) blob.length())));
+                    partner.getPicture().setCoding(rs.getString(5));
 				}
-				partner.getLogin().setEmail(rs.getString(5));
-				partner.setGender(new MasterValue(rs.getInt(6)));
-				partner.setName(rs.getString(7));
-				partner.setLastName(rs.getString(8));
-				partner.setBirthday(rs.getTimestamp(9).toLocalDateTime().toLocalDate());
+                partner.getLogin().setEmail(rs.getString(6));
+                partner.setGender(new MasterValue(rs.getInt(7)));
+                partner.setName(rs.getString(8));
+                partner.setLastName(rs.getString(9));
+                if (rs.getTimestamp(10) != null)
+                partner.setBirthday(rs.getTimestamp(10).toLocalDateTime().toLocalDate());
 			}
 			result = partner.exists();
 

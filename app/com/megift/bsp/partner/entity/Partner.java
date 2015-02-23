@@ -34,8 +34,13 @@ public class Partner extends Person {
 	}
 
 	public int getAge() {
-		Period p = Period.between(birthday, LocalDate.now());
-		return p.getYears();
+        if (birthday != null) {
+            Period p = Period.between(birthday, LocalDate.now());
+            return p.getYears();
+        } else {
+            return 0;
+        }
+
 	}
 
 	/**

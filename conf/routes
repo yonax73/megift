@@ -13,7 +13,9 @@ GET     /oAuth                       com.megift.user.controller.UserControl.oAut
 GET     /successAuth                 com.megift.user.controller.UserControl.successAuth()
 # Login
 POST    /createAccount               com.megift.sec.login.controller.LoginControl.createAccount()       
-POST    /signIn               com.megift.sec.login.controller.LoginControl.signIn()                                 
+POST    /signIn               com.megift.sec.login.controller.LoginControl.signIn()     
+#Partner
+POST    /loadPartner            com.megift.bsp.partner.controller.PartnerControl.loadPartner()                
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -1,6 +1,5 @@
 package com.megift.sec.login.controller;
 
-import static com.megift.resources.utils.Constants.SESSION_LOGIN_ID;
 import static com.megift.resources.utils.Constants.SUCCESS_RESPONSE;
 
 import java.util.Map;
@@ -63,11 +62,10 @@ public class LoginControl extends Controller {
 		final Map<String, String[]> data = request().body().asFormUrlEncoded();
 		if (data != null) {
 			login = new Login(data.get("email-partner")[0], data.get("password-partner")[0]);
-			if (LoginLogic.signIn(login)) {
-				session().put(SESSION_LOGIN_ID, String.valueOf(login.getId()));
-				result = SUCCESS_RESPONSE;
+            if (LoginLogic.signIn(login)) {
+                result = String.valueOf(login.getId());
 			} else {
-				result = "El email o la contraseña es incorrecta!";
+                result = "El email o la contraseña es incorrecta!";
 			}
 		} else {
 			result = "request without data";

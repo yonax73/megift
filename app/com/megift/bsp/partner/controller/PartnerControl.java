@@ -1,6 +1,7 @@
 package com.megift.bsp.partner.controller;
 
-import static com.megift.resources.utils.Constants.SESSION_LOGIN_ID;
+import java.util.Map;
+
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -23,18 +24,18 @@ import com.megift.sec.login.entity.Login;
 public class PartnerControl extends Controller {
 
 	public static Result loadPartner() {
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		int loginId = Integer.parseInt(session().get(SESSION_LOGIN_ID));
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        final Map<String, String[]> data = request().body().asFormUrlEncoded();
+        int idLogin = Integer.parseInt(data.get("id-login")[0]);
 		String result = null;
-		if (loginId > 0) {
-			Partner partner = new Partner(new Login(loginId));
+		if (idLogin > 0) {
+			Partner partner = new Partner(new Login(idLogin));
 			if (PartnerLogic.loadPartner(partner)) {
 				result = Json.toJson(partner).toString();
 			} else {
 				result = "Error cargando perfil de usuario";
 			}
 		}
-
 		return ok(result);
 	}
 }
