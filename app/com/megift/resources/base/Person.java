@@ -1,6 +1,7 @@
 package com.megift.resources.base;
 
 import com.megift.sec.login.entity.Login;
+import com.megift.set.location.entity.Location;
 import com.megift.set.master.entity.MasterValue;
 import com.megift.set.picture.entity.Picture;
 
@@ -29,6 +30,7 @@ public abstract class Person extends Entity {
 	protected transient Login login;
 	protected Picture picture;
 	private MasterValue gender;
+	private Location location;
 
 	/**
 	 * @param id
@@ -49,10 +51,10 @@ public abstract class Person extends Entity {
 	}
 
 	public String getFullName() {
-        if (name != null && lastName != null) {
-            return name.concat(" ").concat(lastName);
-        }
-        return name;
+		if (name != null && lastName != null) {
+			return name.concat(" ").concat(lastName);
+		}
+		return name;
 	}
 
 	public String getDocument() {
@@ -101,6 +103,14 @@ public abstract class Person extends Entity {
 
 	public void setGender(MasterValue gender) {
 		this.gender = gender;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 }

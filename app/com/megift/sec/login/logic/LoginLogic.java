@@ -48,4 +48,9 @@ public class LoginLogic {
 		return result;
 	}
 
+	public static boolean update(Login login) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -12,6 +12,9 @@ import play.db.DB;
 
 import com.megift.bsp.partner.entity.Partner;
 import com.megift.resources.base.Dao;
+import com.megift.set.location.address.entity.Address;
+import com.megift.set.location.city.entity.City;
+import com.megift.set.location.entity.Location;
 import com.megift.set.master.entity.MasterValue;
 import com.megift.set.picture.entity.Picture;
 
@@ -75,14 +78,17 @@ public class PartnerDao extends Dao {
 					partner.getPicture().setMime(rs.getString(3));
 					Blob blob = rs.getBlob(4);
 					partner.getPicture().setSrc(Base64.getEncoder().encodeToString(blob.getBytes(1, (int) blob.length())));
-                    partner.getPicture().setCoding(rs.getString(5));
+					partner.getPicture().setCoding(rs.getString(5));
 				}
-                partner.getLogin().setEmail(rs.getString(6));
-                partner.setGender(new MasterValue(rs.getInt(7)));
-                partner.setName(rs.getString(8));
-                partner.setLastName(rs.getString(9));
-                if (rs.getTimestamp(10) != null)
-                partner.setBirthday(rs.getTimestamp(10).toLocalDateTime().toLocalDate());
+				partner.getLogin().setEmail(rs.getString(6));
+				partner.setGender(new MasterValue(rs.getInt(7)));
+				partner.setName(rs.getString(8));
+				partner.setLastName(rs.getString(9));
+				if (rs.getTimestamp(10) != null)
+					partner.setBirthday(rs.getTimestamp(10).toLocalDateTime().toLocalDate());
+				partner.setLocation(new Location(rs.getInt(11)));
+				if (partner.getLocation().exists())
+					partner.getLocation().setAddress(new Address(new City(rs.getInt(12), rs.getString(13))));
 			}
 			result = partner.exists();
 

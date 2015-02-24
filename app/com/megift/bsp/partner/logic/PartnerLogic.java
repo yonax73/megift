@@ -32,4 +32,9 @@ public class PartnerLogic {
 		return PartnerDao.loadPartner(partner);
 	}
 
+	public static boolean update(Partner partner) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
