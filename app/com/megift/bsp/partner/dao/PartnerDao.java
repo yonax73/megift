@@ -4,6 +4,7 @@ import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Base64;
 
@@ -101,5 +102,32 @@ public class PartnerDao extends Dao {
 		}
 		return result;
 	}
+
+    /**
+     * @param partner
+     * @return
+     */
+    public static boolean update(Partner partner) {
+        boolean result = false;
+        CallableStatement cst = null;
+        Connection conn = null;
+        try {
+            conn = DB.getConnection();
+            cst = conn.prepareCall("CALL sp_bsp_partners_UPDATE(?,?,?,?,?)");
+            cst.setInt(1, partner.getId());
+            cst.setInt(2, partner.getGender().getId());
+            cst.setInt(3, partner.getLocation().getId());
+            cst.setString(4, partner.getName());
+            cst.setTimestamp(5, Timestamp.valueOf(partner.getBirthday().atStartOfDay()));
+            result = cst.executeUpdate() > 0;
+        } catch (Exception e) {
+            Logger.error(e.getMessage());
+        } finally {
+            if (cst != null)
+                cst = null;
+            close(conn);
+        }
+        return result;
+    }
 
 }

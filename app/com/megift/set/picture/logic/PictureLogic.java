@@ -1,5 +1,7 @@
 package com.megift.set.picture.logic;
 
+import com.megift.bsp.partner.entity.Partner;
+
 /**
  * company : Megift S.A<br/>
  * user : YQ<br/>
@@ -12,12 +14,17 @@ package com.megift.set.picture.logic;
  *
  */
 public class PictureLogic {
-
     /**
-     * 
+     * @param picture
+     * @return
      */
-    public PictureLogic() {
-        // TODO Auto-generated constructor stub
+    public static boolean save(Partner partner) {
+        boolean result = false;
+        if (partner.getPicture().exists())
+            result = PictureDao.update(partner.getPicture());
+        else if (partner.exists())
+            result = PictureDao.create(partner);
+        return result;
     }
 
 }

@@ -41,9 +41,8 @@ public class City extends Entity {
 	 * @see com.megift.resources.base.Entity#isEmpty()
 	 */
 	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+    public boolean isEmpty() {
+        return this.city == null;
 	}
 
 	/**

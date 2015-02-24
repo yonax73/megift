@@ -1,11 +1,13 @@
 package com.megift.bsp.partner.entity;
 
+import static com.megift.resources.utils.Constants.DATE_FORMATTER;
+
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
 import com.megift.resources.base.Person;
 import com.megift.sec.login.entity.Login;
-
 /**
  * company : Megift S.A<br/>
  * user : YQ<br/>
@@ -25,6 +27,7 @@ public class Partner extends Person {
 	private static final long serialVersionUID = 1L;
 	private LocalDate birthday;
 
+
 	/**
 	 * @param id
 	 */
@@ -40,7 +43,14 @@ public class Partner extends Person {
         } else {
             return 0;
         }
+	}
 
+    public String getFormatBirthday() {
+        if (birthday != null) {
+            return birthday.format(DateTimeFormatter.ofPattern(DATE_FORMATTER));
+        } else {
+            return "";
+        }
 	}
 
 	/**

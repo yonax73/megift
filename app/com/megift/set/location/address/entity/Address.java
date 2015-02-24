@@ -44,8 +44,7 @@ public class Address extends Entity {
 	 * @see com.megift.resources.base.Entity#isEmpty()
 	 */
 	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
+    public boolean isEmpty() {
 		return false;
 	}
 

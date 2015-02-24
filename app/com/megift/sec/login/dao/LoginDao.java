@@ -106,4 +106,13 @@ public class LoginDao extends Dao {
 		return result;
 	}
 
+    /**
+     * @param login
+     * @return
+     */
+    public static boolean update(Login login) {
+
+        return false;
+    }
+
 }

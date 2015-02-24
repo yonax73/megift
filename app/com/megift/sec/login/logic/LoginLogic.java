@@ -49,8 +49,11 @@ public class LoginLogic {
 	}
 
 	public static boolean update(Login login) {
-		// TODO Auto-generated method stub
-		return false;
+        boolean result = false;
+        if (!login.isEmpty()) {
+            result = LoginDao.update(login);
+        }
+        return result;
 	}
 
 }

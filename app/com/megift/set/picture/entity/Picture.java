@@ -19,6 +19,7 @@ public class Picture extends Entity {
 	/**
      * 
      */
+    public static String BASE64_CODING = "base64";
 	private static final long serialVersionUID = 1L;
 	private String mime;
 	private String src;
@@ -33,10 +34,17 @@ public class Picture extends Entity {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+    /**
+     * @param file2
+     */
+    public Picture(int id, File file) {
+        super(id);
+        this.file = file;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return file == null;
 	}
 
     public String getDataURI() {
