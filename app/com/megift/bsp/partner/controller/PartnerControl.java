@@ -53,35 +53,36 @@ public class PartnerControl extends Controller {
 	public static Result updatePartner() {
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		final Map<String, String[]> data = request().body().asFormUrlEncoded();
-        String result = "Error al recibir la petición";
+		String result = "Error al recibir la petición";
 		if (data != null) {
-		    City city = new City(Integer.parseInt(data.get("id-city")[0]), data.get("city-partner")[0]);
-		    if(CityLogic.save(city)) {
-		        Address address = new Address(city);
-		        if(AddressLogic.save(address)) {
-		            Location location = new Location(Integer.parseInt(data.get("id-location")[0]));
-		            location.setAddress(address);
-		            if(LocationLogic.save(location)) {
-		                Partner partner = new Partner(Integer.parseInt(data.get("id-partner")[0]));
-                        partner.setName(data.get("name-partner")[0]);
-                        partner.setBirthday(LocalDate.parse(data.get("birthday-partner")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-                        partner.setGender(new MasterValue(Integer.parseInt(data.get("gender-partner")[0])));
-                        partner.setLocation(location);
-                        if (PartnerLogic.update(partner)) {
-                            result = SUCCESS_RESPONSE;
-                        } else {
-                            result = "Error actualizando el usuario";
-                        }
-		            }else {
-                        result = "Error guardando la localización";
-		            }
-		        }else {
-                    result = "Error guardando la dirección";
-		        }		        
-		    }else {
-		        result="Error guardando la ciudad";
-		    }
+			City city = new City(Integer.parseInt(data.get("id-city")[0]), data.get("city-partner")[0]);
+			if (CityLogic.save(city)) {
+				Address address = new Address(city);
+				if (AddressLogic.save(address)) {
+					Location location = new Location(Integer.parseInt(data.get("id-location")[0]));
+					location.setAddress(address);
+					if (LocationLogic.save(location)) {
+						Partner partner = new Partner(Integer.parseInt(data.get("id-partner")[0]));
+						partner.setName(data.get("name-partner")[0]);
+						partner.setBirthday(LocalDate.parse(data.get("birthday-partner")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+						partner.setGender(new MasterValue(Integer.parseInt(data.get("gender-partner")[0])));
+						partner.setLocation(location);
+						if (PartnerLogic.update(partner)) {
+							result = SUCCESS_RESPONSE;
+						} else {
+							result = "Error actualizando el usuario";
+						}
+					} else {
+						result = "Error guardando la localización";
+					}
+				} else {
+					result = "Error guardando la dirección";
+				}
+			} else {
+				result = "Error guardando la ciudad";
+			}
 		}
 		return ok(result);
 	}
+
 }

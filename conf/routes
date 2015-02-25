@@ -19,6 +19,8 @@ POST    /loadPartner            com.megift.bsp.partner.controller.PartnerControl
 POST /updatePartner                          com.megift.bsp.partner.controller.PartnerControl.updatePartner()
 #pictute
 POST /uploadpicture            com.megift.set.picture.controller.PictureControl.uploadpicture()
+#Social
+POST /inviteFriends            com.megift.resources.social.controller.SocialControl.inviteFriends()   
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
