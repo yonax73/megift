@@ -14,18 +14,22 @@
 </div>
 <div class="row">
   <div class="col-md-6">
-    <div id="table-users" class="ui-table table-responsive"></div>
+    <div id="table-users" class="i-table table-responsive"></div>
   </div>
 </div>
 
 
 <script>
 
-Http.get('/countUsers',null, function (xhr) {	
-	document.getElementById('total-users').textContent = parseInt(xhr.responseText);    
+//count user
+var countUserxHR = new XHR('GET','/countUsers');
+countUserxHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+countUserxHR.onReady(function (xhr) {	
+	document.getElementById('total-users').textContent = 1000 + parseInt(xhr.responseText);    
 });
+countUserxHR.send();
 
-var tableUser 	= new DataTable(document.getElementById('table-users'),
+var tableUser 	= new IDataTable(document.getElementById('table-users'),
 		 '/loadUsers',
 		 [{
 			 name:'Name',

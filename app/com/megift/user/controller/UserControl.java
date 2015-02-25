@@ -41,7 +41,7 @@ public class UserControl extends Controller {
         			result = "Error al registrar el usuario, por favor intentelo mas tarde!";
         		}
     		}else{
-    			result = "Este usuario ya estaba registrado!";	
+                result = "Este usuario ya se encuentra registrado!";
     		}
     	}else{
     		result = "Ingrese un correo valido!";

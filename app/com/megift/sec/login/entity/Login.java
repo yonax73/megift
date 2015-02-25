@@ -21,6 +21,7 @@ public class Login extends Entity {
     private static final long serialVersionUID = 1L;
     private String email;
     private transient String password;
+    private transient int codeRequest;
     /**
      * @param id
      */
@@ -61,6 +62,21 @@ public class Login extends Entity {
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    /**
+     * @return the codeRequest
+     */
+    public int getCodeRequest() {
+        return codeRequest;
+    }
+
+    /**
+     * @param codeRequest
+     *            the codeRequest to set
+     */
+    public void setCodeRequest(int codeRequest) {
+        this.codeRequest = codeRequest;
     }
 
 }

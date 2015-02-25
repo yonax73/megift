@@ -56,4 +56,24 @@ public class LoginLogic {
         return result;
 	}
 
+    /**
+     * @param login
+     * @return
+     */
+    public static boolean createPasswordChangeRequest(Login login) {
+        boolean result = false;
+        if (!login.isEmpty()) {
+            result = LoginDao.createPasswordChangeRequest(login);
+        }
+        return result;
+    }
+
+    /**
+     * @param login
+     * @return
+     */
+    public static boolean existsPasswordChangeRequest(Login login) {
+        return LoginDao.existsPasswordChangeRequest(login);
+    }
+
 }

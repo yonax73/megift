@@ -28,15 +28,19 @@
 	      </div>
 	      <div class="row">
 	        <div class="col-md-12">
-	          <form id="frm-register" action="/registerUser" class="form-inline center">
-				  <div class="form-group">			    
+	          <form id="frm-register" class="form-horizontal center">
+				  <div class="form-group has-feedback">			    
 				    <input type="text" name="user-name"	data-required="true"  class="form-control form-control-lg" placeholder="Nombre"/>
+                    <span class="form-control-feedback"></span>
+                    <h4  class="i-form-error-msg hidden"><span class="label label-primary ">El nombre es requerido</span></h4>
 				  </div>
-				  <div class="form-group">			    
-				    <input type="text" name="user-email" data-required="true" data-email="true" class="form-control form-control-lg" placeholder="Correo"/>
+				  <div class="form-group has-feedback">			    
+				    <input type="text" name="user-email" data-email="true" class="form-control form-control-lg" placeholder="Correo"/>
+				      <span class="form-control-feedback"></span>
+                      <h4 class="i-form-error-msg  hidden"><span class="label label-primary">Ingrese un correo electr&oacute;nico v&aacute;lido!</span></h4>
 				  </div>				  
-				  <div class="form-group">
-				   <button type="button" id="btn-register" class="btn btn-primary btn-lg form-control"><i id="ico-register" class="fa fa-envelope fa-lg"></i>&nbsp;&nbsp;Solicitar Invitaci&oacute;n</button>
+				  <div class="form-group ">
+				   <button type="submit" id="btn-register" class="btn btn-danger btn-lg form-control"><i id="ico-register" class="fa fa-envelope fa-lg"></i>&nbsp;&nbsp;Solicitar Invitaci&oacute;n</button>
 				  </div>
 				</form>
 	        </div>
@@ -49,11 +53,11 @@
 	      <div class="row">
 	        <div class="col-md-12">   
 	            <form id="frm-social-media" class="form-inline center">        
-		           <a href="https://twitter.com/megiftcolombia" target="_blank" class="btn btn-primary"><i class="fa fa-twitter"></i></a>
-		           <a href="https://www.facebook.com/megiftcolombia" target="_blank"  class="btn btn-primary"><i class="fa fa-facebook" ></i></a>
-		           <a href="http://instagram.com/megiftcolombia" target="_blank" class="btn btn-primary"><i class="fa fa-instagram"></i></a>
-		           <a href="https://plus.google.com/+MegiftColombia/" target="_blank" class="btn btn-primary"><i class="fa fa-google-plus"></i></a>
-		           <a href="https://www.youtube.com/channel/UC0N0S0-7QFeiHFafE-rdvLg" target="_blank" class="btn btn-primary"><i class="fa fa-youtube"></i></a>
+		           <a href="https://twitter.com/megiftcolombia" target="_blank" class="btn btn-danger"><i class="fa fa-twitter"></i></a>
+		           <a href="https://www.facebook.com/megiftcolombia" target="_blank"  class="btn btn-danger"><i class="fa fa-facebook" ></i></a>
+		           <a href="http://instagram.com/megiftcolombia" target="_blank" class="btn btn-danger"><i class="fa fa-instagram"></i></a>
+		           <a href="https://plus.google.com/+MegiftColombia/" target="_blank" class="btn btn-danger"><i class="fa fa-google-plus"></i></a>
+		           <a href="https://www.youtube.com/channel/UC0N0S0-7QFeiHFafE-rdvLg" target="_blank" class="btn btn-danger"><i class="fa fa-youtube"></i></a>
 		       </form>
 	        </div>
 	      </div>
@@ -61,7 +65,7 @@
    </div>
 </div>
 
- <div  id="popup-register-success" class="ui-popup-panel hidden">   
+ <div  id="popup-register-success" class="i-popup-panel i-popup-danger hidden">   
    <h1 class="text-primary">&iexcl;Felicitaciones!</h1>
    <h3 class="text-muted">Muy pronto Recibir&aacute;s una invitaci&oacute;n para descargar Megift en tu celular.
      Cu&eacute;ntale a tus amigos para que no pierdan esta oportunidad.</h3>     
@@ -78,17 +82,13 @@
          electr&oacute;nico. No enviaremos mensajes de correo electr&oacute;nico a ninguna persona sin tu consentimiento.
        </p>
     </div>
-   <button type="button" id="btn-invite" class="btn btn-primary btn-lg pull-right">Aceptar</button>
+   <button type="button" class="btn btn-danger btn-lg pull-right i-popup-close">Aceptar</button>
 </div>
 <script>
-var objAlert = new Alert(document.getElementById('alert'));
-var animationTotalusers = new Animation('ui-ease', 'ui-tada', 'ui-1s', 1000);
-var frmRegister = document.getElementById('frm-register');
-var btnRegister = document.getElementById('btn-register');
+var animationTotalusers = new Animation('i-ease', 'i-tada', 'i-1s', 1000);
+var frmRegister = new IForm(document.getElementById('frm-register'));
 var popupRegister = new Popup(document.getElementById('popup-register-success'));
-var userEmail;
-popupRegister.close();
-//popupRegister.show();
+var btnRegister = document.getElementById('btn-register');
 resize();
 function resize(){
 	var body = document.body,html = document.documentElement;
@@ -107,47 +107,39 @@ function resize(){
 window.onresize = function(e) {
     resize();
 };
-
-
-Http.get('/countUsers',null, function (xhr) {	
-	document.getElementById('total-users').textContent = 1000 + parseInt(xhr.responseText);    
+//count user
+var notifications = new IAlert(document.getElementById('alert'));
+var countUserxHR = new XHR('GET','/countUsers');
+countUserxHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+countUserxHR.onReady(function (xhr) {	
+	document.getElementById('total-users').textContent = 1000 + parseInt(xhr.responseText);   
+	animationTotalusers.run(document.getElementById('counter-users'));	
 });
-
-
-btnRegister.onclick = function(){
-	var userName = document.getElementsByName('user-name')[0];
-	 userEmail = document.getElementsByName('user-email')[0];
-	if(Form.isFullName(userName.value)){
-		 if(Form.isEmail(userEmail.value)){
-				Http.post(Utils.serialize(frmRegister), frmRegister.action, function(){
-			 		btnRegister.disabled = true;
-					document.getElementById('ico-register').className = 'fa fa-spinner fa-spin';
-				}, function(xhr){
-			 		btnRegister.disabled = false;
-					document.getElementById('ico-register').className = 'fa fa-envelope-o fa-lg';
-					if(xhr.responseText > 0){	
-						objAlert.close();
-						popupRegister.show();
-						var totalUser = document.getElementById('total-users');
-						totalUser.textContent = 1000 + parseInt(xhr.responseText);
-						animationTotalusers.run(document.getElementById('counter-users'));			
-					}else{
-						objAlert.danger(xhr.responseText);			
-					}		
-				});			
-			}else{
-				objAlert.warning('Por favor ingrese un correo valido!');
-			}
-	}else {
-		objAlert.warning('Por favor ingrese un nombre valido!');
-	}
- }
-
-document.getElementById('btn-invite').onclick = function(){
-	popupRegister.close();
-}
-
-
+countUserxHR.send();
+//register user
+frmRegister.onsubmit(function(){
+  if(frmRegister.isValid()){
+		 var registerUserxHR = new XHR('POST','/registerUser');
+		 registerUserxHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+		 registerUserxHR.onBeforeSend(function(){
+		 		btnRegister.disabled = true;
+				document.getElementById('ico-register').className = 'fa fa-spinner fa-spin';
+		 })
+		 registerUserxHR.onReady(function (xhr) {	
+		 		btnRegister.disabled = false;
+				document.getElementById('ico-register').className = 'fa fa-envelope-o fa-lg';
+				if(xhr.responseText > 0){						
+					popupRegister.show();
+					var totalUser = document.getElementById('total-users');
+					totalUser.textContent = 1000 + parseInt(xhr.responseText);
+					animationTotalusers.run(document.getElementById('counter-users'));			
+				}else{
+					notifications.danger(xhr.responseText);
+				}
+			});
+		 registerUserxHR.send(frmRegister.serialize());
+  }	
+});
 
 </script>
 

@@ -9,6 +9,7 @@ import play.mvc.Result;
 
 import com.megift.bsp.partner.entity.Partner;
 import com.megift.bsp.partner.logic.PartnerLogic;
+import com.megift.resources.social.logic.SocialLogic;
 import com.megift.sec.login.entity.Login;
 import com.megift.sec.login.logic.LoginLogic;
 
@@ -34,7 +35,7 @@ public class LoginControl extends Controller {
 		if (data != null) {
 			login = new Login(data.get("email-partner")[0], data.get("password-partner")[0]);
 			if (LoginLogic.exists(login)) {
-				result = "Este usuario ya se encuentra registrado!";
+                result = "Este usuario ya se encuentra registrado!";
 			} else {
 				if (LoginLogic.create(login)) {
 					partner = new Partner(data.get("name-partner")[0]);
@@ -72,4 +73,47 @@ public class LoginControl extends Controller {
 		}
 		return ok(result);
 	}
+
+    public static Result passwordChangeRequest() {
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        String result = "No se ha podido completar la solicitud";
+        final Map<String, String[]> data = request().body().asFormUrlEncoded();
+        if (data != null) {
+            Login login = new Login(data.get("email")[0], null);
+            if (LoginLogic.exists(login)) {
+                if (LoginLogic.createPasswordChangeRequest(login)) {
+                    if (SocialLogic.sendPasswordChangeRequest(login)) {
+                        result = SUCCESS_RESPONSE;
+                    } else {
+                        result = "Error al enviar la peteción al correo";
+                    }
+                } else {
+                    result = "Error al crear la petición para cambio de contraseña";
+                }
+            } else {
+                result = "Este usuario no esta registrado!";
+            }
+        }
+
+        return ok(result);
+    }
+
+    public static Result passwordChange(int idLogin, int codeRequest) {
+        String result = "No se ha podido completar la solicitud";
+        if (idLogin > 0 && codeRequest > 0) {
+            Login login = new Login(idLogin);
+            login.setCodeRequest(codeRequest);
+            if (LoginLogic.existsPasswordChangeRequest(login)) {
+                session("login", String.valueOf(idLogin));
+                return passwordChangeSafely();
+            } else {
+                result = "La solicitud ha expirado!";
+            }
+        }
+        return ok(result);
+    }
+
+    public static Result passwordChangeSafely() {
+        return ok(views.html.sec.login.passwordChange.render());
+    }
 }

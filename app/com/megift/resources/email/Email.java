@@ -9,6 +9,7 @@ public class Email {
 	public static final int SERVER_SECURITY_TYPE_SSL = 465;
 	public static final int SERVER_SECURITY_TYPE_TLS = 587;
 	public static final String INFO_EMAIL = "info@megift.co";
+    public static final String SUPPORT_EMAIL = "soporte@megift.co";
 	public static final String INFO_EMAIL_PASSWORD = "Megift-12345!";
 
 	private final String host;
