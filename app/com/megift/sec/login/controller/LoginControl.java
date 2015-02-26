@@ -35,7 +35,7 @@ public class LoginControl extends Controller {
 		if (data != null) {
 			login = new Login(data.get("email-partner")[0], data.get("password-partner")[0]);
 			if (LoginLogic.exists(login)) {
-                result = "Este usuario ya se encuentra registrado!";
+				result = "Este usuario ya se encuentra registrado!";
 			} else {
 				if (LoginLogic.create(login)) {
 					partner = new Partner(data.get("name-partner")[0]);
@@ -63,10 +63,10 @@ public class LoginControl extends Controller {
 		final Map<String, String[]> data = request().body().asFormUrlEncoded();
 		if (data != null) {
 			login = new Login(data.get("email-partner")[0], data.get("password-partner")[0]);
-            if (LoginLogic.signIn(login)) {
-                result = String.valueOf(login.getId());
+			if (LoginLogic.signIn(login)) {
+				result = String.valueOf(login.getId());
 			} else {
-                result = "El email o la contraseña es incorrecta!";
+				result = "El email o la contraseña es incorrecta!";
 			}
 		} else {
 			result = "request without data";
@@ -74,46 +74,73 @@ public class LoginControl extends Controller {
 		return ok(result);
 	}
 
-    public static Result passwordChangeRequest() {
-        response().setHeader("Access-Control-Allow-Origin", "*");
-        String result = "No se ha podido completar la solicitud";
-        final Map<String, String[]> data = request().body().asFormUrlEncoded();
-        if (data != null) {
-            Login login = new Login(data.get("email")[0], null);
-            if (LoginLogic.exists(login)) {
-                if (LoginLogic.createPasswordChangeRequest(login)) {
-                    if (SocialLogic.sendPasswordChangeRequest(login)) {
-                        result = SUCCESS_RESPONSE;
-                    } else {
-                        result = "Error al enviar la peteción al correo";
-                    }
-                } else {
-                    result = "Error al crear la petición para cambio de contraseña";
-                }
-            } else {
-                result = "Este usuario no esta registrado!";
-            }
-        }
+	public static Result passwordChangeRequest() {
+		response().setHeader("Access-Control-Allow-Origin", "*");
+		String result = "No se ha podido completar la solicitud";
+		final Map<String, String[]> data = request().body().asFormUrlEncoded();
+		if (data != null) {
+			Login login = new Login(data.get("email-login")[0], null);
+			if (LoginLogic.exists(login)) {
+				if (LoginLogic.createPasswordChangeRequest(login)) {
+					if (SocialLogic.sendPasswordChangeRequest(login)) {
+						result = SUCCESS_RESPONSE;
+					} else {
+						result = "Error al enviar la peteción al correo";
+					}
+				} else {
+					result = "Error al crear la petición para cambio de contraseña";
+				}
+			} else {
+				result = "Este usuario no esta registrado!";
+			}
+		}
 
-        return ok(result);
-    }
+		return ok(result);
+	}
 
-    public static Result passwordChange(int idLogin, int codeRequest) {
-        String result = "No se ha podido completar la solicitud";
-        if (idLogin > 0 && codeRequest > 0) {
-            Login login = new Login(idLogin);
-            login.setCodeRequest(codeRequest);
-            if (LoginLogic.existsPasswordChangeRequest(login)) {
-                session("login", String.valueOf(idLogin));
-                return passwordChangeSafely();
-            } else {
-                result = "La solicitud ha expirado!";
-            }
-        }
-        return ok(result);
-    }
+	public static Result passwordChange(int idLogin, int codeRequest) {
+		String result = "No se ha podido completar la solicitud";
+		if (idLogin > 0 && codeRequest > 0) {
+			Login login = new Login(idLogin);
+			login.setCodeRequest(codeRequest);
+			if (LoginLogic.existsPasswordChangeRequest(login)) {
+				session("login", String.valueOf(idLogin));
+				session("codeRequest", String.valueOf(codeRequest));
+				return passwordChangeSafely();
+			} else {
+				result = "La solicitud ha expirado!";
+			}
+		}
+		return ok(result);
+	}
 
-    public static Result passwordChangeSafely() {
-        return ok(views.html.sec.login.passwordChange.render());
-    }
+	public static Result passwordChangeSafely() {
+		return ok(views.html.sec.login.passwordChange.render());
+	}
+
+	public static Result passwordReset() {
+		String result = "No se ha podido completar la solicitud";
+		final Map<String, String[]> data = request().body().asFormUrlEncoded();
+		if (data != null) {
+			String password = data.get("password-login")[0];
+			if (password != null) {
+				Login login = new Login(Integer.parseInt(session("login")));
+				login.setPassword(password);
+				login.setCodeRequest(Integer.parseInt(session("codeRequest")));
+				if (LoginLogic.deletePasswordChangeRequest(login)) {
+					session().clear();
+					if (LoginLogic.passwordReset(login)) {
+						result = SUCCESS_RESPONSE;
+					} else {
+						result = "La contasña no se pudo cambiar";
+					}
+				} else {
+					result = "La solicitud de cambio de contraseña no se pudo completar";
+				}
+			} else {
+				result = "El password esta vacio, por favor verifique!";
+			}
+		}
+		return ok(result);
+	}
 }

@@ -49,31 +49,47 @@ public class LoginLogic {
 	}
 
 	public static boolean update(Login login) {
-        boolean result = false;
-        if (!login.isEmpty()) {
-            result = LoginDao.update(login);
-        }
-        return result;
+		boolean result = false;
+		if (!login.isEmpty()) {
+			result = LoginDao.update(login);
+		}
+		return result;
 	}
 
-    /**
-     * @param login
-     * @return
-     */
-    public static boolean createPasswordChangeRequest(Login login) {
-        boolean result = false;
-        if (!login.isEmpty()) {
-            result = LoginDao.createPasswordChangeRequest(login);
-        }
-        return result;
-    }
+	/**
+	 * @param login
+	 * @return
+	 */
+	public static boolean createPasswordChangeRequest(Login login) {
+		boolean result = false;
+		if (!login.isEmpty()) {
+			result = LoginDao.createPasswordChangeRequest(login);
+		}
+		return result;
+	}
 
-    /**
-     * @param login
-     * @return
-     */
-    public static boolean existsPasswordChangeRequest(Login login) {
-        return LoginDao.existsPasswordChangeRequest(login);
-    }
+	/**
+	 * @param login
+	 * @return
+	 */
+	public static boolean existsPasswordChangeRequest(Login login) {
+		return LoginDao.existsPasswordChangeRequest(login);
+	}
+
+	public static boolean deletePasswordChangeRequest(Login login) {
+		boolean result = false;
+		if (login.getCodeRequest() > 0) {
+			result = LoginDao.deletePasswordChangeRequest(login);
+		}
+		return result;
+	}
+
+	public static boolean passwordReset(Login login) {
+		boolean result = false;
+		if (login.exists()) {
+			result = LoginDao.passwordReset(login);
+		}
+		return result;
+	}
 
 }

@@ -26,7 +26,7 @@ public class SocialLogic {
 		boolean result = false;
 		Email email = new Email(SERVER_NAME, INFO_EMAIL, INFO_EMAIL_PASSWORD, SERVER_SECURITY_TYPE_SSL);
 		try {
-            email.sendHTMLMail(INFO_EMAIL, partner.getName(), to, to, "Invitación a Megift Colombia", inviteEmailContacts(partner.getName()), new Resource(
+			email.sendHTMLMail(INFO_EMAIL, partner.getName(), to, to, "Invitación a Megift Colombia", inviteEmailContacts(partner.getName()), new Resource(
 			        RESOURCE_HEADER_EMAIL_IMAGE, "Megift"));
 			result = true;
 		} catch (EmailException e) {
@@ -38,30 +38,30 @@ public class SocialLogic {
 		return result;
 	}
 
-    /**
-     * @param login
-     * @return
-     */
-    public static boolean sendPasswordChangeRequest(Login login) {
-        boolean result = false;
-        Email email = new Email(SERVER_NAME, INFO_EMAIL, INFO_EMAIL_PASSWORD, SERVER_SECURITY_TYPE_SSL);
-        try {
-            String strEmail = login.getEmail();
-            StringBuffer bufferLink = new StringBuffer();
-            bufferLink.append("http://www.megift.co/passwordChange?login=");
-            bufferLink.append(login.getId());
-            bufferLink.append("&code=");
-            bufferLink.append(login.getCodeRequest());
-            email.sendHTMLMail(SUPPORT_EMAIL, "Soporte megift", strEmail, strEmail, "Solicitud cambio de contraseña", changePassword(bufferLink.toString()), new Resource(
-                    RESOURCE_HEADER_EMAIL_IMAGE, "Megift"));
-            result = true;
-        } catch (EmailException e) {
-            Logger.error("Error tryning send register email \n" + e.getMessage());
+	/**
+	 * @param login
+	 * @return
+	 */
+	public static boolean sendPasswordChangeRequest(Login login) {
+		boolean result = false;
+		Email email = new Email(SERVER_NAME, SUPPORT_EMAIL, INFO_EMAIL_PASSWORD, SERVER_SECURITY_TYPE_SSL);
+		try {
+			String strEmail = login.getEmail();
+			StringBuffer bufferLink = new StringBuffer();
+			bufferLink.append("http://www.megift.co/passwordChange?idLogin=");
+			bufferLink.append(login.getId());
+			bufferLink.append("&codeRequest=");
+			bufferLink.append(login.getCodeRequest());
+			email.sendHTMLMail(SUPPORT_EMAIL, "Soporte megift", strEmail, strEmail, "Solicitud cambio de contraseña", changePassword(bufferLink.toString()), new Resource(
+			        RESOURCE_HEADER_EMAIL_IMAGE, "Megift"));
+			result = true;
+		} catch (EmailException e) {
+			Logger.error("Error tryning send register email \n" + e.getMessage());
 
-        } catch (MalformedURLException e) {
-            Logger.error("Error tryning create the resources for send register email \n" + e.getMessage());
-        }
-        return result;
-    }
+		} catch (MalformedURLException e) {
+			Logger.error("Error tryning create the resources for send register email \n" + e.getMessage());
+		}
+		return result;
+	}
 
 }

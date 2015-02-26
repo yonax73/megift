@@ -106,71 +106,111 @@ public class LoginDao extends Dao {
 		return result;
 	}
 
-    /**
-     * @param login
-     * @return
-     */
-    public static boolean update(Login login) {
+	/**
+	 * @param login
+	 * @return
+	 */
+	public static boolean update(Login login) {
 
-        return false;
-    }
+		return false;
+	}
 
-    /**
-     * @param login
-     * @return
-     */
-    public static boolean createPasswordChangeRequest(Login login) {
-        boolean result = false;
-        CallableStatement cst = null;
-        Connection conn = null;
-        try {
-            conn = DB.getConnection();
-            String sql = "CALL sp_sec_password_change_requests_CREATE(?,?,?);";
-            cst = conn.prepareCall(sql);
-            cst.registerOutParameter(1, Types.INTEGER);
-            cst.registerOutParameter(2, Types.INTEGER);
-            cst.setString(3, login.getEmail());
-            result = cst.executeUpdate() > 0;
-            if (result) {
-                login.setCodeRequest(cst.getInt(1));
-                login.setId(cst.getInt(2));
-            }
-        } catch (Exception e) {
-            Logger.error(e.getMessage());
-        } finally {
-            if (cst != null)
-                cst = null;
-            close(conn);
-        }
-        return result;
-    }
+	/**
+	 * @param login
+	 * @return
+	 */
+	public static boolean createPasswordChangeRequest(Login login) {
+		boolean result = false;
+		CallableStatement cst = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			String sql = "CALL sp_sec_password_change_requests_CREATE(?,?,?);";
+			cst = conn.prepareCall(sql);
+			cst.registerOutParameter(1, Types.INTEGER);
+			cst.registerOutParameter(2, Types.INTEGER);
+			cst.setString(3, login.getEmail());
+			result = cst.executeUpdate() > 0;
+			if (result) {
+				login.setCodeRequest(cst.getInt(1));
+				login.setId(cst.getInt(2));
+			}
+		} catch (Exception e) {
+			Logger.error(e.getMessage());
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
+	}
 
-    /**
-     * @param login
-     * @return
-     */
-    public static boolean existsPasswordChangeRequest(Login login) {
-        boolean result = false;
-        CallableStatement cst = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        try {
-            conn = DB.getConnection();
-            String sql = "CALL sp_sec_password_change_requests_EXISTS(?,?);";
-            cst = conn.prepareCall(sql);
-            cst.setInt(1, login.getCodeRequest());
-            cst.setInt(2, login.getId());
-            rs = cst.executeQuery();
-            if (rs.next())
-                result = rs.getInt(1) > 0;
-        } catch (Exception e) {
-            Logger.error(e.getMessage());
-        } finally {
-            if (cst != null)
-                cst = null;
-            close(conn);
-        }
-        return result;
-    }
+	/**
+	 * @param login
+	 * @return
+	 */
+	public static boolean existsPasswordChangeRequest(Login login) {
+		boolean result = false;
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			String sql = "CALL sp_sec_password_change_requests_EXISTS(?,?);";
+			cst = conn.prepareCall(sql);
+			cst.setInt(1, login.getCodeRequest());
+			cst.setInt(2, login.getId());
+			rs = cst.executeQuery();
+			if (rs.next())
+				result = rs.getInt(1) > 0;
+		} catch (Exception e) {
+			Logger.error(e.getMessage());
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
+	}
+
+	public static boolean deletePasswordChangeRequest(Login login) {
+		boolean result = false;
+		CallableStatement cst = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			String sql = "CALL sp_sec_password_change_requests_DELETE(?);";
+			cst = conn.prepareCall(sql);
+			cst.setInt(1, login.getCodeRequest());
+			result = cst.executeUpdate() > 0;
+		} catch (Exception e) {
+			Logger.error(e.getMessage());
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
+	}
+
+	public static boolean passwordReset(Login login) {
+		boolean result = false;
+		CallableStatement cst = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("CALL sp_sec_login_PASSWORD_UPDATE(?,?)");
+			cst.setInt(1, login.getId());
+			cst.setString(2, login.getPassword());
+			result = cst.executeUpdate() > 0;
+		} catch (Exception e) {
+			Logger.error(e.getMessage());
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
+	}
 
 }

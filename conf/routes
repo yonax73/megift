@@ -15,8 +15,9 @@ GET     /successAuth                 com.megift.user.controller.UserControl.succ
 POST    /createAccount               com.megift.sec.login.controller.LoginControl.createAccount()       
 POST    /signIn               com.megift.sec.login.controller.LoginControl.signIn()     
 POST    /passwordChangeRequest               com.megift.sec.login.controller.LoginControl.passwordChangeRequest()
-GET    /passwordChange               com.megift.sec.login.controller.LoginControl.passwordChange(idLogin:Integer, codeRequest:Integer)
-GET    /passwordChangeSafely               com.megift.sec.login.controller.LoginControl.passwordChangeSafely(idLogin:Integer, codeRequest:Integer)     
+GET    /passwordChange               com.megift.sec.login.controller.LoginControl.passwordChange(idLogin: Integer, codeRequest: Integer)
+GET    /passwordChangeSafely               com.megift.sec.login.controller.LoginControl.passwordChangeSafely()     
+POST    /passwordReset               com.megift.sec.login.controller.LoginControl.passwordReset()     
 #Partner
 POST    /loadPartner            com.megift.bsp.partner.controller.PartnerControl.loadPartner()  
 POST /updatePartner                          com.megift.bsp.partner.controller.PartnerControl.updatePartner()
