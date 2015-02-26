@@ -1,5 +1,6 @@
 package com.megift.resources.base;
 
+import com.gargoylesoftware.htmlunit.javascript.host.Document;
 import com.megift.sec.login.entity.Login;
 import com.megift.set.location.entity.Location;
 import com.megift.set.master.entity.MasterValue;
@@ -24,13 +25,14 @@ public abstract class Person extends Entity {
      * 
      */
 	private static final long serialVersionUID = 1L;
-	protected String document;
+
 	protected String name;
 	protected String lastName;
 	protected transient Login login;
 	protected Picture picture;
-	private MasterValue gender;
-	private Location location;
+    protected MasterValue gender;
+    protected Location location;
+    protected Document document;
 
 	/**
 	 * @param id
@@ -57,13 +59,6 @@ public abstract class Person extends Entity {
 		return name;
 	}
 
-	public String getDocument() {
-		return document;
-	}
-
-	public void setDocument(String document) {
-		this.document = document;
-	}
 
 	public String getName() {
 		return name;
@@ -112,5 +107,13 @@ public abstract class Person extends Entity {
 	public void setLocation(Location location) {
 		this.location = location;
 	}
+
+    public Document getDocument() {
+        return document;
+    }
+
+    public void setDocument(Document document) {
+        this.document = document;
+    }
 
 }
