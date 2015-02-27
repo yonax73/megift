@@ -1,6 +1,6 @@
 package com.megift.resources.base;
 
-import com.gargoylesoftware.htmlunit.javascript.host.Document;
+import com.megift.set.document.entity.Document;
 import com.megift.sec.login.entity.Login;
 import com.megift.set.location.entity.Location;
 import com.megift.set.master.entity.MasterValue;

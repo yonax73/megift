@@ -1,5 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Bad+Script);
-body,h1,h3{
+.font-theme,h1,h3{
  font-family: 'Bad Script', cursive;
 }
 .bg-landing-page{	  

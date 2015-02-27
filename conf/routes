@@ -18,6 +18,7 @@ POST    /passwordChangeRequest               com.megift.sec.login.controller.Log
 GET    /passwordChange               com.megift.sec.login.controller.LoginControl.passwordChange(idLogin: Integer, codeRequest: Integer)
 GET    /passwordChangeSafely               com.megift.sec.login.controller.LoginControl.passwordChangeSafely()     
 POST    /passwordReset               com.megift.sec.login.controller.LoginControl.passwordReset()     
+GET /login com.megift.sec.login.controller.LoginControl.login()
 #Partner
 POST    /loadPartner            com.megift.bsp.partner.controller.PartnerControl.loadPartner()  
 POST /updatePartner                          com.megift.bsp.partner.controller.PartnerControl.updatePartner()
@@ -25,6 +26,8 @@ POST /updatePartner                          com.megift.bsp.partner.controller.P
 POST /uploadpicture            com.megift.set.picture.controller.PictureControl.uploadpicture()
 #Social
 POST /inviteFriends            com.megift.resources.social.controller.SocialControl.inviteFriends()   
+#business
+GET /business        com.megift.bsp.business.controller.BusinessControl.business()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

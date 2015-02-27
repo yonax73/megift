@@ -62,7 +62,7 @@ public class LoginControl extends Controller {
 		String result = null;
 		final Map<String, String[]> data = request().body().asFormUrlEncoded();
 		if (data != null) {
-			login = new Login(data.get("email-partner")[0], data.get("password-partner")[0]);
+			login = new Login(data.get("email-login")[0], data.get("password-login")[0]);
 			if (LoginLogic.signIn(login)) {
 				result = String.valueOf(login.getId());
 			} else {
@@ -142,5 +142,9 @@ public class LoginControl extends Controller {
 			}
 		}
 		return ok(result);
+	}
+
+	public static Result login() {
+		return ok(views.html.sec.login.login.render());
 	}
 }

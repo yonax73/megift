@@ -1,0 +1,73 @@
+@import resources._
+@nav(titlePage = "Business"){
+	
+        <div class="row center">            
+            <h2 id="name-business-title"></h2>
+            <br/>
+	        <div class="col-md-12 center"><div id="alert"></div></div>	          
+            <div class="col-md-6">
+                <form id="bussines-form" class="form-horizontal">
+                  <fieldset>
+                   <legend>Datos de empresa</legend>
+                    <div class="col-md-12">
+                        <div class="form-group has-feedback">
+                            <input type="text" class="form-control input-lg" name="trade-name-business" data-required="true" placeholder="Nombre comercial Empresa">
+                            <span class="form-control-feedback"></span>
+                            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group has-feedback">
+                            <input type="text" class="form-control input-lg" name="legal-name-business" data-required="true" placeholder="Nombre legal Empresa">
+                            <span class="form-control-feedback"></span>
+                            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group has-feedback">
+                            <input type="text" class="form-control input-lg" name="nit-name-business" data-required="true" placeholder="NIT Empresa">
+                            <span class="form-control-feedback"></span>
+                            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group has-feedback">
+                            <input type="text" class="form-control input-lg" name="name-legal-representative-business" data-required="true" placeholder="Nombre Representante legal">
+                            <span class="form-control-feedback"></span>
+                            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group has-feedback">
+                            <input type="text" class="form-control input-lg" name="document-legal-representative-business" data-required="true" placeholder="Cedula Representante legal">
+                            <span class="form-control-feedback"></span>
+                            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+                        </div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="form-group">
+                        	<button type="submit" class="btn btn-primary btn-lg btn-block">Ingresar</button>
+                        </div>
+                    </div>
+                </fieldset>
+                </form>
+            </div>   
+                <a class="col-md-12" href="/business" onclick="registerBusiness(0)" >Registrar empresa.</a>          <br/>
+            	<a class="col-md-12"  >Olvide mi contrase&ntilde;a.</a><br>                
+        </div>
+
+<script>
+ var typeBusinessView = sessionStorage.getItem('type-business-view');
+ var nav = document.getElementById('nav');
+ var nameBusinessTitle = document.getElementById('name-business-title');
+ if(typeBusinessView>0){//Adminstrar empresa
+ 
+ }else{//Registrar empresa
+    
+    nav.classList.add('hidden');
+    nameBusinessTitle.textContent = 'Registrar Empresa';
+
+ }
+</script>
+
+}
