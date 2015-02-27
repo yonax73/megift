@@ -2,66 +2,68 @@ package com.megift.set.location.phone.entity;
 
 import com.megift.resources.base.Entity;
 
-/** 
- * @class        : Phone.java<br/>
- * @company      : Megift S.A<br/>
- * @user         : YQ<br/> 
- * @date         : Feb 23, 2015<br/> 
- * @update date  : Feb 23, 2015<br/> 
- * @update by    : Feb 23, 2015<br/> 
- * @version      : 0.1 <br/>
+/**
+ * @class : Phone.java<br/>
+ * @company : Megift S.A<br/>
+ * @user : YQ<br/>
+ * @date : Feb 23, 2015<br/>
+ * @update date : Feb 23, 2015<br/>
+ * @update by : Feb 23, 2015<br/>
+ * @version : 0.1 <br/>
  * @author Yonatan Alexis Quintero Rodriguez
- *
+ * 
  */
 public class Phone extends Entity {
 
-    /**
+	/**
      * 
      */
-    private static final long serialVersionUID = 1L;
-    private String description;
-    private String number;
-    private boolean main;
+	private static final long serialVersionUID = 1L;
+	private String number;
+	private String extension;
+	private String mobile;
 
-    public String getDescription() {
-        return description;
-    }
+	/**
+	 * @param id
+	 */
+	public Phone(int id) {
+		super(id);
+		// TODO Auto-generated constructor stub
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.megift.resources.base.Entity#isEmpty()
+	 */
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-    public String getNumber() {
-        return number;
-    }
+	public String getNumber() {
+		return number;
+	}
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
+	public void setNumber(String number) {
+		this.number = number;
+	}
 
-    public boolean isMain() {
-        return main;
-    }
+	public String getExtension() {
+		return extension;
+	}
 
-    public void setMain(boolean main) {
-        this.main = main;
-    }
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
 
-    /**
-     * @param id
-     */
-    public Phone(int id) {
-        super(id);
-        // TODO Auto-generated constructor stub
-    }
+	public String getMobile() {
+		return mobile;
+	}
 
-    /* (non-Javadoc)
-     * @see com.megift.resources.base.Entity#isEmpty()
-     */
-    @Override
-    public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
 
 }
