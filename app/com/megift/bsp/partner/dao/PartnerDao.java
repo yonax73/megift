@@ -42,11 +42,13 @@ public class PartnerDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "CALL sp_bsp_partners_CREATE(?,?,?);";
+			String sql = "CALL sp_bsp_partners_CREATE(?,?,?,?,?);";
 			cst = conn.prepareCall(sql);
 			cst.registerOutParameter(1, Types.INTEGER);
 			cst.setString(2, partner.getName());
-			cst.setInt(3, partner.getLogin().getId());
+			cst.setInt(3, partner.getLogin() == null ? 0 : partner.getLogin().getId());
+			cst.setInt(4, partner.getLocation() == null ? 0 : partner.getLocation().getId());
+			cst.setInt(5, partner.getDocument() == null ? 0 : partner.getDocument().getId());
 			result = cst.executeUpdate() > 0;
 			if (result)
 				partner.setId(cst.getInt(1));
@@ -103,31 +105,31 @@ public class PartnerDao extends Dao {
 		return result;
 	}
 
-    /**
-     * @param partner
-     * @return
-     */
-    public static boolean update(Partner partner) {
-        boolean result = false;
-        CallableStatement cst = null;
-        Connection conn = null;
-        try {
-            conn = DB.getConnection();
-            cst = conn.prepareCall("CALL sp_bsp_partners_UPDATE(?,?,?,?,?)");
-            cst.setInt(1, partner.getId());
-            cst.setInt(2, partner.getGender().getId());
-            cst.setInt(3, partner.getLocation().getId());
-            cst.setString(4, partner.getName());
-            cst.setTimestamp(5, Timestamp.valueOf(partner.getBirthday().atStartOfDay()));
-            result = cst.executeUpdate() > 0;
-        } catch (Exception e) {
-            Logger.error(e.getMessage());
-        } finally {
-            if (cst != null)
-                cst = null;
-            close(conn);
-        }
-        return result;
-    }
-
+	/**
+	 * @param partner
+	 * @return
+	 */
+	public static boolean update(Partner partner) {
+		boolean result = false;
+		CallableStatement cst = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("CALL sp_bsp_partners_UPDATE(?,?,?,?,?,?)");
+			cst.setInt(1, partner.getId());
+			cst.setInt(2, partner.getGender() == null ? 0 : partner.getGender().getId());
+			cst.setInt(3, partner.getLocation() == null ? 0 : partner.getLocation().getId());
+			cst.setString(4, partner.getName());
+			cst.setTimestamp(5, partner.getBirthday() == null ? null : Timestamp.valueOf(partner.getBirthday().atStartOfDay()));
+			cst.setInt(6, partner.getDocument() == null ? 0 : partner.getDocument().getId());
+			result = cst.executeUpdate() > 0;
+		} catch (Exception e) {
+			Logger.error(e.getMessage());
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
+	}
 }

@@ -86,7 +86,7 @@
 </div>
 <script>
 var animationTotalusers = new Animation('i-ease', 'i-tada', 'i-1s', 1000);
-var frmRegister = new IForm(document.getElementById('frm-register'));
+var frmRegister = new Form(document.getElementById('frm-register'));
 var popupRegister = new Popup(document.getElementById('popup-register-success'));
 var btnRegister = document.getElementById('btn-register');
 resize();
@@ -108,7 +108,7 @@ window.onresize = function(e) {
     resize();
 };
 //count user
-var notifications = new IAlert(document.getElementById('alert'));
+var notifications = new Alert(document.getElementById('alert'));
 var countUserxHR = new XHR('GET','/countUsers');
 countUserxHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
 countUserxHR.onReady(function (xhr) {	

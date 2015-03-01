@@ -1,73 +1,284 @@
 @import resources._
 @nav(titlePage = "Business"){
-	
-        <div class="row center">            
-            <h2 id="name-business-title"></h2>
-            <br/>
-	        <div class="col-md-12 center"><div id="alert"></div></div>	          
-            <div class="col-md-6">
-                <form id="bussines-form" class="form-horizontal">
-                  <fieldset>
-                   <legend>Datos de empresa</legend>
-                    <div class="col-md-12">
-                        <div class="form-group has-feedback">
-                            <input type="text" class="form-control input-lg" name="trade-name-business" data-required="true" placeholder="Nombre comercial Empresa">
-                            <span class="form-control-feedback"></span>
-                            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group has-feedback">
-                            <input type="text" class="form-control input-lg" name="legal-name-business" data-required="true" placeholder="Nombre legal Empresa">
-                            <span class="form-control-feedback"></span>
-                            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group has-feedback">
-                            <input type="text" class="form-control input-lg" name="nit-name-business" data-required="true" placeholder="NIT Empresa">
-                            <span class="form-control-feedback"></span>
-                            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group has-feedback">
-                            <input type="text" class="form-control input-lg" name="name-legal-representative-business" data-required="true" placeholder="Nombre Representante legal">
-                            <span class="form-control-feedback"></span>
-                            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group has-feedback">
-                            <input type="text" class="form-control input-lg" name="document-legal-representative-business" data-required="true" placeholder="Cedula Representante legal">
-                            <span class="form-control-feedback"></span>
-                            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-                        </div>
-                    </div>
-                    <div class="col-md-12 ">
-                        <div class="form-group">
-                        	<button type="submit" class="btn btn-primary btn-lg btn-block">Ingresar</button>
-                        </div>
-                    </div>
-                </fieldset>
-                </form>
-            </div>   
-                <a class="col-md-12" href="/business" onclick="registerBusiness(0)" >Registrar empresa.</a>          <br/>
-            	<a class="col-md-12"  >Olvide mi contrase&ntilde;a.</a><br>                
+
+<div class="row center">            
+    <h2 id="name-business-title"></h2>    
+    <form id="bussines-form" class="form-horizontal">
+      <fieldset class="col-md-6">
+       <legend>Datos de empresa</legend>
+       <div class="col-md-12">
+        <div class="form-group has-feedback">
+            <input type="text" class="form-control input-lg" name="trade-name-business" data-required="true" placeholder="Nombre comercial Empresa">
+            <span class="form-control-feedback"></span>
+            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
         </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group has-feedback">
+            <input type="text" class="form-control input-lg" name="legal-name-business" data-required="true" placeholder="Nombre legal Empresa">
+            <span class="form-control-feedback"></span>
+            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group has-feedback">
+            <input type="text" class="form-control input-lg" name="nit-business" data-required="true" placeholder="NIT Empresa">
+            <span class="form-control-feedback"></span>
+            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+        </div>
+    </div>
+    <div class="col-md-12">
+       <div class="form-group has-feedback"> 
+        <div id="business-type-list" data-required="true" data-name="business-type" class="i-select i-select-lg i-select-dafault"></div>
+        <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+    </div>
+</div>
+<div id="other-business-type" class="col-md-12 hidden">
+    <div class="form-group has-feedback">
+        <input type="text" class="form-control input-lg" name="other-business-type"  placeholder="Cual ?">
+        <span class="form-control-feedback"></span>
+        <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group has-feedback">
+        <input type="text" class="form-control input-lg" name="name-legal-representative-business" data-required="true" placeholder="Nombre Representante legal">
+        <span class="form-control-feedback"></span>
+        <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group has-feedback">
+        <input type="text" class="form-control input-lg" name="document-legal-representative-business" data-required="true" placeholder="Cedula Representante legal">
+        <span class="form-control-feedback"></span>
+        <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+    </div>
+</div>
+<div class="col-md-12">
+   <div class="form-group has-feedback"> 
+    <div id="document-type-list" data-required="true" data-name="document-type" class="i-select i-select-lg i-select-dafault"></div>
+    <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+</div>
+</div>
+<div class="col-md-12">
+    <div class="form-group has-feedback">
+        <input type="text" class="form-control input-lg" name="place-of-issue-legal-representative-business" data-required="true" placeholder="Lugar de expedición de la Cedula">
+        <span class="form-control-feedback"></span>
+        <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+    </div>
+</div>
+</fieldset>
+
+<fieldset class="col-md-6">
+   <legend>Datos de Contacto</legend>
+   <div class="col-md-12">
+    <div class="form-group has-feedback">
+        <input type="text" class="form-control input-lg" name="name-contact" data-required="true" placeholder="Nombre Contacto">
+        <span class="form-control-feedback"></span>
+        <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group has-feedback">
+        <input type="text" class="form-control input-lg" name="email-contact" data-required="true" placeholder="Email Contacto">
+        <span class="form-control-feedback"></span>
+        <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+    </div>
+</div>
+<div id="password">
+    <div class="col-md-12">
+        <div class="form-group has-feedback">
+            <input type="password" class="form-control input-lg" name="password-contact" data-required="true" placeholder="Contraseña">
+            <span class="form-control-feedback"></span>
+            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group has-feedback">
+            <input type="password" class="form-control input-lg" data-required="true" data-equalsto="password-contact" placeholder="Confirmar Contraseña">
+            <span class="form-control-feedback"></span>
+            <small class="i-form-error-msg text-danger hidden">La contraseña no coincide!</small>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group has-feedback">
+        <input type="text" class="form-control input-lg" name="phone-contact" data-required="true" placeholder="Teléfono Contacto">
+        <span class="form-control-feedback"></span>
+        <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group has-feedback">
+        <input type="text" class="form-control input-lg" name="extension-phone-contact"  placeholder="Extención Teléfono">                    
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group has-feedback">
+        <input type="text" class="form-control input-lg" name="mobile-phone-contact" data-required="true" placeholder="Teléfono Celular">
+        <span class="form-control-feedback"></span>
+        <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group has-feedback">
+        <input type="text" class="form-control input-lg" name="address-contact" data-required="true" placeholder="Dirección Contacto">
+        <span class="form-control-feedback"></span>
+        <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+    </div>
+</div>
+</fieldset>
+<div id="terms-conditions-privacy-policy" class="col-md-12 hidden">
+    <div class="form-gropup">
+       <p>Al hacer clic en registar aceptas los
+        <a href="/termsAndConditions" rel="external">terminos y condiciones</a> de megift
+        y que has le&iacute;do las
+        <a href="/privacyPolicy" rel="external">pol&iacute;ticas de privacidad.</a>
+    </p>
+    <p>
+        <a class="col-md-8" href="/login" >Ingresar.</a><br/> 
+    </p>
+</div>
+</div>
+<div class="col-md-12 ">
+    <div class="form-group">
+        <button id="businessBtn" type="submit" class="btn btn-success btn-lg btn-block">Guardar
+            <i id="business-btn-ico"></i></button>
+        </div>
+    </div>    
+    <input type="hidden" id="id-business" name="id-business" value="0">
+    <input type="hidden" id="id-contact" name="id-contact" value="0">
+    <input type="hidden" id="id-phone-contact" name="id-phone-contact" value="0">    
+    <input type="hidden" id="id-address-contact" name="id-address-contact" value="0">    
+    <input type="hidden" id="id-location-contact" name="id-location-contact" value="0">    
+    <input type="hidden" id="id-legal-representative" name="id-legal-representative" value="0">
+    <input type="hidden" id="id-document-legal-representative" name="id-document-legal-representative" value="0">    
+</form>
+
+
 
 <script>
- var typeBusinessView = sessionStorage.getItem('type-business-view');
- var nav = document.getElementById('nav');
- var nameBusinessTitle = document.getElementById('name-business-title');
+//atributes
+var typeBusinessView = sessionStorage.getItem('type-business-view');
+var nav = document.getElementById('nav');
+var nameBusinessTitle = document.getElementById('name-business-title');
+var OTHER_TYPE_BUSINESS = 9;
+//document type list
+var documentType = new Select(document.getElementById('document-type-list'),'/documentTypeList',function(){documentType.selectItem(0)});
+//business type lisst
+var businessType = new Select(document.getElementById('business-type-list'), '/businessTypeList',function(){businessType.selectItem(0)});
+//forms
+var businessForm = new Form(document.getElementById('bussines-form'));
+//buttonss
+var businessBtn = document.getElementById('businessBtn');
+//remove sessionStorage
+sessionStorage.removeItem('type-business-view');
  if(typeBusinessView>0){//Adminstrar empresa
- 
+    //load data
+    loadBusiness(); 
  }else{//Registrar empresa
-    
     nav.classList.add('hidden');
+    document.getElementById('terms-conditions-privacy-policy').classList.remove('hidden');
     nameBusinessTitle.textContent = 'Registrar Empresa';
+}
+//select other type business
+businessType.onchange(function(){    
+    if(businessType.getOption()==OTHER_TYPE_BUSINESS){//other type
+        var otherType = document.getElementById('other-business-type');
+        if(otherType.classList.contains('hidden')){
+            otherType.classList.remove('hidden');
+            otherType.classList.add('show');
+        } 
+    }else{
+        var otherType = document.getElementById('other-business-type');
+        if(otherType.classList.contains('show')){
+            otherType.classList.remove('show');
+            otherType.classList.add('hidden');
+        } 
+    }
+});
+//form business
+businessForm.onsubmit(function(){
+    if(businessForm.isValid()){
+       var businessxHR = new XHR('POST','/saveBusiness');
+       businessxHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+       businessxHR.onBeforeSend(function(){
+        businessBtn.disabled = true;
+        document.getElementById('business-btn-ico').className = 'fa fa-spinner fa-spin';
+    });
+       businessxHR.onReady(function (xhr) {   
+         businessBtn.disabled = false;
+         document.getElementById('business-btn-ico').className = '';
+         if(xhr.responseText === SUCCESS_RESPONSE){                                 
+           notification.success('La empresa se registro exitosamente!');
+       }else{
+        notification.danger(xhr.responseText);
+    }
+});
+       businessxHR.send(businessForm.serialize());
+   }
+});
+//load business
+function loadBusiness(){
+    document.getElementsByName('id-business')[0].value = 'algo';     
+    //businessBtn.textContent='Guardar';
+    //hidden controls
+    var ps = document.getElementById('password');
+    ps.classList.add('hidden');   
+    //quit required to controls
+    var inputs = document.querySelectorAll("input[type=password]");
+    delete inputs[0].dataset.required;
+    delete inputs[1].dataset.required;
+    delete inputs[1].dataset.equalsto;
+    //load data
+    var loadBusinessxHR = new XHR('GET','/loadBusiness');
+    loadBusinessxHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+    loadBusinessxHR.onBeforeSend(function(){
+        nameBusinessTitle.textContent = 'Cargando datos de la empresa';
+    });
+    loadBusinessxHR.onReady(function (xhr) {   
+        console.log(JSON.parse(xhr.responseText));
+        var business = JSON.parse(xhr.responseText);
+        nameBusinessTitle.textContent = 'Nombre Comercial Empresa';
 
- }
+        document.getElementsByName('trade-name-business')[0].value = business.tradeName;
+        document.getElementsByName('legal-name-business')[0].value = business.legalName;
+        document.getElementsByName('nit-business')[0].value = business.nit;
+        //document.getElementsByName('business-type')[0].value = business.type.id;        
+        businessType.selectItem(business.type.id);
+        if(business.type.id === OTHER_TYPE_BUSINESS){
+          document.getElementsByName('other-business-type')[0].value = business.otherType; 
+          var otherType = document.getElementById('other-business-type');
+          if(otherType.classList.contains('hidden')){
+            otherType.classList.remove('hidden');
+            otherType.classList.add('show');
+        }   
+    } 
+    document.getElementsByName('name-legal-representative-business')[0].value = business.legalRepresentative.name;
+    document.getElementsByName('document-legal-representative-business')[0].value = business.legalRepresentative.document.document;
+    //document.getElementsByName('document-type')[0].value = business.legalRepresentative.document.type.id;
+    documentType.selectItem(business.legalRepresentative.document.type.id);
+    document.getElementsByName('place-of-issue-legal-representative-business')[0].value = business.legalRepresentative.document.placeOfIssue;
+    document.getElementsByName('name-contact')[0].value = business.contact.name;
+    var emailContact = document.getElementsByName('email-contact')[0];
+    emailContact.value = business.contact.login.email;    
+    emailContact.disabled = true;
+    document.getElementsByName('phone-contact')[0].value = business.contact.location.phone.number;
+    document.getElementsByName('extension-phone-contact')[0].value = business.contact.location.phone.extension;
+    document.getElementsByName('mobile-phone-contact')[0].value = business.contact.location.phone.mobile;
+    document.getElementsByName('address-contact')[0].value = business.contact.location.address.address;
+    document.getElementsByName('id-business')[0].value = business.id;
+    document.getElementsByName('id-contact')[0].value = business.contact.id;
+    document.getElementsByName('id-phone-contact')[0].value = business.contact.location.phone.id;
+    document.getElementsByName('id-address-contact')[0].value = business.contact.location.address.id;
+    document.getElementsByName('id-location-contact')[0].value = business.contact.location.id;
+    document.getElementsByName('id-legal-representative')[0].value = business.legalRepresentative.id;
+    document.getElementsByName('id-document-legal-representative')[0].value = business.legalRepresentative.document.id;
+
+});
+loadBusinessxHR.send();
+}
+
 </script>
 
 }

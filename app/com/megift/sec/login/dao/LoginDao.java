@@ -33,11 +33,12 @@ public class LoginDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "CALL sp_sec_login_CREATE(?,?,?);";
+			String sql = "CALL sp_sec_login_CREATE(?,?,?,?);";
 			cst = conn.prepareCall(sql);
 			cst.registerOutParameter(1, Types.INTEGER);
 			cst.setString(2, login.getEmail());
 			cst.setString(3, login.getPassword());
+			cst.setInt(4, login.getType().getId());
 			result = cst.executeUpdate() > 0;
 			if (result)
 				login.setId(cst.getInt(1));
@@ -62,10 +63,11 @@ public class LoginDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "CALL sp_sec_login_SIGN_IN(?,?);";
+			String sql = "CALL sp_sec_login_SIGN_IN(?,?,?);";
 			cst = conn.prepareCall(sql);
 			cst.setString(1, login.getEmail());
 			cst.setString(2, login.getPassword());
+			cst.setInt(3, login.getType().getId());
 			rs = cst.executeQuery();
 			if (rs.next()) {
 				result = rs.getInt(1) > 0;
@@ -90,9 +92,10 @@ public class LoginDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "CALL sp_sec_login_EXISTS(?);";
+			String sql = "CALL sp_sec_login_EXISTS(?,?);";
 			cst = conn.prepareCall(sql);
 			cst.setString(1, login.getEmail());
+			cst.setInt(2, login.getType().getId());
 			rs = cst.executeQuery();
 			if (rs.next())
 				result = rs.getInt(1) > 0;
@@ -125,11 +128,12 @@ public class LoginDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "CALL sp_sec_password_change_requests_CREATE(?,?,?);";
+			String sql = "CALL sp_sec_password_change_requests_CREATE(?,?,?,?);";
 			cst = conn.prepareCall(sql);
 			cst.registerOutParameter(1, Types.INTEGER);
 			cst.registerOutParameter(2, Types.INTEGER);
 			cst.setString(3, login.getEmail());
+			cst.setInt(4, login.getType().getId());
 			result = cst.executeUpdate() > 0;
 			if (result) {
 				login.setCodeRequest(cst.getInt(1));

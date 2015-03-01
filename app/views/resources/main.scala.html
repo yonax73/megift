@@ -2,34 +2,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Damos regalos a las personas por hacer lo que mas les guste.">
-<meta name="author" content="Yonatan Alexis Quintero Rodriguez | yonax73gmail.com ">
-<title>@title</title>
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-<link href="https://rawgit.com/yonaxTics/inventor-js/master/public/stylesheets/inventor/megift/megift.min.css" rel="stylesheet" media="screen" >
-<link href="https://rawgit.com/yonaxTics/inventor-js/master/public/stylesheets/inventor/animations.min.css" rel="stylesheet" media="screen">
-<link href="@routes.Assets.at("stylesheets/main.css")" rel="stylesheet" media="screen" >
-<link href="@routes.Assets.at("images/favicon.png")" rel="shortcut icon" type="image/png" >
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Damos regalos a las personas por hacer lo que mas les guste.">
+	<meta name="author" content="Yonatan Alexis Quintero Rodriguez | yonax73gmail.com ">
+	<title>@title</title>
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="https://rawgit.com/yonaxTics/inventor-js/master/public/stylesheets/inventor/megift/megift.min.css" rel="stylesheet" media="screen" >
+	<link href="https://rawgit.com/yonaxTics/inventor-js/master/public/stylesheets/inventor/animations.min.css" rel="stylesheet" media="screen">
+	<link href="@routes.Assets.at("stylesheets/main.css")" rel="stylesheet" media="screen" >
+	<link href="@routes.Assets.at("images/favicon.png")" rel="shortcut icon" type="image/png" >
 </head>
 <script src="https://rawgit.com/yonaxTics/inventor-js/master/public/javascripts/inventor-js/Inventor.min.js"></script>
 <script src="https://rawgit.com/yonaxTics/inventor-js/master/public/javascripts/inventor-js/InventorWeb.min.js"></script>
 <body class="i-ease-in i-1s i-fade-in">
-<div class="i-popup-mask hidden"></div>
+	<div class="i-popup-mask hidden"></div>
 
- <section class="container-fluid">@content</section>
- 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <section class="container-fluid">
+    	<div class="col-md-12 center"><div id="notification"></div>
+    </section>
+	<section class="container-fluid">@content</section>
+	
+	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-59241791-1', 'auto');
-  ga('send', 'pageview');
+	ga('create', 'UA-59241791-1', 'auto');
+	ga('send', 'pageview');
 
+//attributes
+var SUCCESS_RESPONSE = 'OK';
+var notification = new Alert(document.getElementById('notification'));
+//register business
+function registerBusiness(){         	
+	sessionStorage.setItem('type-business-view',0);
+}
+//change value of checkbox element
+function changeValueCheckbox(element){
+	if(element.checked){
+		element.value='on';
+	}else{
+		element.value='off';
+	}
+}
 </script>
 </body>
 

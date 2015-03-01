@@ -17,8 +17,11 @@ POST    /signIn               com.megift.sec.login.controller.LoginControl.signI
 POST    /passwordChangeRequest               com.megift.sec.login.controller.LoginControl.passwordChangeRequest()
 GET    /passwordChange               com.megift.sec.login.controller.LoginControl.passwordChange(idLogin: Integer, codeRequest: Integer)
 GET    /passwordChangeSafely               com.megift.sec.login.controller.LoginControl.passwordChangeSafely()     
-POST    /passwordReset               com.megift.sec.login.controller.LoginControl.passwordReset()     
+POST    /passwordReset               com.megift.sec.login.controller.LoginControl.passwordReset() 
+GET    /recoveryPassword            com.megift.sec.login.controller.LoginControl.recoveryPassword()     
 GET /login com.megift.sec.login.controller.LoginControl.login()
+GET /termsAndConditions               com.megift.sec.login.controller.LoginControl.termsAndConditions()
+GET /privacyPolicy                     com.megift.sec.login.controller.LoginControl.privacyPolicy()
 #Partner
 POST    /loadPartner            com.megift.bsp.partner.controller.PartnerControl.loadPartner()  
 POST /updatePartner                          com.megift.bsp.partner.controller.PartnerControl.updatePartner()
@@ -28,6 +31,11 @@ POST /uploadpicture            com.megift.set.picture.controller.PictureControl.
 POST /inviteFriends            com.megift.resources.social.controller.SocialControl.inviteFriends()   
 #business
 GET /business        com.megift.bsp.business.controller.BusinessControl.business()
+POST /saveBusiness        com.megift.bsp.business.controller.BusinessControl.saveBusiness()
+GET /loadBusiness         com.megift.bsp.business.controller.BusinessControl.loadBusiness()
+#item
+GET /documentTypeList   com.megift.set.base.item.controller.ItemControl.documentTypeList()
+GET /businessTypeList   com.megift.set.base.item.controller.ItemControl.businessTypeList()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

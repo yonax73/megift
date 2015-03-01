@@ -11,62 +11,66 @@ import com.megift.resources.base.Entity;
  * 
  * @version : 0.1 <br/>
  * @author Yonatan Alexis Quintero Rodriguez
- *
+ * 
  */
 public class Master extends Entity {
 
-    /**
+	public static final int DOCUMENT_TYPE = 3;
+	public static final int BUSINESS_TYPE = 2;
+	/**
      * 
      */
-    private static final long serialVersionUID = 1L;
-    private String name;
-    private String description;
+	private static final long serialVersionUID = 1L;
+	private String name;
+	private String description;
 
-    /**
-     * @param id
-     */
-    public Master(int id) {
-        super(id);
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * @param id
+	 */
+	public Master(int id) {
+		super(id);
+		// TODO Auto-generated constructor stub
+	}
 
-    /* (non-Javadoc)
-     * @see com.megift.resources.base.Entity#isEmpty()
-     */
-    @Override
-    public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.megift.resources.base.Entity#isEmpty()
+	 */
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-    /**
-     * @return the description
-     */
-    public String getDescription() {
-        return description;
-    }
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
 
-    /**
-     * @param description
-     *            the description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	/**
+	 * @param description
+	 *            the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * @param name
-     *            the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
 }

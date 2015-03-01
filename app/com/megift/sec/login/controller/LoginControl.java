@@ -1,5 +1,7 @@
 package com.megift.sec.login.controller;
 
+import static com.megift.resources.utils.Constants.CHECKED;
+import static com.megift.resources.utils.Constants.SESSION_LOGIN_ID;
 import static com.megift.resources.utils.Constants.SUCCESS_RESPONSE;
 
 import java.util.Map;
@@ -12,6 +14,7 @@ import com.megift.bsp.partner.logic.PartnerLogic;
 import com.megift.resources.social.logic.SocialLogic;
 import com.megift.sec.login.entity.Login;
 import com.megift.sec.login.logic.LoginLogic;
+import com.megift.set.master.entity.MasterValue;
 
 /**
  * company : Megift S.A<br/>
@@ -34,6 +37,7 @@ public class LoginControl extends Controller {
 		final Map<String, String[]> data = request().body().asFormUrlEncoded();
 		if (data != null) {
 			login = new Login(data.get("email-partner")[0], data.get("password-partner")[0]);
+			login.setType(new MasterValue(Login.USER_TYPE));
 			if (LoginLogic.exists(login)) {
 				result = "Este usuario ya se encuentra registrado!";
 			} else {
@@ -63,8 +67,15 @@ public class LoginControl extends Controller {
 		final Map<String, String[]> data = request().body().asFormUrlEncoded();
 		if (data != null) {
 			login = new Login(data.get("email-login")[0], data.get("password-login")[0]);
+			login.setType(new MasterValue(Integer.parseInt(data.get("business-type")[0])));
 			if (LoginLogic.signIn(login)) {
-				result = String.valueOf(login.getId());
+				if (login.isBusinessType()) {
+					session(SESSION_LOGIN_ID, String.valueOf(login.getId()));
+					result = SUCCESS_RESPONSE;
+				} else {
+					result = String.valueOf(login.getId());
+				}
+
 			} else {
 				result = "El email o la contraseña es incorrecta!";
 			}
@@ -80,6 +91,11 @@ public class LoginControl extends Controller {
 		final Map<String, String[]> data = request().body().asFormUrlEncoded();
 		if (data != null) {
 			Login login = new Login(data.get("email-login")[0], null);
+			if (data.get("is-business")[0] != null && data.get("is-business")[0].equals(CHECKED)) {
+				login.setType(new MasterValue(Login.BUSINESS_TYPE));
+			} else {
+				login.setType(new MasterValue(Login.USER_TYPE));
+			}
 			if (LoginLogic.exists(login)) {
 				if (LoginLogic.createPasswordChangeRequest(login)) {
 					if (SocialLogic.sendPasswordChangeRequest(login)) {
@@ -145,6 +161,20 @@ public class LoginControl extends Controller {
 	}
 
 	public static Result login() {
+		session().clear();
 		return ok(views.html.sec.login.login.render());
 	}
+
+	public static Result termsAndConditions() {
+		return ok(views.html.sec.login.termsAndConditions.render());
+	}
+
+	public static Result privacyPolicy() {
+		return ok(views.html.sec.login.privacyPolicy.render());
+	}
+
+	public static Result recoveryPassword() {
+		return ok(views.html.sec.login.recoveryPassword.render());
+	}
+
 }

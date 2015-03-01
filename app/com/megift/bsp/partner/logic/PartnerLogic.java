@@ -32,13 +32,29 @@ public class PartnerLogic {
 		return PartnerDao.loadPartner(partner);
 	}
 
-    public static boolean update(Partner partner) {
-        boolean saved = false;
-        if (!partner.isEmpty()) {
-            if (partner.exists())
-                saved = PartnerDao.update(partner);
-        }
-        return saved;
-    }
+	public static boolean update(Partner partner) {
+		boolean saved = false;
+		if (!partner.isEmpty()) {
+			if (partner.exists())
+				saved = PartnerDao.update(partner);
+		}
+		return saved;
+	}
+
+	/**
+	 * @param legalRepresentative
+	 * @return
+	 */
+	public static boolean save(Partner partner) {
+		boolean saved = false;
+		if (!partner.isEmpty()) {
+			if (partner.exists()) {
+				saved = PartnerDao.update(partner);
+			} else {
+				saved = PartnerDao.create(partner);
+			}
+		}
+		return saved;
+	}
 
 }

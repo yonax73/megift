@@ -1,50 +1,75 @@
 @import resources._
 @main("Megift"){
 
-        <div class="row center">
-            <br/>
-	        <div class="col-md-8 center"><div id="alert"></div></div>	          
+<div class="row center">
+    <br/>
+    <div class="col-md-8 center"><div id="alert"></div></div>	          
+    <div class="col-md-8">
+        <form id="login-form" class="form-horizontal">
+          <fieldset>
+             <legend>Ingresar</legend>
+             <div class="col-md-8">
+                <div class="form-group has-feedback">
+                    <input type="email" class="form-control input-lg" name="email-login" data-email="true" placeholder="Correo Electrónico">
+                    <span class="form-control-feedback"></span>
+                    <small class="i-form-error-msg text-danger hidden">El correo es requerido!</small>
+                </div>
+            </div>
             <div class="col-md-8">
-                <form id="login-form" class="form-horizontal">
-                  <fieldset>
-                   <legend>Ingresar</legend>
-                    <div class="col-md-8">
-                        <div class="form-group has-feedback">
-                            <input type="email" class="form-control input-lg" name="email-login" data-email="true" placeholder="Correo Electrónico">
-                            <span class="form-control-feedback"></span>
-                            <small class="i-form-error-msg text-danger hidden">El correo es requerido!</small>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="form-group has-feedback">
-                            <input type="password" class="form-control input-lg" name="password-login" data-required="true" placeholder="Contraseña">
-                            <span class="form-control-feedback"></span>
-                            <small class="i-form-error-msg text-danger hidden">La Contraseña es requerida!</small>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="form-group i-checkbox-horizontal">
-                            <span class="i-checkbox i-checkbox-toolbar i-checkbox-right i-checkbox-toolbar-default">
-                                <input type="checkbox" id="data-remember" checked="checked">
-                                <label for="data-remember">Recordar mis datos</label>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-md-8 ">
-                        <div class="form-group">
-                        	<button type="submit" class="btn btn-primary btn-lg btn-block">Ingresar</button>
-                        </div>
-                    </div>
-                </fieldset>
-                </form>
-            </div>   
-                <a class="col-md-8" href="/business" onclick="registerBusiness(0)" >Registrar empresa.</a>          <br/>
-            	<a class="col-md-8"  >Olvide mi contrase&ntilde;a.</a><br>                
-        </div>
-        <script >
-         function registerBusiness(type){         	
-         	sessionStorage.setItem('type-business-view',type);
-         }
-        </script>
+                <div class="form-group has-feedback">
+                    <input type="password" class="form-control input-lg" name="password-login" data-required="true" placeholder="Contraseña">
+                    <span class="form-control-feedback"></span>
+                    <small class="i-form-error-msg text-danger hidden">La Contraseña es requerida!</small>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group i-checkbox-horizontal">
+                    <span class="i-checkbox i-checkbox-toolbar i-checkbox-right i-checkbox-toolbar-default">
+                        <input type="checkbox" id="data-remember" checked="checked">
+                        <label for="data-remember">Recordar mis datos</label>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-8 ">
+                <div class="form-group">
+                   <button type="submit" id="login-btn" class="btn btn-primary btn-lg btn-block">Ingresar<i id="login-btn-ico"></i></button></button>
+               </div>
+           </div>
+           <input type="hidden" name="business-type" value="4">
+       </fieldset>
+   </form>
+</div>   
+<a class="col-md-8" href="/business" onclick="registerBusiness()" >Registrar empresa.</a>          <br/>
+<a class="col-md-8" href="/recoveryPassword"  >Olvide mi contrase&ntilde;a.</a><br>                
+</div>
+<script>
+            //atributes 
+            var loginForm = new Form(document.getElementById('login-form'));
+            var loginBtn = document.getElementById('login-btn');
+            //form business
+            loginForm.onsubmit(function(){
+                if(loginForm.isValid()){
+                 var loginXHR = new XHR('POST','/signIn');
+                 loginXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+                 loginXHR.onBeforeSend(function(){
+                    loginBtn.disabled = true;
+                    document.getElementById('login-btn-ico').className = 'fa fa-spinner fa-spin';
+                   
+                });
+                 loginXHR.onReady(function (xhr) {   
+                   loginBtn.disabled = false;
+                   document.getElementById('login-btn-ico').className = '';
+                   if(xhr.responseText === SUCCESS_RESPONSE){                                 
+                      sessionStorage.setItem('type-business-view',1);
+                      window.location = '/business';
+                }else{
+                    notification.danger(xhr.responseText);  
+                  
+                }
+            });
+                 loginXHR.send(loginForm.serialize());
+             }
+         });
+            </script>
 
-}
+        }
