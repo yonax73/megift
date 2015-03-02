@@ -1,6 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Bad+Script);
 .font-theme,h1,h3{
- font-family: 'Bad Script', cursive;
+   font-family: 'Bad Script', cursive;
 }
 .bg-landing-page{	  
     background-attachment: fixed;
@@ -92,41 +92,59 @@
     border-bottom: 0.2em solid #eb4646;
 }
 #popup-register-success h3{
-	 text-indent: 2em;
+  text-indent: 2em;
 }
 .circle {
 	text-align: center;
 }
 .circle a{   
-   border-radius: 60px;
-    color: #fff;
-    display: inline-block;
-    font-size: 25px;
-    height: 100px;
-    margin-right: 10%;
-    margin-top: 5px;
-    padding-top: 30px;
-    text-align: center;
-    width: 100px;
+ border-radius: 60px;
+ color: #fff;
+ display: inline-block;
+ font-size: 25px;
+ height: 100px;
+ margin-right: 10%;
+ margin-top: 5px;
+ padding-top: 30px;
+ text-align: center;
+ width: 100px;
 }
 .circle a:hove{
 	color:#fff;
 }
 .circle a.gmail{
-	 background-color: #eb4646;
+  background-color: #eb4646;
 }
 .circle a.outlook{
-	 background-color: #0072c6;
+  background-color: #0072c6;
 }
 .circle a.yahoo{
-	 background-color: #500095;
+  background-color: #500095;
 }
 .info{
-	 border-top: 1px solid #7c7c7c;
-    color: #7c7c7c;
-    font-family: helvetica;
-    font-size: 12px;
-    margin-top: 25px;
-    padding-top: 3px;
+  border-top: 1px solid #7c7c7c;
+  color: #7c7c7c;
+  font-family: helvetica;
+  font-size: 12px;
+  margin-top: 25px;
+  padding-top: 3px;
 }
 
+
+
+/*COVER BLOCK*/
+.cover-content{
+   border: 1px solid rgb(210, 210, 210);margin-bottom: 1.5em;
+}
+.cover-header{
+  background-color: #fff;
+  border-bottom: 1px solid rgb(210, 210, 210);
+  font-weight: bold;
+  padding: 0.5em 0.3em 0;
+}
+.cover-body{
+    padding: 0.5em; background-color: rgb(255, 255, 255);
+}
+.cover-footer{
+    border-top: 1px solid rgb(210, 210, 210); background-color:#f6f6f6;  padding: 0.5em;
+}

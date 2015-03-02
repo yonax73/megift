@@ -2,7 +2,7 @@ package com.megift.set.location.address.entity;
 
 import com.megift.resources.base.Entity;
 import com.megift.set.location.city.entity.City;
-import com.megift.set.location.geolocation.entity.GeoLocation;
+import com.megift.set.location.geolocation.entity.Geolocation;
 
 /**
  * @class : Address.java<br/>
@@ -23,7 +23,7 @@ public class Address extends Entity {
 	private static final long serialVersionUID = 1L;
 	private String address;
 	private City city;
-	private GeoLocation geoLocation;
+	private Geolocation geolocation;
 
 	/**
 	 * @param id
@@ -44,7 +44,7 @@ public class Address extends Entity {
 	 * @see com.megift.resources.base.Entity#isEmpty()
 	 */
 	@Override
-    public boolean isEmpty() {
+	public boolean isEmpty() {
 		return false;
 	}
 
@@ -64,12 +64,12 @@ public class Address extends Entity {
 		this.city = city;
 	}
 
-	public GeoLocation getGeoLocation() {
-		return geoLocation;
+	public Geolocation getGeolocation() {
+		return geolocation;
 	}
 
-	public void setGeoLocation(GeoLocation geoLocation) {
-		this.geoLocation = geoLocation;
+	public void setGeolocation(Geolocation geolocation) {
+		this.geolocation = geolocation;
 	}
 
 }

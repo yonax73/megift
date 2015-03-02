@@ -40,6 +40,10 @@ var notification = new Alert(document.getElementById('notification'));
 function registerBusiness(){         	
 	sessionStorage.setItem('type-business-view',0);
 }
+//new POS
+function newPOS(){
+ sessionStorage.setItem('type-POS-view',0);	
+}
 //change value of checkbox element
 function changeValueCheckbox(element){
 	if(element.checked){

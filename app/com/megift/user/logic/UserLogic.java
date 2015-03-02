@@ -33,11 +33,11 @@ import play.Logger;
 import com.megift.resources.email.Email;
 import com.megift.resources.email.Resource;
 import com.megift.user.dao.UserDao;
-import com.megift.user.entity.User;
+import com.megift.user.entity.POS;
 
 public class UserLogic {
 
-	public static boolean registerUser(User user) {		
+	public static boolean registerUser(POS user) {		
 		return sendEmailRegister(user) && UserDao.registerUser(user);
 	}
 	
@@ -45,13 +45,13 @@ public class UserLogic {
 		return UserDao.countUsers();
 	}
 
-	public static List<User> loadUsers() {		
+	public static List<POS> loadUsers() {		
 		return UserDao.loadUsers();
 	}
 	
 	public static File generateExcelUsers() throws IOException, InvalidFormatException{
 		    File file = null;		    
-		    List<User> users = UserDao.loadUsers();
+		    List<POS> users = UserDao.loadUsers();
 		    if(users!= null && !users.isEmpty()){
 		    	file = new File(DATA_TEMP_PATH.concat("exp_users_").concat(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_FORMATTER)).concat(".xlsx")));
 		    	int rowNumber = 0;
@@ -65,7 +65,7 @@ public class UserLogic {
 		        emailUserHead.setCellValue("Correo");
 		        Cell dateUserHead = head.createCell(++cellNumber);
 		        dateUserHead.setCellValue("Fecha");
-		        for (User user : users) {
+		        for (POS user : users) {
 		        	cellNumber = 0;
 		        	Row tmpRow = sheet.createRow(++rowNumber);
 		        	Cell nameUser = tmpRow.createCell(cellNumber);
@@ -82,11 +82,11 @@ public class UserLogic {
 	        return file;
 	}
 
-	public static boolean existsUser(User user) {		
+	public static boolean existsUser(POS user) {		
 		return UserDao.existsUser(user);
 	}
 	
-	public static boolean sendEmailRegister(User user){
+	public static boolean sendEmailRegister(POS user){
 		boolean registered = false;
 		Email email = new Email(SERVER_NAME, INFO_EMAIL, INFO_EMAIL_PASSWORD,SERVER_SECURITY_TYPE_SSL);
 		try {			

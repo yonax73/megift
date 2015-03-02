@@ -25,15 +25,24 @@ public class POS extends Entity {
      */
 	private static final long serialVersionUID = 1L;
 	private String name;
-	private Partner contact;
 	private Location location;
+	private Partner contact;
 	private List<Gift> giftList;
+	private int bussinesId;
 
 	/**
 	 * @param id
 	 */
 	public POS(int id) {
 		super(id);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * 
+	 */
+	public POS() {
+		super(0);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -44,8 +53,8 @@ public class POS extends Entity {
 	 */
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+
+		return name == null;
 	}
 
 	public Partner getContact() {
@@ -85,6 +94,21 @@ public class POS extends Entity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @return the bussinesId
+	 */
+	public int getBussinesId() {
+		return bussinesId;
+	}
+
+	/**
+	 * @param bussinesId
+	 *            the bussinesId to set
+	 */
+	public void setBussinesId(int bussinesId) {
+		this.bussinesId = bussinesId;
 	}
 
 }

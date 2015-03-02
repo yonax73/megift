@@ -11,11 +11,11 @@ import play.Logger;
 import play.db.DB;
 
 import com.megift.resources.base.Dao;
-import com.megift.user.entity.User;
+import com.megift.user.entity.POS;
 
 public class UserDao extends Dao {
 
-	public static boolean registerUser(User user) {
+	public static boolean registerUser(POS user) {
 		boolean registered = false;
 		CallableStatement cst = null;
 		Connection conn = null;	
@@ -55,8 +55,8 @@ public class UserDao extends Dao {
 		return counted;
 	}
 
-	public static List<User> loadUsers() {
-		List<User> users = null;
+	public static List<POS> loadUsers() {
+		List<POS> users = null;
 				CallableStatement cst = null;
 		ResultSet rs = null;
 		Connection conn = null;
@@ -65,9 +65,9 @@ public class UserDao extends Dao {
 			cst = conn.prepareCall("{CALL megift_schema.sp_users_LOAD_USERS()}");
 			rs = cst.executeQuery();
 			if (rs.next()) {
-				users = new ArrayList<User>();
+				users = new ArrayList<POS>();
 				do {
-					User user = new User(rs.getString(1), rs.getString(2));
+					POS user = new POS(rs.getString(1), rs.getString(2));
 					user.setCreated(rs.getTimestamp(3).toLocalDateTime());
 					users.add(user);
 				} while (rs.next());
@@ -81,7 +81,7 @@ public class UserDao extends Dao {
 		return users;
 	}
 
-	public static boolean existsUser(User user) {
+	public static boolean existsUser(POS user) {
 		boolean exists = false;
 		CallableStatement cst = null;
 		ResultSet rs = null;

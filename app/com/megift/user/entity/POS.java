@@ -2,7 +2,7 @@ package com.megift.user.entity;
 
 import com.megift.resources.base.Entity;
 
-public class User extends Entity {
+public class POS extends Entity {
 
     /**
      * 
@@ -11,11 +11,11 @@ public class User extends Entity {
     private String name;
 	private String email;
 	
-	public User(int id) {
+	public POS(int id) {
 		super(id);		
 	}
 	
-	public User(String name, String email){
+	public POS(String name, String email){
 		super(0);
 		this.name = name;
 		this.email = email;

@@ -33,10 +33,11 @@ public class AddressDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			cst = conn.prepareCall("CALL sp_set_addresses_UPDATE(?,?,?)");
+			cst = conn.prepareCall("CALL sp_set_addresses_UPDATE(?,?,?,?)");
 			cst.setInt(1, address.getId());
 			cst.setInt(2, address.getCity() == null ? 0 : address.getCity().getId());
 			cst.setString(3, address.getAddress());
+			cst.setInt(4, address.getGeolocation() == null ? 0 : address.getGeolocation().getId());
 			result = cst.executeUpdate() > 0;
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
@@ -58,11 +59,12 @@ public class AddressDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "CALL sp_set_addresses_CREATE(?,?,?);";
+			String sql = "CALL sp_set_addresses_CREATE(?,?,?,?);";
 			cst = conn.prepareCall(sql);
 			cst.registerOutParameter(1, Types.INTEGER);
 			cst.setInt(2, address.getCity() == null ? 0 : address.getCity().getId());
 			cst.setString(3, address.getAddress());
+			cst.setInt(4, address.getGeolocation() == null ? 0 : address.getGeolocation().getId());
 			result = cst.executeUpdate() > 0;
 			if (result)
 				address.setId(cst.getInt(1));

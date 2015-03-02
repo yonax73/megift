@@ -3,7 +3,7 @@
 
 <div class="row center">            
     <h2 id="name-business-title"></h2>    
-    <form id="bussines-form" class="form-horizontal">
+    <form id="Business-form" class="form-horizontal">
       <fieldset class="col-md-6">
        <legend>Datos de empresa</legend>
        <div class="col-md-12">
@@ -168,11 +168,10 @@ var documentType = new Select(document.getElementById('document-type-list'),'/do
 //business type lisst
 var businessType = new Select(document.getElementById('business-type-list'), '/businessTypeList',function(){businessType.selectItem(0)});
 //forms
-var businessForm = new Form(document.getElementById('bussines-form'));
+var businessForm = new Form(document.getElementById('Business-form'));
 //buttonss
 var businessBtn = document.getElementById('businessBtn');
-//remove sessionStorage
-sessionStorage.removeItem('type-business-view');
+
  if(typeBusinessView>0){//Adminstrar empresa
     //load data
     loadBusiness(); 
@@ -180,6 +179,8 @@ sessionStorage.removeItem('type-business-view');
     nav.classList.add('hidden');
     document.getElementById('terms-conditions-privacy-policy').classList.remove('hidden');
     nameBusinessTitle.textContent = 'Registrar Empresa';
+    //remove sessionStorage
+     sessionStorage.removeItem('type-business-view');
 }
 //select other type business
 businessType.onchange(function(){    
@@ -210,7 +211,7 @@ businessForm.onsubmit(function(){
          businessBtn.disabled = false;
          document.getElementById('business-btn-ico').className = '';
          if(xhr.responseText === SUCCESS_RESPONSE){                                 
-           notification.success('La empresa se registro exitosamente!');
+           notification.success('La empresa se guardo exitosamente!');
        }else{
         notification.danger(xhr.responseText);
     }
@@ -236,10 +237,10 @@ function loadBusiness(){
     loadBusinessxHR.onBeforeSend(function(){
         nameBusinessTitle.textContent = 'Cargando datos de la empresa';
     });
-    loadBusinessxHR.onReady(function (xhr) {   
-        console.log(JSON.parse(xhr.responseText));
+    loadBusinessxHR.onReady(function (xhr) {  
+      
         var business = JSON.parse(xhr.responseText);
-        nameBusinessTitle.textContent = 'Nombre Comercial Empresa';
+        nameBusinessTitle.textContent = business.tradeName;
 
         document.getElementsByName('trade-name-business')[0].value = business.tradeName;
         document.getElementsByName('legal-name-business')[0].value = business.legalName;

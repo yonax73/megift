@@ -16,7 +16,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.megift.resources.oauth.OAuth;
-import com.megift.user.entity.User;
+import com.megift.user.entity.POS;
 import com.megift.user.logic.UserLogic;
 
 
@@ -30,9 +30,9 @@ public class UserControl extends Controller {
     
     public static Result registerUser(){
     	String result = null;
-    	User user = null;
+    	POS user = null;
     	final Map<String, String[]> req =  request().body().asFormUrlEncoded();
-    	user = new User(req.get("user-name")[0], req.get("user-email")[0]);
+    	user = new POS(req.get("user-name")[0], req.get("user-email")[0]);
     	if(!user.isEmpty() && isEmail(user.getEmail())){
     		if(!UserLogic.existsUser(user)){
         		if(UserLogic.registerUser(user)){

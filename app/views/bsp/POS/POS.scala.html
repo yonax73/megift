@@ -1,0 +1,196 @@
+@import resources._
+@nav(titlePage = "POS"){
+<div class="row center">            
+	<h2 id="name-POS-title"></h2>    
+	<form id="POS-form" class="form-horizontal">
+		<fieldset class="col-md-6">
+			<legend>Datos de Punto de Venta</legend>
+			<div class="col-md-12">
+				<div class="form-group has-feedback">
+					<input type="text" class="form-control input-lg" name="name-POS" data-required="true" placeholder="Nombre Punto de Venta">
+					<span class="form-control-feedback"></span>
+					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group has-feedback">
+					<input type="text" class="form-control input-lg" name="name-contact" data-required="true" placeholder="Nombre Contacto">
+					<span class="form-control-feedback"></span>
+					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group has-feedback">
+					<input type="text" class="form-control input-lg" name="phone-pos" data-required="true" placeholder="Teléfono">
+					<span class="form-control-feedback"></span>
+					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group has-feedback">
+					<input type="text" class="form-control input-lg" name="extension-phone-pos" data-required="true" placeholder="Extención Teléfono">
+					<span class="form-control-feedback"></span>
+					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group has-feedback">
+					<input type="text" class="form-control input-lg" name="mobile-phone-pos" data-required="true" placeholder="Celular">
+					<span class="form-control-feedback"></span>
+					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group has-feedback">
+					<input type="text" class="form-control input-lg" name="address-pos" data-required="true" placeholder="Dirección">
+					<span class="form-control-feedback"></span>
+					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<a href="http://www.latlong.net/convert-address-to-lat-long.html" target="_blank">Obtener puntos de geolocalización aquí</a>
+				</div>
+			</div>
+			<div class="col-md-12">				
+				<div class="form-group has-feedback">
+					<input type="text" class="form-control input-lg" name="longitude-address-pos" data-required="true" placeholder="longitude">
+					<span class="form-control-feedback"></span>
+					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group has-feedback">
+					<input type="text" class="form-control input-lg" name="latitude-address-pos" data-required="true" placeholder="Latitud">
+					<span class="form-control-feedback"></span>
+					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+				</div>
+			</div>
+			<div class="col-md-12 ">
+				<div class="form-group">
+					<button id="POSBtn" type="submit" class="btn btn-success btn-lg btn-block">Guardar
+						<i id="POS-btn-ico"></i></button>
+					</div>
+				</div>    
+			</fieldset>
+			<input type="hidden" id="id-POS" name="id-POS" value="0">
+			<input type="hidden" id="id-contact" name="id-contact" value="0">
+			<input type="hidden" id="id-phone-pos" name="id-phone-pos" value="0">    
+			<input type="hidden" id="id-address-pos" name="id-address-pos" value="0">    
+			<input type="hidden" id="id-location-pos" name="id-location-pos" value="0">   
+			<input type="hidden" id="id-geolocation-pos" name="id-geolocation-pos" value="0">     
+		</form>
+	}
+
+
+	<script>
+//atributes
+var typePOSView = sessionStorage.getItem('type-POS-view');
+var namePOSTitle = document.getElementById('name-POS-title');
+//forms
+var POSForm = new Form(document.getElementById('POS-form'));
+//buttonss
+var POSBtn = document.getElementById('POSBtn');
+ if(typePOSView>0){//Adminstrar pos
+    //load data
+    loadPOS(); 
+ }else{//Crear pos 	
+ 	namePOSTitle.textContent = 'Crear Punto de Venta';
+    //remove sessionStorage
+    sessionStorage.removeItem('type-POS-view');
+}
+//form POS
+POSForm.onsubmit(function(){
+	if(POSForm.isValid()){
+		var POSxHR = new XHR('POST','/savePOS');
+		POSxHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+		POSxHR.onBeforeSend(function(){
+			POSBtn.disabled = true;
+			document.getElementById('POS-btn-ico').className = 'fa fa-spinner fa-spin';
+		});
+		POSxHR.onReady(function (xhr) {   
+			POSBtn.disabled = false;
+			document.getElementById('POS-btn-ico').className = '';		                             
+			notification.success('El punto de venta se guardo exitosamente!');
+				if(typePOSView == 0){ //si el punto de venta es nuevo
+					try {
+						var POS = JSON.parse(xhr.responseText);
+						typePOSView = 1;
+						namePOSTitle.textContent = POS.name;
+					    //fill ids			
+					    document.getElementsByName('id-POS')[0].value = POS.id;					
+					    document.getElementsByName('id-contact')[0].value = POS.contact.id;					
+					    document.getElementsByName('id-phone-pos')[0].value = POS.location.phone.id;					
+					    document.getElementsByName('id-address-pos')[0].value = POS.location.address.id;					
+					    document.getElementsByName('id-location-pos')[0].value = POS.location.id;					
+					    document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;					
+					} catch (e) {
+						notification.danger(xhr.responseText);
+					}
+				}	
+			});
+POSxHR.send(POSForm.serialize());
+}
+});
+//load POS
+/*function loadPOS(){
+	document.getElementsByName('id-POS')[0].value = 'algo';     
+    //POSBtn.textContent='Guardar';
+    //hidden controls
+    var ps = document.getElementById('password');
+    ps.classList.add('hidden');   
+    //quit required to controls
+    var inputs = document.querySelectorAll("input[type=password]");
+    delete inputs[0].dataset.required;
+    delete inputs[1].dataset.required;
+    delete inputs[1].dataset.equalsto;
+    //load data
+    var loadPOSxHR = new XHR('GET','/loadPOS');
+    loadPOSxHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+    loadPOSxHR.onBeforeSend(function(){
+    	namePOSTitle.textContent = 'Cargando datos de la pos';
+    });
+    loadPOSxHR.onReady(function (xhr) {   
+    	console.log(JSON.parse(xhr.responseText));
+    	var POS = JSON.parse(xhr.responseText);
+    	namePOSTitle.textContent = POS.tradeName;
+
+    	document.getElementsByName('trade-name-POS')[0].value = POS.tradeName;
+    	document.getElementsByName('legal-name-POS')[0].value = POS.legalName;
+    	document.getElementsByName('nit-POS')[0].value = POS.nit;
+        //document.getElementsByName('POS-type')[0].value = POS.type.id;        
+        POSType.selectItem(POS.type.id);
+        if(POS.type.id === OTHER_TYPE_POS){
+        	document.getElementsByName('other-POS-type')[0].value = POS.otherType; 
+        	var otherType = document.getElementById('other-POS-type');
+        	if(otherType.classList.contains('hidden')){
+        		otherType.classList.remove('hidden');
+        		otherType.classList.add('show');
+        	}   
+        } 
+        document.getElementsByName('name-legal-representative-POS')[0].value = POS.legalRepresentative.name;
+        document.getElementsByName('document-legal-representative-POS')[0].value = POS.legalRepresentative.document.document;
+    //document.getElementsByName('document-type')[0].value = POS.legalRepresentative.document.type.id;
+    documentType.selectItem(POS.legalRepresentative.document.type.id);
+    document.getElementsByName('place-of-issue-legal-representative-POS')[0].value = POS.legalRepresentative.document.placeOfIssue;
+    document.getElementsByName('name-contact')[0].value = POS.contact.name;
+    var emailContact = document.getElementsByName('email-contact')[0];
+    emailContact.value = POS.contact.login.email;    
+    emailContact.disabled = true;
+    document.getElementsByName('phone-contact')[0].value = POS.contact.location.phone.number;
+    document.getElementsByName('extension-phone-contact')[0].value = POS.contact.location.phone.extension;
+    document.getElementsByName('mobile-phone-contact')[0].value = POS.contact.location.phone.mobile;
+    document.getElementsByName('address-contact')[0].value = POS.contact.location.address.address;
+    document.getElementsByName('id-POS')[0].value = POS.id;
+    document.getElementsByName('id-contact')[0].value = POS.contact.id;
+    document.getElementsByName('id-phone-contact')[0].value = POS.contact.location.phone.id;
+    document.getElementsByName('id-address-contact')[0].value = POS.contact.location.address.id;
+    document.getElementsByName('id-location-contact')[0].value = POS.contact.location.id;
+    document.getElementsByName('id-legal-representative')[0].value = POS.legalRepresentative.id;
+    document.getElementsByName('id-document-legal-representative')[0].value = POS.legalRepresentative.document.id;
+
+});
+loadPOSxHR.send();
+}*/
+
+</script>
