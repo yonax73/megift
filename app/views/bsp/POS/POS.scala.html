@@ -1,5 +1,5 @@
 @import resources._
-@nav(titlePage = "POS"){
+@nav(titlePage = "Punto de Venta"){
 <div class="row center">            
 	<h2 id="name-POS-title"></h2>    
 	<form id="POS-form" class="form-horizontal">
@@ -49,7 +49,7 @@
 			</div>
 			<div class="col-md-12">
 				<div class="form-group">
-					<a href="http://www.latlong.net/convert-address-to-lat-long.html" target="_blank">Obtener puntos de geolocalización aquí</a>
+					<a href="http://www.coordenadas-gps.com/" target="_blank">Obtener coordenadas aquí</a>
 				</div>
 			</div>
 			<div class="col-md-12">				
@@ -110,12 +110,10 @@ POSForm.onsubmit(function(){
 		});
 		POSxHR.onReady(function (xhr) {   
 			POSBtn.disabled = false;
-			document.getElementById('POS-btn-ico').className = '';		                             
-			notification.success('El punto de venta se guardo exitosamente!');
-				if(typePOSView == 0){ //si el punto de venta es nuevo
-					try {
+			document.getElementById('POS-btn-ico').className = '';	
+			try {
 						var POS = JSON.parse(xhr.responseText);
-						typePOSView = 1;
+						typePOSView = POS.id;	;
 						namePOSTitle.textContent = POS.name;
 					    //fill ids			
 					    document.getElementsByName('id-POS')[0].value = POS.id;					
@@ -123,74 +121,44 @@ POSForm.onsubmit(function(){
 					    document.getElementsByName('id-phone-pos')[0].value = POS.location.phone.id;					
 					    document.getElementsByName('id-address-pos')[0].value = POS.location.address.id;					
 					    document.getElementsByName('id-location-pos')[0].value = POS.location.id;					
-					    document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;					
-					} catch (e) {
+					    document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;	
+					    notification.success('El punto de venta se guardo exitosamente!');				
+					} catch (e) {						
 						notification.danger(xhr.responseText);
 					}
-				}	
-			});
-POSxHR.send(POSForm.serialize());
-}
+				});
+		POSxHR.send(POSForm.serialize());
+	}
 });
 //load POS
-/*function loadPOS(){
-	document.getElementsByName('id-POS')[0].value = 'algo';     
-    //POSBtn.textContent='Guardar';
-    //hidden controls
-    var ps = document.getElementById('password');
-    ps.classList.add('hidden');   
-    //quit required to controls
-    var inputs = document.querySelectorAll("input[type=password]");
-    delete inputs[0].dataset.required;
-    delete inputs[1].dataset.required;
-    delete inputs[1].dataset.equalsto;
+function loadPOS(){
     //load data
-    var loadPOSxHR = new XHR('GET','/loadPOS');
+    var loadPOSxHR = new XHR('GET','/loadPOS?id='+typePOSView);
     loadPOSxHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
     loadPOSxHR.onBeforeSend(function(){
-    	namePOSTitle.textContent = 'Cargando datos de la pos';
+    	namePOSTitle.textContent = 'Cargando datos del Punto de Venta';
     });
-    loadPOSxHR.onReady(function (xhr) {   
-    	console.log(JSON.parse(xhr.responseText));
+    loadPOSxHR.onReady(function (xhr) {       	
     	var POS = JSON.parse(xhr.responseText);
-    	namePOSTitle.textContent = POS.tradeName;
+    	namePOSTitle.textContent = POS.name;
 
-    	document.getElementsByName('trade-name-POS')[0].value = POS.tradeName;
-    	document.getElementsByName('legal-name-POS')[0].value = POS.legalName;
-    	document.getElementsByName('nit-POS')[0].value = POS.nit;
-        //document.getElementsByName('POS-type')[0].value = POS.type.id;        
-        POSType.selectItem(POS.type.id);
-        if(POS.type.id === OTHER_TYPE_POS){
-        	document.getElementsByName('other-POS-type')[0].value = POS.otherType; 
-        	var otherType = document.getElementById('other-POS-type');
-        	if(otherType.classList.contains('hidden')){
-        		otherType.classList.remove('hidden');
-        		otherType.classList.add('show');
-        	}   
-        } 
-        document.getElementsByName('name-legal-representative-POS')[0].value = POS.legalRepresentative.name;
-        document.getElementsByName('document-legal-representative-POS')[0].value = POS.legalRepresentative.document.document;
-    //document.getElementsByName('document-type')[0].value = POS.legalRepresentative.document.type.id;
-    documentType.selectItem(POS.legalRepresentative.document.type.id);
-    document.getElementsByName('place-of-issue-legal-representative-POS')[0].value = POS.legalRepresentative.document.placeOfIssue;
-    document.getElementsByName('name-contact')[0].value = POS.contact.name;
-    var emailContact = document.getElementsByName('email-contact')[0];
-    emailContact.value = POS.contact.login.email;    
-    emailContact.disabled = true;
-    document.getElementsByName('phone-contact')[0].value = POS.contact.location.phone.number;
-    document.getElementsByName('extension-phone-contact')[0].value = POS.contact.location.phone.extension;
-    document.getElementsByName('mobile-phone-contact')[0].value = POS.contact.location.phone.mobile;
-    document.getElementsByName('address-contact')[0].value = POS.contact.location.address.address;
-    document.getElementsByName('id-POS')[0].value = POS.id;
-    document.getElementsByName('id-contact')[0].value = POS.contact.id;
-    document.getElementsByName('id-phone-contact')[0].value = POS.contact.location.phone.id;
-    document.getElementsByName('id-address-contact')[0].value = POS.contact.location.address.id;
-    document.getElementsByName('id-location-contact')[0].value = POS.contact.location.id;
-    document.getElementsByName('id-legal-representative')[0].value = POS.legalRepresentative.id;
-    document.getElementsByName('id-document-legal-representative')[0].value = POS.legalRepresentative.document.id;
+    	document.getElementsByName('name-POS')[0].value =  POS.name;
+    	document.getElementsByName('name-contact')[0].value = POS.contact.name;
+    	document.getElementsByName('phone-pos')[0].value =  POS.location.phone.number;
+    	document.getElementsByName('extension-phone-pos')[0].value = POS.location.phone.extension;
+    	document.getElementsByName('mobile-phone-pos')[0].value = POS.location.phone.mobile;
+    	document.getElementsByName('address-pos')[0].value = POS.location.address.address;
+    	document.getElementsByName('longitude-address-pos')[0].value = POS.location.address.geolocation.longitude;
+    	document.getElementsByName('latitude-address-pos')[0].value = POS.location.address.geolocation.latitude;
+    	document.getElementsByName('id-POS')[0].value = POS.id;
+    	document.getElementsByName('id-contact')[0].value = POS.contact.id;
+    	document.getElementsByName('id-phone-pos')[0].value = POS.location.phone.id;
+    	document.getElementsByName('id-address-pos')[0].value = POS.location.address.id;
+    	document.getElementsByName('id-location-pos')[0].value = POS.location.id;
+    	document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;
 
-});
+    });
 loadPOSxHR.send();
-}*/
+}
 
 </script>

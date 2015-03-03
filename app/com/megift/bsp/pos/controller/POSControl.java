@@ -109,13 +109,7 @@ public class POSControl extends Controller {
 		return ok("No hay puntos de venta para mostrar");
 	}
 
-	public static Result loadPOS() {
-		String result = "No se ha podido completar la solicitud";
-		final Map<String, String[]> data = request().body().asFormUrlEncoded();
-		if (data != null) {
-			POS pos = new POS(Integer.parseInt(data.get("id-POS")[0]));
-			result = Json.toJson(POSLogic.Load(pos)).toString();
-		}
-		return ok(result);
+	public static Result loadPOS(int id) {
+		return ok(Json.toJson(POSLogic.load(new POS(id))));
 	}
 }

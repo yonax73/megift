@@ -1,0 +1,46 @@
+@import resources._
+@nav(titlePage = "Regalos"){
+
+<div  class="row">
+	<div class="col-md-12">
+		<p><a  class="pull-right"href="/gift" onclick="newGift()">Nuevo regalo</a></p>
+	</div>
+</div>
+<div class="row">
+
+	<div class="col-md-12">
+		<div class="page-header">
+			<h2 >Regalos</h2>    
+		</div>		
+	</div>
+</div>
+<div class="row" id="cover-gift">
+	<a href="/gift" onclick="newGift()">No hay regalos, clic para comenzar</a>
+</div>
+<script>
+  //loadGiftsByBusiness
+  //loadGiftsByBusiness();
+
+  function loadGiftsByBusiness(){
+    var cover = document.getElementById('cover-gift');
+  	var giftByBusinessXHR = new XHR('GET','/loadGiftsByBusiness');
+  	giftByBusinessXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+  	giftByBusinessXHR.onBeforeSend(function(){
+        cover.innerHTML = '<i class="fa fa-spinner fa-spin">Cargando...</i>';
+  	});
+  	giftByBusinessXHR.onReady(function (xhr) {   
+  			try {
+  				var gift = JSON.parse(xhr.responseText);  				
+  				var n = gift.length;
+  				cover.innerHTML = '';  
+          covergift(cover,gift);
+        } catch (e) {						
+          cover.innerHTML = '<a href="/gift" onclick="newGift()">No hay regalos, clic para comenzar</a>';
+        }
+      });
+  	giftByBusinessXHR.send();
+
+  }
+  </script>
+
+}

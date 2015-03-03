@@ -36,12 +36,18 @@ GET /loadBusiness         com.megift.bsp.business.controller.BusinessControl.loa
 #item
 GET /documentTypeList   com.megift.set.base.item.controller.ItemControl.documentTypeList()
 GET /businessTypeList   com.megift.set.base.item.controller.ItemControl.businessTypeList()
+GET /giftTypeList   com.megift.set.base.item.controller.ItemControl.giftTypeList()
+GET /giftStatusList   com.megift.set.base.item.controller.ItemControl.giftStatusList()
+GET /actionTypeList   com.megift.set.base.item.controller.ItemControl.actionTypeList()
 #POS
 GET /POSList            com.megift.bsp.pos.controller.POSControl.POSList()
 GET /POS                com.megift.bsp.pos.controller.POSControl.POS()
 POST /savePOS                com.megift.bsp.pos.controller.POSControl.savePOS()
 GET /loadPOSByBusiness                com.megift.bsp.pos.controller.POSControl.loadPOSByBusiness()
-POST /loadPOS                com.megift.bsp.pos.controller.POSControl.loadPOS()
+GET /loadPOS                com.megift.bsp.pos.controller.POSControl.loadPOS(id:Integer)
+#Gift
+GET /giftList                com.megift.bsp.gift.controller.GiftControl.giftList()
+GET /gift                    com.megift.bsp.gift.controller.GiftControl.gift()
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET /robots.txt controllers.Assets.at(path="/public",file="robots.txt")

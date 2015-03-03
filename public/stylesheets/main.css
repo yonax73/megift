@@ -136,11 +136,16 @@
 .cover-content{
  border: 1px solid rgb(210, 210, 210);margin-bottom: 1.5em;
 }
+.cover-content i{
+  color:#de5619;
+  padding-right: 0.5em;
+}
 .cover-header{
-  background-color: #fff;
-  border-bottom: 1px solid rgb(210, 210, 210);
-  font-weight: bold;
-  padding: 0.5em 0.3em 0;
+ background-color: #fff;
+ border-bottom: 1px solid rgb(210, 210, 210);
+ font-weight: bold;
+ margin: 0.3em;
+ padding: 0.1em 0.5em 0;
 }
 .cover-body{
   padding: 0.5em; background-color: rgb(255, 255, 255);
@@ -150,4 +155,28 @@
 }
 .cover-footer{
   border-top: 1px solid rgb(210, 210, 210); background-color:#f6f6f6;  padding: 0.5em;
+}
+.cover-add-gift{
+  background-color: #1bbe9e;  
+  text-align: center;
+}
+.cover-remove-gift{
+  background-color:   #de5619;  
+  text-align: center;
+}
+.cover-add-gift a,.cover-remove-gift a{
+  color: #fff;
+  text-decoration: none;
+}
+
+/*form-picture*/
+.form-picture ul{
+  list-style: none;
+}
+.form-picture .content-img{
+ display: flex;
+ padding: 0;
+}
+.form-picture img{
+  width: 100%
 }

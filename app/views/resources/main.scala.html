@@ -44,6 +44,10 @@ function registerBusiness(){
 function newPOS(){
 	sessionStorage.setItem('type-POS-view',0);	
 }
+//new gift
+function newGift(){
+  sessionStorage.setItem('type-gift-view',0);		
+}
 //change value of checkbox element
 function changeValueCheckbox(element){
 	if(element.checked){
@@ -53,44 +57,61 @@ function changeValueCheckbox(element){
 	}
 }
 
-function coverPOS(element,id,name,data){
 
-	var col = document.createElement('div');
-	col.classList.add('col-md-2 col-sm-6');
-	element.appendChild(col);
-
-	var content = document.createElement('div');
-	content.classList.add('cover-content');
-	col.appendChild(content);
-
-	var title = document.createElement('p');
-	title.textContent = name;
-	content.appendChild(title);
-
-	var body = document.createElement('div');
-	body.classList.add('cover-body');
-	content.appendChild(body);
-
-	var ul = document.createElement('ul');
-	body.appendChild(ul);
-	var n = data.length;
-	for (var i = 0; i < n; i++) {
-		var li = document.createElement('li');
-		li.textContent = data[i];
-		ul.appendChild('li');
-	};
-
-	var footer = document.createElement('cover-footer');
-	footer.classList.add('cover-footer');
-	content.appendChild(footer);
-
-	var a = document.createElement('a');
-	a.href = '/POS';
-	a.textContent = 'Administrar';
-	footer.appendChild(a);
-	a.onclick = function(){
-		sessionStorage.setItem('type-POS-view',id);	
-	}
+// Cover Gifts
+function coverGift(element,POS){
+  var n = POS.length;
+  for (var i = 0; i < n; i++) {
+    var p = POS[i];
+     //col
+    var col = document.createElement('div');
+    col.classList.add('col-md-2');
+    col.classList.add('col-sm-6');
+     //content
+    var content = document.createElement('div');
+    content.classList.add('cover-content');    
+    //header
+    var header = document.createElement('div')  ;
+    header.classList.add('cover-header');
+    var title = document.createElement('p');
+    title.textContent = p.name;   
+    header.appendChild(title);  
+     //body
+    var body = document.createElement('div');
+    body.classList.add('cover-body');
+    var ul = document.createElement('ul');   
+    var li = document.createElement('li');
+    li.textContent = p.location.address.address;
+    ul.appendChild(li);
+    li = document.createElement('li');
+    li.textContent = p.location.phone.number;
+    ul.appendChild(li);
+    li = document.createElement('li');
+    li.textContent = p.contact.name;
+    ul.appendChild(li);
+    body.appendChild(ul); 
+    //footer
+    var footer = document.createElement('div');
+    footer.classList.add('cover-footer');
+    var a = document.createElement('a');
+    a.href = '/POS';
+    a.textContent = 'Administrar';   
+    a.dataset.id = p.id;
+    a.onclick = function(){      
+      sessionStorage.setItem('type-POS-view',this.dataset.id); 
+    }
+    var icon = document.createElement('div');
+    icon.classList.add('fa');
+    icon.classList.add('fa-gift');
+    icon.classList.add(' fa-fw');
+    footer.appendChild(a);
+    //appends
+    content.appendChild(header);
+    content.appendChild(body);
+    content.appendChild(footer);      
+    col.appendChild(content);
+    element.appendChild(col);
+  };
 }
 </script>
 </body>

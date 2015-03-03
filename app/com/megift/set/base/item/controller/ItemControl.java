@@ -39,4 +39,23 @@ public class ItemControl extends Controller {
 			list.add(0, new Item(0, "--TIPO DE NEGOCIO--"));
 		return ok(Json.toJson(list).toString());
 	}
+
+	public static Result giftTypeList() {
+		List<Item> list = ItemLogic.listItemValue1(Master.GIFT_TYPE);
+		if (list != null)
+			list.add(0, new Item(0, "--TIPO DE REGALO--"));
+		return ok(Json.toJson(list).toString());
+	}
+
+	public static Result giftStatusList() {
+		List<Item> list = ItemLogic.listItemValue1(Master.GIFT_STATUS);
+		return ok(Json.toJson(list).toString());
+	}
+
+	public static Result actionTypeList() {
+		List<Item> list = ItemLogic.listItemValue1(Master.ACTION_TYPE);
+		if (list != null)
+			list.add(0, new Item(0, "--TIPO DE ACCIÓN--"));
+		return ok(Json.toJson(list).toString());
+	}
 }

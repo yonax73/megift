@@ -1,5 +1,5 @@
 @import resources._
-@nav(titlePage = "POS"){
+@nav(titlePage = "Puntos de venta"){
 
 <div  class="row">
 	<div class="col-md-12">
@@ -20,42 +20,79 @@
 <script>
   //loadPosByBusiness
   loadPosByBusiness();
-  //functions
-  function loadPosByBusiness(){
-  	var POSByBusinessXHR = new XHR('GET','/loadPOSByBusiness');
-  	POSByBusinessXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
-  	POSByBusinessXHR.onBeforeSend(function(){
-  		//POSBtn.disabled = true;
-  		//document.getElementById('POS-btn-ico').className = 'fa fa-spinner fa-spin';
-  	});
-  	POSByBusinessXHR.onReady(function (xhr) {   
-/*  		POSBtn.disabled = false;
-  		document.getElementById('POS-btn-ico').className = '';		                             
-  		notification.success('El punto de venta se guardo exitosamente!');
-  		if(typePOSView == 0){ //si el punto de venta es nuevo*/
-  			var cover = document.getElementById('cover-pos');
 
-  			try {
-  				var POS = JSON.parse(xhr.responseText);
-  				console.log(POS)
-  				var n = POS.length;
-  				cover.innerHTML = '';
-  				for (var i = 0; i <n; i++) {
-  					var p = POS[i];
-  					var data = new Array();
-  					data[0] = p.location.address.address;
-  					data[1] = p.location.phone.number;
-  					data[2] = p.contact.name;
-  					new coverPOS(cover,p.id,p.name,data);
-  				}
-  			} catch (e) {						
-  				cover.innerHTML = '<a href="/POS" onclick="newPOS()">No hay puntos de ventas, clic para comenzar</a>';
-  			}
-  		});
-  	POSByBusinessXHR.send();
+  function loadPosByBusiness(){
+    var cover = document.getElementById('cover-pos');
+    var POSByBusinessXHR = new XHR('GET','/loadPOSByBusiness');
+    POSByBusinessXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+    POSByBusinessXHR.onBeforeSend(function(){
+      cover.innerHTML = '<i class="fa fa-spinner fa-spin">Cargando...</i>';
+    });
+    POSByBusinessXHR.onReady(function (xhr) {   
+     try {
+      var POS = JSON.parse(xhr.responseText);  				
+      var n = POS.length;
+      cover.innerHTML = '';  
+      coverPOS(cover,POS);
+    } catch (e) {						
+      cover.innerHTML = '<a href="/POS" onclick="newPOS()">No hay puntos de ventas, clic para comenzar</a>';
+    }
+  });
+    POSByBusinessXHR.send();
 
   }
-
-  </script>
+// Cover Pos
+function coverPOS(element,POS){
+  var n = POS.length;
+  for (var i = 0; i < n; i++) {
+    var p = POS[i];
+     //col
+     var col = document.createElement('div');
+     col.classList.add('col-lg-2');
+     col.classList.add('col-md-4');
+     col.classList.add('col-sm-6');
+     //content
+     var content = document.createElement('div');
+     content.classList.add('cover-content');    
+    //header
+    var header = document.createElement('div')  ;
+    header.classList.add('cover-header');
+    var title = document.createElement('p');
+    title.textContent = p.name;   
+    header.appendChild(title);  
+     //body
+     var body = document.createElement('div');
+     body.classList.add('cover-body');
+     var ul = document.createElement('ul');   
+     var li = document.createElement('li');
+     li.textContent = p.location.address.address;
+     ul.appendChild(li);
+     li = document.createElement('li');
+     li.textContent = p.location.phone.number;
+     ul.appendChild(li);
+     li = document.createElement('li');
+     li.textContent = p.contact.name;
+     ul.appendChild(li);
+     body.appendChild(ul); 
+    //footer
+    var footer = document.createElement('div');
+    footer.classList.add('cover-footer');
+    var a = document.createElement('a');
+    a.href = '/POS';
+    a.textContent = 'Administrar';   
+    a.dataset.id = p.id;
+    a.onclick = function(){      
+      sessionStorage.setItem('type-POS-view',this.dataset.id); 
+    }
+    footer.appendChild(a);
+    //appends
+    content.appendChild(header);
+    content.appendChild(body);
+    content.appendChild(footer);      
+    col.appendChild(content);
+    element.appendChild(col);
+  };
 }
+</script>
+
 }

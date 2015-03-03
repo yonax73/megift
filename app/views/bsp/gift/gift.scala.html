@@ -1,0 +1,409 @@
+@import resources._
+@nav(titlePage = "Regalo"){
+<div class="row center">            
+	<h2 id="name-gift-title"></h2>   	
+	<div class="col-md-8">
+		<div class="row">
+			<div class="col-md-6">
+				<form id="picture-gift-form" class="form-horizontal form-picture">
+					<div class="form-group">
+						<div class="col-md-12">
+							<ul class="list-group text-center">
+								<li id="content-img-gift" class="list-group-item content-img">
+									<img src="@routes.Assets.at("images/gift/gift.png")"/>
+								</li>
+								<li >
+									<a id="picture-gift-upload" class="list-group-item" href="#picture-gift-upload"><i class="fa fa-upload fa-fw"></i>&nbsp; Imagen de regalo</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<input type="file" accept="image/*" id="picture-gift-select" name="picture" class="hidden" />
+				</form>
+			</div>
+			<div class="col-md-6">
+				<form id="picture-action-form" class="form-horizontal form-picture">
+					<div class="form-group">
+						<div class="col-md-12">
+							<ul class="list-group text-center">
+								<li id="content-img-action" class="list-group-item content-img">
+									<img src="@routes.Assets.at("images/gift/action.png")"/>
+								</li>
+								<li >
+									<a id="picture-action-upload" class="list-group-item" href="#picture-action-upload"><i class="fa fa-upload fa-fw"></i>&nbsp; Imagen de la acción</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<input type="file" accept="image/*" id="picture-action-select" name="picture" class="hidden" />
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<form id="gift-form" class="form-horizontal">
+				<fieldset class="col-md-6">
+					<legend>Datos del regalo</legend>
+					<div class="col-md-12">
+						<div class="form-group has-feedback">
+							<input type="text" class="form-control input-lg" name="id-pos-list" value="">
+							<span class="form-control-feedback"></span>
+							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group has-feedback"> 
+							<div  data-required="true" data-name="name-gift" data-required="true" placeholder="Nombre Regalo">
+								<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group has-feedback"> 
+							<div id="gift-type-list" data-required="true" data-name="gift-type" class="i-select i-select-lg i-select-dafault"></div>
+							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+						</div>
+					</div>
+					<div id="other-gift-type" class="col-md-12 hidden">
+						<div class="form-group has-feedback">
+							<input type="text" class="form-control input-lg" name="other-gift-type"  placeholder="Cual ?">
+							<span class="form-control-feedback"></span>
+							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group has-feedback">
+							<input type="text" class="form-control input-lg" name="price-gift"  data-required="true" data-money="true" placeholder="Valor Comercial">
+							<span class="form-control-feedback"></span>
+							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group has-feedback">
+							<input type="text" class="form-control input-lg" name="start-date-gift" data-required="true" data-date="dd-mm-yyyy" placeholder="Fecha inicio (dd-mm-yyyy)">
+							<span class="form-control-feedback"></span>
+							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group has-feedback">
+							<textarea class="form-control" rows="4" placeholder="Descripción del regalo"></textarea>
+							<span class="form-control-feedback"></span>
+							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group has-feedback"> 
+							<div id="gift-status-list" data-required="true" data-name="end-date-gift" data-required="true" data-date="dd-mm-yyyy" placeholder="Fecha Finalizacióon (dd-mm-yyyy)">
+								<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+							</div>
+						</div>
+					</div>
+					<div  class="col-md-12">
+						<div class="form-group has-feedback"> 
+							<button class="btn btn-default btn-block btn-lg" id="terms-and-conditions" href="#terms-and-conditions">
+								<i class="fa fa-plus fa-fw"></i>&nbsp; Terminos y condiciones
+							</button>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group has-feedback"> 
+							<div id="gift-status-list" data-required="true" data-name="gift-status" class="i-select i-select-lg i-select-dafault"></div>
+							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+						</div>
+					</div>
+				</fieldset>
+
+
+
+				<fieldset class="col-md-6">
+					<legend>Datos de la acción</legend>
+					<div class="col-md-12">
+						<div class="form-group has-feedback"> 
+							<div id="action-type-list" data-required="true" data-name="name-action" data-required="true" placeholder="Nombre de la acción">
+								<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group has-feedback"> 
+							<div id="action-type-list" data-required="true" data-name="action-type" class="i-select i-select-lg i-select-dafault"></div>
+							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group has-feedback">
+							<input type="text" class="form-control input-lg" name="other-action-type"  placeholder="Cual ?">
+							<span class="form-control-feedback"></span>
+							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group has-feedback">
+							<textarea class="form-control" rows="4" placeholder="Descripción de la acción"></textarea>
+							<span class="form-control-feedback"></span>
+							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+						</div>
+					</div>
+				</fieldset>
+				<div class="col-md-12 ">
+					<div class="form-group">
+						<button id="gift-Btn" type="submit" class="btn btn-success btn-lg btn-block">Guardar
+							<i id="gift-btn-ico"></i></button>
+						</div>
+					</div>    
+					<input type="hidden" id="id-gift" name="price-action"  data-required="true" data-money="true" placeholder="Valor Comercial de la acción">
+					<input type="hidden" id="id-action" name="id-gift" value="0">
+					<input type="hidden" id="id-pos-list" name="id-action" value="0">
+				</form>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="page-header">
+				<h4>Puntos de venta</h4>    
+			</div>		
+			<div class="row" id="cover-pos">
+				<a href="/POS" onclick="newPOS()">No hay puntos de ventas, clic para comenzar</a>
+			</div>
+		</div>
+	</div>
+
+}
+
+
+<script>
+//atributes
+var typeGiftView = sessionStorage.getItem('type-gift-view');
+var nameGiftitle = document.getElementById('name-gift-title');
+var idPOSList = new Array();
+var OTHER_TYPE_ACTION = 14;
+var OTHER_TYPE_GIFT = 24;
+
+//gift type list
+var giftType = new Select(document.getElementById('gift-type-list'),'/giftTypeList',function(){giftType.selectItem(0)});
+//gift status
+var giftStatus = new Select(document.getElementById('gift-status-list'),'/giftStatusList',function(){giftStatus.selectItem(27)});
+//action type list
+var actionType = new Select(document.getElementById('action-type-list'),'/actionTypeList',function(){actionType.selectItem(0)});
+//forms
+var giftForm = new Form(document.getElementById('gift-form'));
+//buttonss
+var giftBtn = document.getElementById('gift-Btn');
+//select other type gift
+giftType.onchange(function(){    
+    if(giftType.getOption()==OTHER_TYPE_GIFT){//other type
+    	var otherGiftType = document.getElementById('other-gift-type');
+    	if(otherGiftType.classList.contains('hidden')){
+    		otherGiftType.classList.remove('hidden');
+    		otherGiftType.classList.add('show');
+    	} 
+    }else{
+    	var otherGiftType = document.getElementById('other-gift-type');
+    	if(otherGiftType.classList.contains('show')){
+    		otherGiftType.classList.remove('show');
+    		otherGiftType.classList.add('hidden');
+    	} 
+    }
+});
+//select other type gift
+actionType.onchange(function(){    
+    if(actionType.getOption()==OTHER_TYPE_GIFT){//other type
+    	var otherActionType = document.getElementById('other-action-type');
+    	if(otherActionType.classList.contains('hidden')){
+    		otherActionType.classList.remove('hidden');
+    		otherActionType.classList.add('show');
+    	} 
+    }else{
+    	var otherActionType = document.getElementById('other-action-type');
+    	if(otherActionType.classList.contains('show')){
+    		otherActionType.classList.remove('show');
+    		otherActionType.classList.add('hidden');
+    	} 
+    }
+});
+ if(typeGiftView>0){//Adminstrar gift
+    //load data
+    //loadPOS(); 
+
+    //add events for images, pos and terms and conditions
+
+ }else{//Crear gift 	
+ 	nameGiftitle.textContent = 'Crear Regalo';
+    //remove sessionStorage
+    sessionStorage.removeItem('type-gift-view');
+    //disabled controls
+    document.getElementById('content-img-gift').classList.add('disabled');
+    document.getElementById('picture-gift-upload').classList.add('disabled');
+    document.getElementById('content-img-action').classList.add('disabled');
+    document.getElementById('picture-action-upload').classList.add('disabled');
+    document.getElementById('terms-and-conditions').classList.add('disabled');
+
+}
+//load pos by business
+loadPosByBusiness();
+function loadPosByBusiness(){
+	var cover = document.getElementById('cover-pos');
+	var POSByBusinessXHR = new XHR('GET','/loadPOSByBusiness');
+	POSByBusinessXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+	POSByBusinessXHR.onBeforeSend(function(){
+		cover.innerHTML = '<i class="fa fa-spinner fa-spin"></i>  Cargando...';
+	});
+	POSByBusinessXHR.onReady(function (xhr) {   
+		try {
+			var POS = JSON.parse(xhr.responseText);  				
+			var n = POS.length;
+			cover.innerHTML = '';  
+			coverPOS(cover,POS);
+		} catch (e) {						
+			cover.innerHTML = '<a href="/POS" onclick="newPOS()">No hay puntos de ventas, clic para comenzar</a>';
+		}
+	});
+	POSByBusinessXHR.send();
+
+}
+//form POS
+giftForm.onsubmit(function(){
+	if(giftForm.isValid()){
+		var giftXHR = new XHR('POST','/saveGift');
+		giftXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+		giftXHR.onBeforeSend(function(){
+			giftBtn.disabled = true;
+			document.getElementById('gift-btn-ico').className = 'fa fa-spinner fa-spin';
+		});
+		giftXHR.onReady(function (xhr) {   
+			giftBtn.disabled = false;
+			document.getElementById('gift-btn-ico').className = '';	
+		/*	try {
+				var POS = JSON.parse(xhr.responseText);
+				typeGiftView = POS.id;
+				nameGiftitle.textContent = POS.name;
+					    //fill ids			
+					    document.getElementsByName('id-POS')[0].value = POS.id;					
+					    document.getElementsByName('id-contact')[0].value = POS.contact.id;					
+					    document.getElementsByName('id-phone-pos')[0].value = POS.location.phone.id;					
+					    document.getElementsByName('id-address-pos')[0].value = POS.location.address.id;					
+					    document.getElementsByName('id-location-pos')[0].value = POS.location.id;					
+					    document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;	
+					    notification.success('El punto de venta se guardo exitosamente!');				
+					} catch (e) {						
+						notification.danger(xhr.responseText);
+					}*/
+				});
+		giftXHR.send(giftForm.serialize());
+	}
+});
+//load POS
+function loadPOS(){
+    //load data
+    var loadgiftXHR = new XHR('GET','/loadPOS?id='+typeGiftView);
+    loadgiftXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+    loadgiftXHR.onBeforeSend(function(){
+    	nameGiftitle.textContent = 'Cargando datos del Punto de Venta';
+    });
+    loadgiftXHR.onReady(function (xhr) {       	
+    	var POS = JSON.parse(xhr.responseText);
+    	nameGiftitle.textContent = POS.name;
+
+    	document.getElementsByName('name-POS')[0].value =  POS.name;
+    	document.getElementsByName('name-contact')[0].value = POS.contact.name;
+    	document.getElementsByName('phone-pos')[0].value =  POS.location.phone.number;
+    	document.getElementsByName('extension-phone-pos')[0].value = POS.location.phone.extension;
+    	document.getElementsByName('mobile-phone-pos')[0].value = POS.location.phone.mobile;
+    	document.getElementsByName('address-pos')[0].value = POS.location.address.address;
+    	document.getElementsByName('longitude-address-pos')[0].value = POS.location.address.geolocation.longitude;
+    	document.getElementsByName('latitude-address-pos')[0].value = POS.location.address.geolocation.latitude;
+    	document.getElementsByName('id-POS')[0].value = POS.id;
+    	document.getElementsByName('id-contact')[0].value = POS.contact.id;
+    	document.getElementsByName('id-phone-pos')[0].value = POS.location.phone.id;
+    	document.getElementsByName('id-address-pos')[0].value = POS.location.address.id;
+    	document.getElementsByName('id-location-pos')[0].value = POS.location.id;
+    	document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;
+
+    });
+loadgiftXHR.send();
+}
+
+//cover pos
+function coverPOS(element,POS){
+	var n = POS.length;
+	for (var i = 0; i < n; i++) {
+		var p = POS[i];
+     //col
+     var col = document.createElement('div');
+     col.classList.add('col-lg-6');
+     col.classList.add('col-md-6');
+     col.classList.add('col-sm-4');
+     //content
+     var content = document.createElement('div');
+     content.classList.add('cover-content');    
+    //header
+    var header = document.createElement('div')  ;
+    header.classList.add('cover-header');
+    var icon = document.createElement('i');
+    icon.classList.add('fa');
+    icon.classList.add('fa-gift');
+    icon.classList.add('fa-fw');     
+    icon.classList.add('hidden');  
+    icon.id= p.id;   
+    header.appendChild(icon); 
+    var title = document.createElement('span');
+    title.textContent = p.name;   
+    header.appendChild(title);  
+
+     //body
+     var body = document.createElement('div');
+     body.classList.add('cover-body');
+     var ul = document.createElement('ul');   
+     var li = document.createElement('li');
+     li.textContent = p.location.address.address;
+     ul.appendChild(li);
+     li = document.createElement('li');
+     li.textContent = p.location.phone.number;
+     ul.appendChild(li);
+     li = document.createElement('li');
+     li.textContent = p.contact.name;
+     ul.appendChild(li);
+     body.appendChild(ul); 
+    //footer
+    var footer = document.createElement('div');
+    footer.classList.add('cover-footer');
+    footer.classList.add('cover-add-gift');
+    var a = document.createElement('a');
+    a.href = '#';
+    a.dataset.id = p.id;   
+    a.onclick = function(e){  
+    	e.preventDefault();
+    	var parent =this.parentNode;
+    	if(parent.classList.contains('cover-add-gift')){
+    		parent.classList.remove('cover-add-gift');
+    		parent.classList.add('cover-remove-gift');
+    		this.getElementsByClassName('cover-text-content')[0].textContent ='Remover regalo';
+    		document.getElementById(this.dataset.id).classList.remove('hidden');
+    		idPOSList.push(this.dataset.id);
+    	}else{
+    		parent.classList.remove('cover-remove-gift');
+    		parent.classList.add('cover-add-gift');
+    		this.getElementsByClassName('cover-text-content')[0].textContent ='Asociar regalo';
+    		document.getElementById(this.dataset.id).classList.add('hidden');
+    		var index = idPOSList.indexOf(this.dataset.id);
+    		if(index >-1){
+    			idPOSList.splice(index,1);
+    		}    		
+    	}
+    	document.getElementById('id-pos-list').value = idPOSList.join();
+    }
+
+    var span = document.createElement('span');
+    span.classList.add('cover-text-content');
+    span.textContent='Asociar regalo';
+    a.appendChild(span);     
+    footer.appendChild(a);
+    //appends
+    content.appendChild(header);
+    content.appendChild(body);
+    content.appendChild(footer);      
+    col.appendChild(content);
+    element.appendChild(col);
+};
+}
+
+</script>

@@ -52,9 +52,8 @@ public class POSLogic {
 	 * @param pos
 	 * @return
 	 */
-	public static POS Load(POS pos) {
-		// TODO Auto-generated method stub
-		return null;
+	public static POS load(POS pos) {
+		return POSDao.load(pos);
 	}
 
 }

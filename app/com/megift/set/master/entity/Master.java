@@ -17,6 +17,9 @@ public class Master extends Entity {
 
 	public static final int DOCUMENT_TYPE = 3;
 	public static final int BUSINESS_TYPE = 2;
+	public static final int GIFT_STATUS = 7;
+	public static final int GIFT_TYPE = 6;
+	public static final int ACTION_TYPE = 5;
 	/**
      * 
      */

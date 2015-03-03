@@ -19,6 +19,7 @@ import com.megift.bsp.pos.entity.POS;
 import com.megift.resources.base.Dao;
 import com.megift.set.location.address.entity.Address;
 import com.megift.set.location.entity.Location;
+import com.megift.set.location.geolocation.entity.Geolocation;
 import com.megift.set.location.phone.entity.Phone;
 
 /**
@@ -122,13 +123,55 @@ public class POSDao extends Dao {
 				} while (rs.next());
 			}
 		} catch (Exception e) {
-			Logger.error("An error has been occurred trying to load the users.\n" + e.getMessage(), e);
+			Logger.error("An error has been occurred trying to load the POS List.\n" + e.getMessage(), e);
 		} finally {
 			if (cst != null)
 				cst = null;
 			close(conn);
 		}
 		return POSList;
+	}
+
+	/**
+	 * @param pos
+	 * @return
+	 */
+	public static POS load(POS pos) {
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = DB.getConnection();
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("{CALL sp_bsp_POS_LOAD(?)}");
+			cst.setInt(1, pos.getId());
+			rs = cst.executeQuery();
+			if (rs.next()) {
+				pos.setName(rs.getString(1));
+				Location location = new Location(rs.getInt(2));
+				Phone phone = new Phone(rs.getInt(3));
+				phone.setNumber(rs.getString(4));
+				phone.setExtension(rs.getString(5));
+				phone.setMobile(rs.getString(6));
+				Address address = new Address(rs.getInt(7));
+				address.setAddress(rs.getString(8));
+				Geolocation geolocation = new Geolocation(rs.getInt(9));
+				geolocation.setLongitude(rs.getDouble(10));
+				geolocation.setLatitude(rs.getInt(11));
+				address.setGeolocation(geolocation);
+				location.setAddress(address);
+				location.setPhone(phone);
+				pos.setLocation(location);
+				pos.setContact(new Partner(rs.getString(12)));
+				pos.getContact().setId(rs.getInt(13));
+			}
+		} catch (Exception e) {
+			Logger.error("An error has been occurred tryning loading the POS.\n" + e.getMessage(), e);
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return pos;
 	}
 
 }
