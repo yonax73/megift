@@ -19,9 +19,9 @@
 <body class="i-ease-in i-1s i-fade-in">
 	<div class="i-popup-mask hidden"></div>
 
-    <section class="container-fluid">
-    	<div class="col-md-12 center"><div id="notification"></div>
-    </section>
+	<section class="container-fluid">
+		<div class="col-md-12 center"><div id="notification"></div>
+	</section>
 	<section class="container-fluid">@content</section>
 	
 	<script>
@@ -42,7 +42,7 @@ function registerBusiness(){
 }
 //new POS
 function newPOS(){
- sessionStorage.setItem('type-POS-view',0);	
+	sessionStorage.setItem('type-POS-view',0);	
 }
 //change value of checkbox element
 function changeValueCheckbox(element){
@@ -50,6 +50,46 @@ function changeValueCheckbox(element){
 		element.value='on';
 	}else{
 		element.value='off';
+	}
+}
+
+function coverPOS(element,id,name,data){
+
+	var col = document.createElement('div');
+	col.classList.add('col-md-2 col-sm-6');
+	element.appendChild(col);
+
+	var content = document.createElement('div');
+	content.classList.add('cover-content');
+	col.appendChild(content);
+
+	var title = document.createElement('p');
+	title.textContent = name;
+	content.appendChild(title);
+
+	var body = document.createElement('div');
+	body.classList.add('cover-body');
+	content.appendChild(body);
+
+	var ul = document.createElement('ul');
+	body.appendChild(ul);
+	var n = data.length;
+	for (var i = 0; i < n; i++) {
+		var li = document.createElement('li');
+		li.textContent = data[i];
+		ul.appendChild('li');
+	};
+
+	var footer = document.createElement('cover-footer');
+	footer.classList.add('cover-footer');
+	content.appendChild(footer);
+
+	var a = document.createElement('a');
+	a.href = '/POS';
+	a.textContent = 'Administrar';
+	footer.appendChild(a);
+	a.onclick = function(){
+		sessionStorage.setItem('type-POS-view',id);	
 	}
 }
 </script>

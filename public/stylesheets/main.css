@@ -1,53 +1,53 @@
 @import url(http://fonts.googleapis.com/css?family=Bad+Script);
 .font-theme,h1,h3{
-   font-family: 'Bad Script', cursive;
+ font-family: 'Bad Script', cursive;
 }
 .bg-landing-page{	  
-    background-attachment: fixed;
-    background-image: url("https://cdn.rawgit.com/yonaxTics/megift/master/public/images/home/megitf_lp.jpg");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100%;
-    left: 0;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;    
+  background-attachment: fixed;
+  background-image: url("https://cdn.rawgit.com/yonaxTics/megift/master/public/images/home/megitf_lp.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;    
 }
 .bg-landing-page-mobile{
 	height: auto;
 }
 .bg-overlay{
-    background-color: rgba(0, 0, 0, 0.05);
-    height: 100%;
-    width: 100%;
+  background-color: rgba(0, 0, 0, 0.05);
+  height: 100%;
+  width: 100%;
 }
 .logo{	
 	padding-bottom:1em;
 	text-align: center;
 }
 .logo img {
-    border: medium none;
-    height: 8em;
-    padding: 0.5em;
-    width: 18em;
+  border: medium none;
+  height: 8em;
+  padding: 0.5em;
+  width: 18em;
 }
 .text-landing-page{	
-    color: white;   
-    font-size: 3.5em;
-    font-weight: bold;
-    text-align: center;
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  color: white;   
+  font-size: 3.5em;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 .text-landing-page-small{
-    font-size: 2.5em;	
+  font-size: 2.5em;	
 }
 .center{
 	display: table;
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .form-control-lg,.btn-lg{
@@ -86,10 +86,10 @@
 }
 
 .text-muted {
-    color: #363636;
+  color: #363636;
 }
 #popup-register-success {
-    border-bottom: 0.2em solid #eb4646;
+  border-bottom: 0.2em solid #eb4646;
 }
 #popup-register-success h3{
   text-indent: 2em;
@@ -134,7 +134,7 @@
 
 /*COVER BLOCK*/
 .cover-content{
-   border: 1px solid rgb(210, 210, 210);margin-bottom: 1.5em;
+ border: 1px solid rgb(210, 210, 210);margin-bottom: 1.5em;
 }
 .cover-header{
   background-color: #fff;
@@ -143,8 +143,11 @@
   padding: 0.5em 0.3em 0;
 }
 .cover-body{
-    padding: 0.5em; background-color: rgb(255, 255, 255);
+  padding: 0.5em; background-color: rgb(255, 255, 255);
+}
+.cover-body ul{
+  list-style: outside none none; margin: 0px; padding: 0.2em;
 }
 .cover-footer{
-    border-top: 1px solid rgb(210, 210, 210); background-color:#f6f6f6;  padding: 0.5em;
+  border-top: 1px solid rgb(210, 210, 210); background-color:#f6f6f6;  padding: 0.5em;
 }
