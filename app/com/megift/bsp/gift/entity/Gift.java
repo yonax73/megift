@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.megift.bsp.action.entity.Action;
+import com.megift.bsp.pos.entity.POS;
 import com.megift.bsp.relationgiftpos.entity.RelationGiftPOS;
 import com.megift.bsp.term_and_condition.TermAndCondition;
 import com.megift.resources.base.Entity;
@@ -39,6 +40,8 @@ public class Gift extends Entity {
 	private String description;
 	private List<Picture> pictures;
 	private List<TermAndCondition> termsAndConditions;
+	private List<POS> posList;
+
 	private List<RelationGiftPOS> giftPOSList;
 
 	/**
@@ -172,11 +175,26 @@ public class Gift extends Entity {
 	}
 
 	public List<RelationGiftPOS> getGiftPOSList() {
-	    return giftPOSList;
-    }
+		return giftPOSList;
+	}
 
 	public void setGiftPOSList(List<RelationGiftPOS> giftPOSList) {
-	    this.giftPOSList = giftPOSList;
-    }
+		this.giftPOSList = giftPOSList;
+	}
+
+	/**
+	 * @return the posList
+	 */
+	public List<POS> getPosList() {
+		return posList;
+	}
+
+	/**
+	 * @param posList
+	 *            the posList to set
+	 */
+	public void setPosList(List<POS> posList) {
+		this.posList = posList;
+	}
 
 }

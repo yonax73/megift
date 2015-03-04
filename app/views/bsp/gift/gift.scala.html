@@ -1,8 +1,20 @@
 @import resources._
 @nav(titlePage = "Regalo"){
-<div class="row center">            
-	<h2 id="name-gift-title"></h2>   	
-	<div class="col-md-7">
+<div class="row row-centered">            
+	<h2 id="name-gift-title"></h2> 	  	
+	<div class="col-md-9 col-centered">
+		<div class="row">
+			<div class="col-md-12 ">				
+				<div class="btn-group btn-group-lg pull-right" >
+					<button class="btn btn-default btn-lg" id="terms-and-conditions">
+						<i class="fa fa-file-text-o fa-fw"></i>&nbsp; Terminos y condiciones
+					</button>
+					<button class="btn btn-default btn-lg" id="pos-list">
+						<i class="fa fa-cart-plus fa-fw"></i>&nbsp; Agregar a puntos de venta
+					</button>
+				</div>
+			</div>
+		</div><br>
 		<div class="row">
 			<div class="col-md-6">
 				<form id="picture-gift-form" class="form-horizontal form-picture">
@@ -13,7 +25,7 @@
 									<img src="@routes.Assets.at("images/gift/gift.png")"/>
 								</li>
 								<li >
-									<a id="picture-gift-upload" class="list-group-item" href="#picture-gift-upload"><i class="fa fa-upload fa-fw"></i>&nbsp; Imagen de regalo</a>
+									<button id="picture-gift-upload" class="btn list-group-item" ><i class="fa fa-upload fa-fw"></i>&nbsp; Imagen de regalo</button>
 								</li>
 							</ul>
 						</div>
@@ -30,7 +42,7 @@
 									<img src="@routes.Assets.at("images/gift/action.png")"/>
 								</li>
 								<li >
-									<a id="picture-action-upload" class="list-group-item" href="#picture-action-upload"><i class="fa fa-upload fa-fw"></i>&nbsp; Imagen de la acción</a>
+									<button id="picture-action-upload" class="btn list-group-item" href="#picture-action-upload"><i class="fa fa-upload fa-fw"></i>&nbsp; Imagen de la acción</button>
 								</li>
 							</ul>
 						</div>
@@ -93,15 +105,8 @@
 					</div>
 					<div class="col-md-12">
 						<div class="form-group has-feedback"> 
-							<div id="gift-status-list" data-name="gif-status-list" data-required="true"  class="i-select i-select-lg i-select-dafault"></div>
+							<div id="gift-status-list" data-name="gift-status" data-required="true"  class="i-select i-select-lg i-select-dafault"></div>
 							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-						</div>
-					</div>					
-					<div  class="col-md-12">
-						<div class="form-group has-feedback"> 
-							<button class="btn btn-default btn-block btn-lg" id="terms-and-conditions" href="#terms-and-conditions">
-								<i class="fa fa-plus fa-fw"></i>&nbsp; Terminos y condiciones
-							</button>
 						</div>
 					</div>
 					<div class="col-md-12">
@@ -154,260 +159,212 @@
 							<i id="gift-btn-ico"></i></button>
 						</div>
 					</div>    
-					<input type="hidden" id="id-gift" name="price-action"  data-required="true" data-money="true" placeholder="Valor Comercial de la acción">
-					<input type="hidden" id="id-action" name="id-gift" value="0">
-					<input type="hidden" id="id-pos-list" name="id-action" value="0">
+					<input type="hidden" id="id-gift" name="id-gift"  value="0">
+					<input type="hidden" id="id-action" name="id-action" value="0">
+					<input type="hidden" id="id-pos-list" name="id-pos-list" value="0">
 				</form>
 			</div>
 		</div>
-		<div class="col-md-5">
-			<div class="page-header">
-				<h2>Puntos de venta</h2>    
-			</div>		
-			<div class="row" id="cover-pos">
-				<a href="/POS" onclick="newPOS()">No hay puntos de ventas, clic para comenzar</a>
-			</div>
-		</div>
 	</div>
+	<div>
+		<div  id="create-gift-popup" class="i-popup-panel i-popup-danger hidden">   			
+			<h2 >Crear regalo</h2>    
+			<p>Para empezar debes seleccionar mínimo un punto de venta para ofrecer el regalo.</p>								
+			<div>
+				<form id="create-gift-form" class="form-horizontal">
+					<fieldset>
+						<legend>Puntos de venta</legend>						
+						<div id="cover-check-pos" class="i-group-checkbox has-feedback" data-checkmin="1"></div>
+					</fieldset>
+					<button id="create-gift-btn" type="submit" class="btn btn-danger btn-lg pull-right">Continuar
+						<i id="create-gift-btn-ico"></i></button>
+					</form>
+				</div>
 
-}
+			</div>
+			<!-- cover gift check example -->
+<!-- 		<div class="col-md-2">
+			<div class="form-group i-checkbox-horizontal cover-check cover-check-gift">
+				<span class="i-checkbox i-checkbox-toolbar i-checkbox-right i-checkbox-toolbar-default">
+					<input type="checkbox" id="data-remember-1" checked="checked">
+					<label for="data-remember-1">
+						<div class="cover-check-header">Nombre POS</div>
+						<div class="cover-check-body">
+							<ul>
+								<li>Direccion</li>
+								<li>Telefono</li>
+								<li>Contacto</li>
+							</ul>
+						</div>
+					</label>
+				</span>
+			</div>
+		</div> -->
+		<script>
+		//atributtes
+		var createGiftPopup = new Popup(document.getElementById('create-gift-popup'));
+		
+		var typeGiftView = sessionStorage.getItem('type-gift-view');
+		//functions
+		init();
+		
 
+		function init(){
 
-<script>
-//atributes
-var typeGiftView = sessionStorage.getItem('type-gift-view');
-var nameGiftitle = document.getElementById('name-gift-title');
-var idPOSList = new Array();
-var OTHER_TYPE_ACTION = 14;
-var OTHER_TYPE_GIFT = 24;
+		  	 if(typeGiftView>0){//Adminstrar gift
+		    //load data
+		    //loadPOS(); 
 
-//gift type list
-var giftType = new Select(document.getElementById('gift-type-list'),'/giftTypeList',function(){giftType.selectItem(0)});
-//gift status
-var giftStatus = new Select(document.getElementById('gift-status-list'),'/giftStatusList',function(){giftStatus.selectItem(27)});
-//action type list
-var actionType = new Select(document.getElementById('action-type-list'),'/actionTypeList',function(){actionType.selectItem(0)});
-//forms
-var giftForm = new Form(document.getElementById('gift-form'));
-//buttonss
-var giftBtn = document.getElementById('gift-Btn');
-//select other type gift
-giftType.onchange(function(){    
-    if(giftType.getOption()==OTHER_TYPE_GIFT){//other type
-    	var otherGiftType = document.getElementById('other-gift-type');
-    	if(otherGiftType.classList.contains('hidden')){
-    		otherGiftType.classList.remove('hidden');
-    		otherGiftType.classList.add('show');
-    	} 
-    }else{
-    	var otherGiftType = document.getElementById('other-gift-type');
-    	if(otherGiftType.classList.contains('show')){
-    		otherGiftType.classList.remove('show');
-    		otherGiftType.classList.add('hidden');
-    	} 
-    }
-});
-//select other type action
-actionType.onchange(function(){    
-    if(actionType.getOption()==OTHER_TYPE_ACTION){//other type
-    	var otherActionType = document.getElementById('other-action-type');
-    	if(otherActionType.classList.contains('hidden')){
-    		otherActionType.classList.remove('hidden');
-    		otherActionType.classList.add('show');
-    	} 
-    }else{
-    	var otherActionType = document.getElementById('other-action-type');
-    	if(otherActionType.classList.contains('show')){
-    		otherActionType.classList.remove('show');
-    		otherActionType.classList.add('hidden');
-    	} 
-    }
-});
- if(typeGiftView>0){//Adminstrar gift
-    //load data
-    //loadPOS(); 
+		    //add events for images, pos and terms and conditions
 
-    //add events for images, pos and terms and conditions
+		 }else{//Crear gift 	
+		 	openCreateGiftPopup();
+		 	/*nameGiftitle.textContent = 'Crear Regalo';*/
+		    //remove sessionStorage
+		    //sessionStorage.removeItem('type-gift-view');
+		    //disabled controls
+		 /*   document.getElementById('picture-gift-upload').disabled = true;
+		    document.getElementById('picture-action-upload').disabled = true;
+		    document.getElementById('terms-and-conditions').disabled = true;*/
 
- }else{//Crear gift 	
- 	nameGiftitle.textContent = 'Crear Regalo';
-    //remove sessionStorage
-    sessionStorage.removeItem('type-gift-view');
-    //disabled controls
-    document.getElementById('content-img-gift').classList.add('disabled');
-    document.getElementById('picture-gift-upload').classList.add('disabled');
-    document.getElementById('content-img-action').classList.add('disabled');
-    document.getElementById('picture-action-upload').classList.add('disabled');
-    document.getElementById('terms-and-conditions').classList.add('disabled');
-    giftStatus.setDisabled(true);
-
-}
-//load pos by business
-loadPosByBusiness();
-function loadPosByBusiness(){
-	var cover = document.getElementById('cover-pos');
-	var POSByBusinessXHR = new XHR('GET','/loadPOSByBusiness');
-	POSByBusinessXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
-	POSByBusinessXHR.onBeforeSend(function(){
-		cover.innerHTML = '<i class="fa fa-spinner fa-spin"></i>  Cargando...';
-	});
-	POSByBusinessXHR.onReady(function (xhr) {   
-		try {
-			var POS = JSON.parse(xhr.responseText);  				
-			var n = POS.length;
-			cover.innerHTML = '';  
-			coverPOS(cover,POS);
-		} catch (e) {						
-			cover.innerHTML = '<a href="/POS" onclick="newPOS()">No hay puntos de ventas, clic para comenzar</a>';
 		}
-	});
-	POSByBusinessXHR.send();
 
-}
-//form POS
-giftForm.onsubmit(function(){
-	if(giftForm.isValid()){
-		var giftXHR = new XHR('POST','/saveGift');
-		giftXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
-		giftXHR.onBeforeSend(function(){
-			giftBtn.disabled = true;
-			document.getElementById('gift-btn-ico').className = 'fa fa-spinner fa-spin';
-		});
-		giftXHR.onReady(function (xhr) {   
-			giftBtn.disabled = false;
-			document.getElementById('gift-btn-ico').className = '';	
-		/*	try {
-				var POS = JSON.parse(xhr.responseText);
-				typeGiftView = POS.id;
-				nameGiftitle.textContent = POS.name;
-					    //fill ids			
-					    document.getElementsByName('id-POS')[0].value = POS.id;					
-					    document.getElementsByName('id-contact')[0].value = POS.contact.id;					
-					    document.getElementsByName('id-phone-pos')[0].value = POS.location.phone.id;					
-					    document.getElementsByName('id-address-pos')[0].value = POS.location.address.id;					
-					    document.getElementsByName('id-location-pos')[0].value = POS.location.id;					
-					    document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;	
-					    notification.success('El punto de venta se guardo exitosamente!');				
-					} catch (e) {						
-						notification.danger(xhr.responseText);
-					}*/
-				});
-		giftXHR.send(giftForm.serialize());
+		function openCreateGiftPopup(){
+			var coverCheckPos = document.getElementById('cover-check-pos');
+			var createGiftFormXHR = new XHR('GET','/loadPOSByBusiness');
+			createGiftFormXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+			createGiftFormXHR.onBeforeSend(function(){
+				coverCheckPos.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+			});
+			createGiftFormXHR.onReady(function (xhr) {   
+				try {
+					var pos = JSON.parse(xhr.responseText); 					
+					coverCheckPos.innerHTML = '';  
+					fillCoverCheckPos(coverCheckPos,'id-pos',pos);
+					createGift();
+					createGiftPopup.show();
+				} catch (e) {			
+					console.log(e)
+					coverCheckPos.innerHTML = '<a href="/POS" onclick="newPOS()">No hay puntos de ventas, clic para comenzar</a>';
+				}
+			});
+			createGiftFormXHR.send();	
+		}
 	}
-});
-//load POS
-function loadPOS(){
-    //load data
-    var loadgiftXHR = new XHR('GET','/loadPOS?id='+typeGiftView);
-    loadgiftXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
-    loadgiftXHR.onBeforeSend(function(){
-    	nameGiftitle.textContent = 'Cargando datos del Punto de Venta';
-    });
-    loadgiftXHR.onReady(function (xhr) {       	
-    	var POS = JSON.parse(xhr.responseText);
-    	nameGiftitle.textContent = POS.name;
 
-    	document.getElementsByName('name-POS')[0].value =  POS.name;
-    	document.getElementsByName('name-contact')[0].value = POS.contact.name;
-    	document.getElementsByName('phone-pos')[0].value =  POS.location.phone.number;
-    	document.getElementsByName('extension-phone-pos')[0].value = POS.location.phone.extension;
-    	document.getElementsByName('mobile-phone-pos')[0].value = POS.location.phone.mobile;
-    	document.getElementsByName('address-pos')[0].value = POS.location.address.address;
-    	document.getElementsByName('longitude-address-pos')[0].value = POS.location.address.geolocation.longitude;
-    	document.getElementsByName('latitude-address-pos')[0].value = POS.location.address.geolocation.latitude;
-    	document.getElementsByName('id-POS')[0].value = POS.id;
-    	document.getElementsByName('id-contact')[0].value = POS.contact.id;
-    	document.getElementsByName('id-phone-pos')[0].value = POS.location.phone.id;
-    	document.getElementsByName('id-address-pos')[0].value = POS.location.address.id;
-    	document.getElementsByName('id-location-pos')[0].value = POS.location.id;
-    	document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;
+	function createGift(){
+		var createGiftForm = new Form(document.getElementById('create-gift-form'));
+		createGiftForm.onsubmit(function(){
+			if(createGiftForm.isValid()){
+	/*			var createGiftBtn = document.getElementById('create-gift-btn');
+				var createGiftBtnIcon = document.getElementById('create-gift-btn-ico');
+				var createGiftFormXHR = new XHR('POST','/createGift');
+				createGiftFormXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+				createGiftFormXHR.onBeforeSend(function(){
+					createGiftBtn.disabled = true;
+					createGiftBtnIcon.className = 'fa fa-spinner fa-spin';
+				});
+				createGiftFormXHR.onReady(function (xhr) {   
+					if(xhr.responseText >0){                                 
+						//load data by this gift
+						console.log(xhr.responseText);
+						createGiftPopup.closeAll();
+					}else{
+						var msg = document.getElementById('create-gift-popup-msg');			
+						msg.textContent = xhr.responseText;
+						if(msg.classList.contains('hidden')){
+							msg.classList.remove('hidden');
+						}
+					}
+				});
+				createGiftFormXHR.send(createGiftForm.serialize());	*/
+				alert('ok');
+			}else{alert('error')}
+		})
+	}
 
-    });
-loadgiftXHR.send();
-}
+	function fillCoverCheckPos(element,name,pos){
+		var n = pos.length;
+		for (var i = 0; i < n; i++) {
+			var p = pos[i];
+			var idElelement = 'cover-check-gift-'+p.id;
+				//ul
+				var ul = document.createElement('ul');
+		        //li
+		        var li = document.createElement('li');
+		        li.textContent = p.location.address.address;
+		        ul.appendChild(li);
+		        li = document.createElement('li');
+		        li.textContent = p.location.phone.number;
+		        ul.appendChild(li);
+		        li = document.createElement('li');
+		        li.textContent = p.contact.name;
+		        ul.appendChild(li);
+				//cover check body
+				var coverCheckBody = document.createElement('div');
+				coverCheckBody.classList.add('cover-check-body');
+				coverCheckBody.appendChild(ul); 
+				//cover check header
+				var coverCheckHeader = document.createElement('div');
+				coverCheckHeader.classList.add('cover-check-header');
+				coverCheckHeader.textContent = p.name;
+		       //label
+		       var label = document.createElement('label');
+		       label.setAttribute('for',idElelement);
+		       label.appendChild(coverCheckHeader);
+		       label.appendChild(coverCheckBody);
+		       //input
+		       var input = document.createElement('input');
+		       input.type = 'checkbox';
+		       input.id = idElelement;
+		       input.name = name;
+		       input.value = p.id;
+		       //span
+		       var span = document.createElement('span');
+		       span.classList.add('i-checkbox');
+		       span.classList.add('i-checkbox-toolbar');
+		       span.classList.add('i-checkbox-right');
+		       span.classList.add('i-checkbox');
+		       span.classList.add('i-checkbox-toolbar-default');
+		       span.appendChild(input);
+		       span.appendChild(label);
+		       //group
+		       var group = document.createElement('div');
+		       group.classList.add('form-group');
+		       group.classList.add('i-checkbox-horizontal');
+		       group.classList.add('cover-check');
+		       group.classList.add('cover-check-gift');
+		       group.appendChild(span);
+		       //colunm
+		       var col = document.createElement('div');
+		       col.classList.add('col-lg-2');
+		       col.classList.add('col-md-2');
+		       col.classList.add('col-sm-4')
+		       col.appendChild(group);		      
+		       //element
+		       element.appendChild(col);
+		   }		   
+		    //small		       
+		    var msg = document.createElement('small');
+		    msg.classList.add('i-form-error-msg');
+		    msg.classList.add('text-danger');
+		    msg.classList.add('hidden');
+		    msg.id = 'create-gift-popup-msg';
+		    msg.textContent = 'seleccion como mínimo un punto de venta';
+		    //columns
+		    var col = document.createElement('div');
+		    col.classList.add('col-md-12');
+		    col.appendChild(msg);
+		    //row
+		    var row = document.createElement('div');
+		    row.classList.add('row');
+		    row.appendChild(col);		    
+		    element.appendChild(row);
+		}
 
-//cover pos
-function coverPOS(element,POS){
-	var n = POS.length;
-	for (var i = 0; i < n; i++) {
-		var p = POS[i];
-     //col
-     var col = document.createElement('div');
-     col.classList.add('col-lg-6');
-     col.classList.add('col-md-6');
-     col.classList.add('col-sm-4');
-     //content
-     var content = document.createElement('div');
-     content.classList.add('cover-content');    
-    //header
-    var header = document.createElement('div')  ;
-    header.classList.add('cover-header');
-    var icon = document.createElement('i');
-    icon.classList.add('fa');
-    icon.classList.add('fa-gift');
-    icon.classList.add('fa-fw');     
-    icon.classList.add('hidden');  
-    icon.id= p.id;   
-    header.appendChild(icon); 
-    var title = document.createElement('span');
-    title.textContent = p.name;   
-    header.appendChild(title);  
 
-     //body
-     var body = document.createElement('div');
-     body.classList.add('cover-body');
-     var ul = document.createElement('ul');   
-     var li = document.createElement('li');
-     li.textContent = p.location.address.address;
-     ul.appendChild(li);
-     li = document.createElement('li');
-     li.textContent = p.location.phone.number;
-     ul.appendChild(li);
-     li = document.createElement('li');
-     li.textContent = p.contact.name;
-     ul.appendChild(li);
-     body.appendChild(ul); 
-    //footer
-    var footer = document.createElement('div');
-    footer.classList.add('cover-footer');
-    footer.classList.add('cover-add-gift');
-    var a = document.createElement('a');
-    a.href = '#';
-    a.dataset.id = p.id;   
-    a.onclick = function(e){  
-    	e.preventDefault();
-    	var parent =this.parentNode;
-    	if(parent.classList.contains('cover-add-gift')){
-    		parent.classList.remove('cover-add-gift');
-    		parent.classList.add('cover-remove-gift');
-    		this.getElementsByClassName('cover-text-content')[0].textContent ='Remover regalo';
-    		document.getElementById(this.dataset.id).classList.remove('hidden');
-    		idPOSList.push(this.dataset.id);
-    	}else{
-    		parent.classList.remove('cover-remove-gift');
-    		parent.classList.add('cover-add-gift');
-    		this.getElementsByClassName('cover-text-content')[0].textContent ='Asociar regalo';
-    		document.getElementById(this.dataset.id).classList.add('hidden');
-    		var index = idPOSList.indexOf(this.dataset.id);
-    		if(index >-1){
-    			idPOSList.splice(index,1);
-    		}    		
-    	}
-    	document.getElementById('id-pos-list').value = idPOSList.join();
-    }
 
-    var span = document.createElement('span');
-    span.classList.add('cover-text-content');
-    span.textContent='Asociar regalo';
-    a.appendChild(span);     
-    footer.appendChild(a);
-    //appends
-    content.appendChild(header);
-    content.appendChild(body);
-    content.appendChild(footer);      
-    col.appendChild(content);
-    element.appendChild(col);
-};
-}
+		</script>
+	}
 
-</script>
+

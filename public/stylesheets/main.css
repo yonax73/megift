@@ -49,6 +49,31 @@
   margin-left: auto;
   margin-right: auto;
 }
+/**row centered*/
+.row-centered {
+  text-align:center;
+}
+.col-centered {
+  display:inline-block;
+  float:none;
+  /* reset the text-align */
+  text-align:left;
+  /* inline-block space fix */
+  margin-right:-4px;
+}
+.col-fixed {
+  /* custom width */
+  width:320px;
+}
+.col-min {
+  /* custom min width */
+  min-width:320px;
+}
+.col-max {
+  /* custom max width */
+  max-width:320px;
+}
+/**end row centered*/
 
 .form-control-lg,.btn-lg{
 	font-size: 18px;
@@ -156,7 +181,7 @@
 .cover-footer{
   border-top: 1px solid rgb(210, 210, 210); background-color:#f6f6f6;  padding: 0.5em;
 }
-.cover-add-gift{
+/*.cover-add-gift{
   background-color: #1bbe9e;  
   text-align: center;
 }
@@ -164,10 +189,22 @@
   background-color:   #de5619;  
   text-align: center;
 }
-.cover-add-gift a,.cover-remove-gift a{
-  color: #fff;
-  text-decoration: none;
+.cover-add-gift button,.cover-remove-gift button{
+ border: medium none;
+ width: 100%;
+ background: none repeat scroll 0 0 transparent;
+ color: #fff;
+ padding: 0; 
 }
+.cover-add-gift button:hover,
+.cover-add-gift button:focus,
+.cover-remove-gift button:hover,
+.cover-remove-gift button:focus{
+ background: none repeat scroll 0 0 transparent;
+ color: #fff;
+
+}*/
+
 
 /*form-picture*/
 .form-picture ul{
@@ -179,4 +216,34 @@
 }
 .form-picture img{
   width: 100%
+}
+.form-picture button{
+  width: 100%;
+}
+/*cover check*/
+.cover-check{
+
+}
+.cover-check-header {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-color: inherit;
+    font-weight: bold;
+    margin: 0.3em;
+    padding: 0 0.1em 0.5em 0;
+}
+.cover-check-body ul {
+ list-style: outside none none; margin: 0px; padding: 0.2em;
+}
+/*ovewrite gift checbox toolbar */
+.cover-check-gift .i-checkbox.i-checkbox-toolbar.i-checkbox-left input[type="checkbox"]:checked + label::before, .cover-check-gift .i-checkbox.i-checkbox-toolbar.i-checkbox-right input[type="checkbox"]:checked + label::after {
+  color:#de5619;
+  content:"\f06b";
+  font-size: 100%;
+  opacity: 1;
+}
+.cover-check-gift .i-checkbox.i-checkbox-toolbar.i-checkbox-toolbar-default label  {
+    background-color: #fff;
+    border-color: rgb(210, 210, 210);
+    color: #000;
 }

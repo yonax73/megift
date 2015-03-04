@@ -37,18 +37,9 @@ public class GiftDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "CALL sp_bsp_gift_CREATE(?,?,?,?,?,?,?,?,?,?);";
+			String sql = "CALL sp_bsp_gift_CREATE(?);";
 			cst = conn.prepareCall(sql);
 			cst.registerOutParameter(1, Types.INTEGER);
-			cst.setInt(2, gift.getAction().getId());
-			cst.setInt(3, gift.getStatus().getId());
-			cst.setInt(4, gift.getType().getId());
-			cst.setString(5, gift.getOtherType());
-			cst.setDouble(6, gift.getPrice());
-			cst.setTimestamp(7, Timestamp.valueOf(gift.getStartDate()));
-			cst.setTimestamp(8, Timestamp.valueOf(gift.getExpirationDate()));
-			cst.setString(9, gift.getName());
-			cst.setString(10, gift.getDescription());
 			result = cst.executeUpdate() > 0;
 			if (result)
 				gift.setId(cst.getInt(1));

@@ -6,13 +6,12 @@ package com.megift.bsp.relationgiftpos.dao;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Types;
-import java.util.ArrayList;
 
 import play.Logger;
 import play.db.DB;
 
+import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.pos.entity.POS;
-import com.megift.bsp.relationgiftpos.entity.RelationGiftPOS;
 import com.megift.resources.base.Dao;
 
 /**
@@ -32,26 +31,19 @@ public class RelationGiftPOSDao extends Dao {
 	 * @param relationGiftPOS
 	 * @return
 	 */
-	public static ArrayList<RelationGiftPOS> createPOSList(RelationGiftPOS relationGiftPOS) {
-		ArrayList<RelationGiftPOS> giftPOSList = null;
+	public static boolean createPOSList(Gift gift) {
 		CallableStatement cst = null;
 		Connection conn = null;
+		int count = 0;
 		try {
-			giftPOSList = new ArrayList<>();
 			conn = DB.getConnection();
-			int idGift = relationGiftPOS.getGift().getId();
-			String idPOSList[] = relationGiftPOS.getIdPOSList();
-			int n = idPOSList.length;
-			for (int i = 0; i < n; i++) {
-				int idPOS = Integer.parseInt(idPOSList[i]);
+			for (POS pos : gift.getPosList()) {
 				cst = conn.prepareCall("CALL sp_bsp_gifts_by_pos_CREATE(?,?,?)");
 				cst.registerOutParameter(1, Types.INTEGER);
-				cst.setInt(2, idGift);
-				cst.setInt(3, idPOS);
-				if (cst.executeUpdate() > 0) {
-					RelationGiftPOS giftPOS = new RelationGiftPOS(cst.getInt(1));
-					giftPOS.setPos(new POS(idPOS));
-					giftPOSList.add(giftPOS);
+				cst.setInt(2, gift.getId());
+				cst.setInt(3, pos.getId());
+				if (cst.executeUpdate() > 0 && cst.getInt(1) > 0) {
+					count++;
 				}
 			}
 
@@ -62,6 +54,6 @@ public class RelationGiftPOSDao extends Dao {
 				cst = null;
 			close(conn);
 		}
-		return giftPOSList;
+		return count == gift.getPosList().size();
 	}
 }

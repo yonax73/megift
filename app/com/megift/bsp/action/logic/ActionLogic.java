@@ -25,7 +25,7 @@ public class ActionLogic {
 	 */
 	public static boolean save(Action action) {
 		boolean saved = false;
-		if (action.isEmpty()) {
+		if (!action.isEmpty()) {
 			if (action.exists()) {
 				saved = ActionDao.update(action);
 			} else {

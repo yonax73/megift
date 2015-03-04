@@ -5,6 +5,7 @@ package com.megift.bsp.gift.logic;
 
 import com.megift.bsp.gift.dao.GiftDao;
 import com.megift.bsp.gift.entity.Gift;
+import com.megift.bsp.relationgiftpos.logic.RelationGiftPOSLogic;
 
 /**
  * company : Megift S.A<br/>
@@ -33,6 +34,21 @@ public class GiftLogic {
 			}
 		}
 		return saved;
+	}
+
+	/**
+	 * @param gift
+	 * @return
+	 */
+	public static boolean createGift(Gift gift) {
+		boolean created = false;
+		if (gift != null) {
+			created = GiftDao.create(gift);
+			if (created) {
+				created = RelationGiftPOSLogic.createPOSList(gift);
+			}
+		}
+		return created;
 	}
 
 }

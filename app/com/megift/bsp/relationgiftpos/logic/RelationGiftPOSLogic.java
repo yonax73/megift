@@ -3,10 +3,8 @@
  */
 package com.megift.bsp.relationgiftpos.logic;
 
-import java.util.ArrayList;
-
+import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.relationgiftpos.dao.RelationGiftPOSDao;
-import com.megift.bsp.relationgiftpos.entity.RelationGiftPOS;
 
 /**
  * company : Megift S.A<br/>
@@ -25,8 +23,8 @@ public class RelationGiftPOSLogic {
 	 * @param relationGiftPOS
 	 * @return
 	 */
-	public static ArrayList<RelationGiftPOS> savePOSList(RelationGiftPOS relationGiftPOS) {
-		return RelationGiftPOSDao.createPOSList(relationGiftPOS);
+	public static boolean createPOSList(Gift gift) {
+		return RelationGiftPOSDao.createPOSList(gift);
 	}
 
 }

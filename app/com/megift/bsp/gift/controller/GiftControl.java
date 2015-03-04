@@ -3,9 +3,10 @@
  */
 package com.megift.bsp.gift.controller;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import play.libs.Json;
@@ -16,8 +17,8 @@ import com.megift.bsp.action.entity.Action;
 import com.megift.bsp.action.logic.ActionLogic;
 import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.gift.logic.GiftLogic;
+import com.megift.bsp.pos.entity.POS;
 import com.megift.bsp.relationgiftpos.entity.RelationGiftPOS;
-import com.megift.bsp.relationgiftpos.logic.RelationGiftPOSLogic;
 import com.megift.set.master.entity.MasterValue;
 
 /**
@@ -39,6 +40,32 @@ public class GiftControl extends Controller {
 
 	public static Result gift() {
 		return ok(views.html.bsp.gift.gift.render());
+	}
+
+	public static Result createGift() {
+		String result = "No se ha podido completar la solicitud";
+		final Map<String, String[]> data = request().body().asFormUrlEncoded();
+		if (data != null) {
+			Gift gift = new Gift(0);
+			String pos[] = data.get("id-pos");
+			int n = pos.length;
+			if (n > 0) {
+				List<POS> posList = new ArrayList<POS>();
+				for (int i = 0; i < n; i++) {
+					POS p = new POS(Integer.parseInt(pos[i]));
+					posList.add(p);
+				}
+				gift.setPosList(posList);
+				if (GiftLogic.createGift(gift)) {
+					result = String.valueOf(gift.getId());
+				} else {
+					result = "Error creando el regalo";
+				}
+			} else {
+				result = "No hay Puntos de venta para guardar";
+			}
+		}
+		return ok(result);
 	}
 
 	public static Result saveGift() {
@@ -63,8 +90,8 @@ public class GiftControl extends Controller {
 					gift.setOtherType(data.get("other-gift-type")[0]);
 				}
 				gift.setPrice(Double.parseDouble(data.get("price-gift")[0]));
-				gift.setStartDate(LocalDateTime.parse(data.get("start-date-gift")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-				gift.setExpirationDate(LocalDateTime.parse(data.get("end-date-gift")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+				gift.setStartDate((LocalDate.parse(data.get("start-date-gift")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy"))).atStartOfDay());
+				gift.setExpirationDate((LocalDate.parse(data.get("end-date-gift")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy"))).atStartOfDay());
 				gift.setStatus(new MasterValue(Integer.parseInt(data.get("gift-status")[0])));
 				gift.setDescription(data.get("description-gift")[0]);
 				gift.setAction(action);
@@ -73,13 +100,14 @@ public class GiftControl extends Controller {
 						RelationGiftPOS relationGiftPOS = new RelationGiftPOS(0);
 						relationGiftPOS.setIdPOSList(data.get("id-pos-list")[0].split(","));
 						relationGiftPOS.setGift(gift);
-						ArrayList<RelationGiftPOS> giftPOSList = RelationGiftPOSLogic.savePOSList(relationGiftPOS);
-						if (giftPOSList.isEmpty()) {
-							result = "Error guardando el regalo en los puntos de venta";
-							allowed = false;
-						} else {
-							gift.setGiftPOSList(giftPOSList);
-						}
+						// ArrayList<RelationGiftPOS> giftPOSList =
+						// RelationGiftPOSLogic.savePOSList(relationGiftPOS);
+						/*
+						 * if (giftPOSList.isEmpty()) { result =
+						 * "Error guardando el regalo en los puntos de venta";
+						 * allowed = false; } else {
+						 * gift.setGiftPOSList(giftPOSList); }
+						 */
 					}
 					if (allowed) {
 						result = Json.toJson(gift).toString();
