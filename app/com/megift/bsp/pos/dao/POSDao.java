@@ -14,6 +14,7 @@ import play.Logger;
 import play.db.DB;
 
 import com.megift.bsp.business.entity.Business;
+import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.partner.entity.Partner;
 import com.megift.bsp.pos.entity.POS;
 import com.megift.resources.base.Dao;
@@ -31,7 +32,7 @@ import com.megift.set.location.phone.entity.Phone;
  * 
  * @version : 0.1 <br/>
  * @author Yonatan Alexis Quintero Rodriguez
- *
+ * 
  */
 public class POSDao extends Dao {
 
@@ -172,6 +173,15 @@ public class POSDao extends Dao {
 			close(conn);
 		}
 		return pos;
+	}
+
+	/**
+	 * @param gift
+	 * @return
+	 */
+	public static boolean saveGift(Gift gift) {
+
+		return false;
 	}
 
 }

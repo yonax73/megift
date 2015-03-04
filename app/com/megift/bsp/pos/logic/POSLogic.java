@@ -18,7 +18,7 @@ import com.megift.bsp.pos.entity.POS;
  * 
  * @version : 0.1 <br/>
  * @author Yonatan Alexis Quintero Rodriguez
- *
+ * 
  */
 public class POSLogic {
 

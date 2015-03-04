@@ -2,7 +2,7 @@
 @nav(titlePage = "Regalo"){
 <div class="row center">            
 	<h2 id="name-gift-title"></h2>   	
-	<div class="col-md-8">
+	<div class="col-md-7">
 		<div class="row">
 			<div class="col-md-6">
 				<form id="picture-gift-form" class="form-horizontal form-picture">
@@ -42,19 +42,12 @@
 		<div class="row">
 			<form id="gift-form" class="form-horizontal">
 				<fieldset class="col-md-6">
-					<legend>Datos del regalo</legend>
+					<legend>Datos del regalo</legend>			
 					<div class="col-md-12">
 						<div class="form-group has-feedback">
-							<input type="text" class="form-control input-lg" name="id-pos-list" value="">
+							<input type="text" class="form-control input-lg" name="name-gift"  data-required="true" placeholder="Nombre regalo">
 							<span class="form-control-feedback"></span>
 							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="form-group has-feedback"> 
-							<div  data-required="true" data-name="name-gift" data-required="true" placeholder="Nombre Regalo">
-								<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-							</div>
 						</div>
 					</div>
 					<div class="col-md-12">
@@ -86,18 +79,24 @@
 					</div>
 					<div class="col-md-12">
 						<div class="form-group has-feedback">
-							<textarea class="form-control" rows="4" placeholder="Descripción del regalo"></textarea>
+							<input type="text" class="form-control input-lg" name="end-date-gift" data-required="true" data-date="dd-mm-yyyy" placeholder="Fecha finalización (dd-mm-yyyy)">
+							<span class="form-control-feedback"></span>
+							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group has-feedback">
+							<textarea name="description-gift" class="form-control" rows="4" placeholder="Descripción del regalo" data-required="true"></textarea>
 							<span class="form-control-feedback"></span>
 							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="form-group has-feedback"> 
-							<div id="gift-status-list" data-required="true" data-name="end-date-gift" data-required="true" data-date="dd-mm-yyyy" placeholder="Fecha Finalizacióon (dd-mm-yyyy)">
-								<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-							</div>
+							<div id="gift-status-list" data-name="gif-status-list" data-required="true"  class="i-select i-select-lg i-select-dafault"></div>
+							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
 						</div>
-					</div>
+					</div>					
 					<div  class="col-md-12">
 						<div class="form-group has-feedback"> 
 							<button class="btn btn-default btn-block btn-lg" id="terms-and-conditions" href="#terms-and-conditions">
@@ -112,16 +111,13 @@
 						</div>
 					</div>
 				</fieldset>
-
-
-
 				<fieldset class="col-md-6">
 					<legend>Datos de la acción</legend>
 					<div class="col-md-12">
-						<div class="form-group has-feedback"> 
-							<div id="action-type-list" data-required="true" data-name="name-action" data-required="true" placeholder="Nombre de la acción">
-								<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-							</div>
+						<div class="form-group has-feedback">
+							<input type="text" class="form-control input-lg" name="name-action"  data-required="true" placeholder="Nombre Acción">
+							<span class="form-control-feedback"></span>
+							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
 						</div>
 					</div>
 					<div class="col-md-12">
@@ -130,7 +126,7 @@
 							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
 						</div>
 					</div>
-					<div class="col-md-12">
+					<div id="other-action-type" class="col-md-12 hidden">
 						<div class="form-group has-feedback">
 							<input type="text" class="form-control input-lg" name="other-action-type"  placeholder="Cual ?">
 							<span class="form-control-feedback"></span>
@@ -139,7 +135,14 @@
 					</div>
 					<div class="col-md-12">
 						<div class="form-group has-feedback">
-							<textarea class="form-control" rows="4" placeholder="Descripción de la acción"></textarea>
+							<input type="text" class="form-control input-lg" name="price-action"  data-required="true" data-money="true" placeholder="Valor Comercial">
+							<span class="form-control-feedback"></span>
+							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group has-feedback">
+							<textarea name="description-action" class="form-control" rows="4" placeholder="Descripción de la acción" data-required="true"></textarea>
 							<span class="form-control-feedback"></span>
 							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
 						</div>
@@ -157,9 +160,9 @@
 				</form>
 			</div>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-5">
 			<div class="page-header">
-				<h4>Puntos de venta</h4>    
+				<h2>Puntos de venta</h2>    
 			</div>		
 			<div class="row" id="cover-pos">
 				<a href="/POS" onclick="newPOS()">No hay puntos de ventas, clic para comenzar</a>
@@ -204,9 +207,9 @@ giftType.onchange(function(){
     	} 
     }
 });
-//select other type gift
+//select other type action
 actionType.onchange(function(){    
-    if(actionType.getOption()==OTHER_TYPE_GIFT){//other type
+    if(actionType.getOption()==OTHER_TYPE_ACTION){//other type
     	var otherActionType = document.getElementById('other-action-type');
     	if(otherActionType.classList.contains('hidden')){
     		otherActionType.classList.remove('hidden');
@@ -236,6 +239,7 @@ actionType.onchange(function(){
     document.getElementById('content-img-action').classList.add('disabled');
     document.getElementById('picture-action-upload').classList.add('disabled');
     document.getElementById('terms-and-conditions').classList.add('disabled');
+    giftStatus.setDisabled(true);
 
 }
 //load pos by business
