@@ -1,7 +1,9 @@
 @import resources._
 @nav(titlePage = "Regalo"){
 <div class="row row-centered">            
-	<h2 id="name-gift-title"></h2> 	  	
+	<div class="header-page">
+		<h2 class="text-left" id="name-gift-title"></h2> 	  
+	</div>	
 	<div class="col-md-9 col-centered">
 		<div class="row">
 			<div class="col-md-12 ">				
@@ -167,7 +169,7 @@
 		</div>
 	</div>
 	<div>
-		<div  id="create-gift-popup" class="i-popup-panel i-popup-danger hidden">   			
+		<div  id="create-gift-popup" class="i-popup-panel i-popup-primary hidden">   			
 			<h2 >Crear regalo</h2>    
 			<p>Para empezar debes seleccionar mínimo un punto de venta para ofrecer el regalo.</p>								
 			<div>
@@ -176,57 +178,29 @@
 						<legend>Puntos de venta</legend>						
 						<div id="cover-check-pos" class="i-group-checkbox has-feedback" data-checkmin="1"></div>
 					</fieldset>
-					<button id="create-gift-btn" type="submit" class="btn btn-danger btn-lg pull-right">Continuar
+					<button id="create-gift-btn" type="submit" class="btn btn-primary btn-lg pull-right">Continuar
 						<i id="create-gift-btn-ico"></i></button>
 					</form>
 				</div>
-
 			</div>
-			<!-- cover gift check example -->
-<!-- 		<div class="col-md-2">
-			<div class="form-group i-checkbox-horizontal cover-check cover-check-gift">
-				<span class="i-checkbox i-checkbox-toolbar i-checkbox-right i-checkbox-toolbar-default">
-					<input type="checkbox" id="data-remember-1" checked="checked">
-					<label for="data-remember-1">
-						<div class="cover-check-header">Nombre POS</div>
-						<div class="cover-check-body">
-							<ul>
-								<li>Direccion</li>
-								<li>Telefono</li>
-								<li>Contacto</li>
-							</ul>
-						</div>
-					</label>
-				</span>
-			</div>
-		</div> -->
-		<script>
+			<script>
 		//atributtes
-		var createGiftPopup = new Popup(document.getElementById('create-gift-popup'));
-		
+		var createGiftPopup = new Popup(document.getElementById('create-gift-popup'));		
 		var typeGiftView = sessionStorage.getItem('type-gift-view');
-		//functions
-		init();
-		
-
-		function init(){
-
+		var giftType,giftStatus,actionType ;
+		var OTHER_TYPE_ACTION = 14;
+		var OTHER_TYPE_GIFT = 24;
+		var nameGiftTitle = document.getElementById('name-gift-title');
+		//init
+		init();	
+        //functions
+        function init(){
 		  	 if(typeGiftView>0){//Adminstrar gift
-		    //load data
-		    //loadPOS(); 
-
-		    //add events for images, pos and terms and conditions
+		  	 	loadGift();
 
 		 }else{//Crear gift 	
 		 	openCreateGiftPopup();
-		 	/*nameGiftitle.textContent = 'Crear Regalo';*/
-		    //remove sessionStorage
-		    //sessionStorage.removeItem('type-gift-view');
-		    //disabled controls
-		 /*   document.getElementById('picture-gift-upload').disabled = true;
-		    document.getElementById('picture-action-upload').disabled = true;
-		    document.getElementById('terms-and-conditions').disabled = true;*/
-
+		 }
 		}
 
 		function openCreateGiftPopup(){
@@ -250,25 +224,25 @@
 			});
 			createGiftFormXHR.send();	
 		}
-	}
 
-	function createGift(){
-		var createGiftForm = new Form(document.getElementById('create-gift-form'));
-		createGiftForm.onsubmit(function(){
-			if(createGiftForm.isValid()){
-	/*			var createGiftBtn = document.getElementById('create-gift-btn');
-				var createGiftBtnIcon = document.getElementById('create-gift-btn-ico');
-				var createGiftFormXHR = new XHR('POST','/createGift');
-				createGiftFormXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
-				createGiftFormXHR.onBeforeSend(function(){
-					createGiftBtn.disabled = true;
-					createGiftBtnIcon.className = 'fa fa-spinner fa-spin';
-				});
-				createGiftFormXHR.onReady(function (xhr) {   
-					if(xhr.responseText >0){                                 
-						//load data by this gift
-						console.log(xhr.responseText);
+		function createGift(){
+			var createGiftForm = new Form(document.getElementById('create-gift-form'));
+			createGiftForm.onsubmit(function(){
+				if(createGiftForm.isValid()){
+					var createGiftBtn = document.getElementById('create-gift-btn');
+					var createGiftBtnIcon = document.getElementById('create-gift-btn-ico');
+					var createGiftFormXHR = new XHR('POST','/createGift');
+					createGiftFormXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+					createGiftFormXHR.onBeforeSend(function(){
+						createGiftBtn.disabled = true;
+						createGiftBtnIcon.className = 'fa fa-spinner fa-spin';
+					});
+					createGiftFormXHR.onReady(function (xhr) {   
+						if(xhr.responseText >0){                                 
+						//load data by this gift						
+						typeGiftView = xhr.responseText;
 						createGiftPopup.closeAll();
+						loadGift();
 					}else{
 						var msg = document.getElementById('create-gift-popup-msg');			
 						msg.textContent = xhr.responseText;
@@ -277,10 +251,95 @@
 						}
 					}
 				});
-				createGiftFormXHR.send(createGiftForm.serialize());	*/
-				alert('ok');
-			}else{alert('error')}
-		})
+					createGiftFormXHR.send(createGiftForm.serialize());				
+				}
+			});
+}
+
+function loadGift(){
+	if(typeGiftView>0){				
+		var loadGiftFormXHR = new XHR('GET','/loadGift?id='+typeGiftView);
+		loadGiftFormXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+		loadGiftFormXHR.onBeforeSend(function(){
+			nameGiftTitle.textContent = 'Cargando...';
+		});
+		loadGiftFormXHR.onReady(function (xhr) {   
+			var gift = JSON.parse(xhr.responseText);
+			initList(gift.type.id,gift.otherType,gift.status.id,gift.action.type.id,gift.action.otherType);
+			fillImages();
+			nameGiftTitle.textContent = gift.name;
+			document.getElementsByName('name-gift')[0].value = gift.name;
+			document.getElementsByName('price-gift')[0].value = gift.price;
+			document.getElementsByName('start-date-gift')[0].value = gift.startDate;
+			document.getElementsByName('end-date-gift')[0].value = gift.expirationDate;
+			document.getElementsByName('description-gift')[0].value = gift.description;			
+			document.getElementsByName('name-action')[0].value =  gift.action.name;			
+			document.getElementsByName('price-action')[0].value = gift.action.price;
+			document.getElementsByName('description-action')[0].value = gift.action.description;
+		});
+		loadGiftFormXHR.send();		
+	}
+}
+
+function initList(giftTypeId,otherTypeGiftStr,giftStatusId,actionTypeId,otherTypeActionStr){
+		//gift type list
+		giftType = new Select(document.getElementById('gift-type-list'),'/giftTypeList',function(){
+			giftType.selectItem(giftTypeId);
+			if(giftType.getOption()==OTHER_TYPE_GIFT){
+				var otherGiftType = document.getElementsByName('other-gift-type')[0];
+				otherGiftType.classList.remove('hidden');
+				otherGiftType.value = otherTypeGiftStr;
+			}
+		});
+		//gift status
+		giftStatus = new Select(document.getElementById('gift-status-list'),'/giftStatusList',function(){
+			giftStatus.selectItem(giftStatusId);
+		});
+		//action type list
+		actionType = new Select(document.getElementById('action-type-list'),'/actionTypeList',function(){
+			actionType.selectItem(actionTypeId)
+			if(actionType.getOption()==OTHER_TYPE_ACTION){
+				var otherActionType = document.getElementsByName('other-action-type')[0];
+				otherActionType.classList.remove('hidden');
+				otherActionType.value = otherTypeActionStr;
+			}			
+		});
+		//select other type gift
+		giftType.onchange(function(){    
+		    if(giftType.getOption()==OTHER_TYPE_GIFT){//other type
+		    	var otherGiftType = document.getElementById('other-gift-type');
+		    	if(otherGiftType.classList.contains('hidden')){
+		    		otherGiftType.classList.remove('hidden');
+		    		otherGiftType.classList.add('show');
+		    	} 
+		    }else{
+		    	var otherGiftType = document.getElementById('other-gift-type');
+		    	if(otherGiftType.classList.contains('show')){
+		    		otherGiftType.classList.remove('show');
+		    		otherGiftType.classList.add('hidden');
+		    	} 
+		    }
+		});
+		//select other type action
+		actionType.onchange(function(){    
+		    if(actionType.getOption()==OTHER_TYPE_ACTION){//other type
+		    	var otherActionType = document.getElementById('other-action-type');
+		    	if(otherActionType.classList.contains('hidden')){
+		    		otherActionType.classList.remove('hidden');
+		    		otherActionType.classList.add('show');
+		    	} 
+		    }else{
+		    	var otherActionType = document.getElementById('other-action-type');
+		    	if(otherActionType.classList.contains('show')){
+		    		otherActionType.classList.remove('show');
+		    		otherActionType.classList.add('hidden');
+		    	} 
+		    }
+		});
+	}
+
+	function fillImages(){
+
 	}
 
 	function fillCoverCheckPos(element,name,pos){

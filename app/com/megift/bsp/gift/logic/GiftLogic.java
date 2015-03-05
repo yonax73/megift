@@ -6,6 +6,7 @@ package com.megift.bsp.gift.logic;
 import com.megift.bsp.gift.dao.GiftDao;
 import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.relationgiftpos.logic.RelationGiftPOSLogic;
+import com.megift.set.picture.logic.PictureLogic;
 
 /**
  * company : Megift S.A<br/>
@@ -49,6 +50,27 @@ public class GiftLogic {
 			}
 		}
 		return created;
+	}
+
+	/**
+	 * @param gift
+	 * @return
+	 */
+	public static boolean update(Gift gift) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/**
+	 * @param gift
+	 * @return
+	 */
+	public static Gift load(Gift gift) {
+		gift = GiftDao.load(gift);
+		gift.setPictures(PictureLogic.loadPicturesByGift());
+		gift.getAction().setPictures(PictureLogic.loadPicturesByAction());
+		return gift;
+
 	}
 
 }

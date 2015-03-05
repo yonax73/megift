@@ -68,6 +68,49 @@ public class GiftControl extends Controller {
 		return ok(result);
 	}
 
+	public static Result updateGift() {
+		String result = "No se ha podido completar la solicitud";
+		final Map<String, String[]> data = request().body().asFormUrlEncoded();
+		if (data != null) {
+			Gift gift = new Gift(Integer.parseInt(data.get("id-gift")[0]));
+			Action action = new Action(Integer.parseInt(data.get("id-action")[0]));
+			action.setName(data.get("name-action")[0]);
+			action.setType(new MasterValue(Integer.parseInt(data.get("action-type")[0])));
+			action.setDescription(data.get("description-action")[0]);
+			if (action.isOtherType()) {
+				action.setOtherType(data.get("other-type-action")[0]);
+			}
+			action.setPrice(Double.parseDouble(data.get("price-action")[0]));
+			if (ActionLogic.save(action)) {
+				gift.setName(data.get("name-gift")[0]);
+				gift.setType(new MasterValue(Integer.parseInt(data.get("gift-type")[0])));
+				if (gift.isOtherType()) {
+					gift.setOtherType(data.get("other-gift-type")[0]);
+				}
+				gift.setPrice(Double.parseDouble(data.get("price-gift")[0]));
+				gift.setStartDate((LocalDate.parse(data.get("start-date-gift")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy"))).atStartOfDay());
+				gift.setExpirationDate((LocalDate.parse(data.get("end-date-gift")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy"))).atStartOfDay());
+				gift.setStatus(new MasterValue(Integer.parseInt(data.get("gift-status")[0])));
+				gift.setDescription(data.get("description-gift")[0]);
+				gift.setAction(action);
+				if (GiftLogic.update(gift)) {
+					result = Json.toJson(gift).toString();
+
+				} else {
+					result = "Error guardando el regalo!";
+				}
+
+			} else {
+				result = "Error guardando la acción!";
+			}
+		}
+		return ok(result);
+	}
+
+	public static Result loadGift(int id) {
+		return ok(Json.toJson(GiftLogic.load(new Gift(id))));
+	}
+
 	public static Result saveGift() {
 		String result = "No se ha podido completar la solicitud";
 		final Map<String, String[]> data = request().body().asFormUrlEncoded();

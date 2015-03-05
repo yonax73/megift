@@ -50,6 +50,8 @@ GET /giftList                com.megift.bsp.gift.controller.GiftControl.giftList
 GET /gift                    com.megift.bsp.gift.controller.GiftControl.gift()
 POST /saveGift                    com.megift.bsp.gift.controller.GiftControl.saveGift()
 POST /createGift                    com.megift.bsp.gift.controller.GiftControl.createGift()
+POST /updateGift                    com.megift.bsp.gift.controller.GiftControl.updateGift()
+GET /loadGift                    com.megift.bsp.gift.controller.GiftControl.loadGift(id:Integer)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET /robots.txt controllers.Assets.at(path="/public",file="robots.txt")

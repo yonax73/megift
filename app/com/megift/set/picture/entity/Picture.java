@@ -19,12 +19,13 @@ public class Picture extends Entity {
 	/**
      * 
      */
-    public static String BASE64_CODING = "base64";
+	public static String BASE64_CODING = "base64";
 	private static final long serialVersionUID = 1L;
 	private String mime;
 	private String src;
 	private File file;
-    private String coding;
+	private String coding;
+	private boolean main;
 
 	/**
 	 * @param id
@@ -34,29 +35,29 @@ public class Picture extends Entity {
 		// TODO Auto-generated constructor stub
 	}
 
-    /**
-     * @param file2
-     */
-    public Picture(int id, File file) {
-        super(id);
-        this.file = file;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return file == null;
+	/**
+	 * @param file2
+	 */
+	public Picture(int id, File file) {
+		super(id);
+		this.file = file;
 	}
 
-    public String getDataURI() {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("data:");
-        buffer.append(mime);
-        buffer.append(";");
-        buffer.append(coding);
-        buffer.append(",");
-        buffer.append(src);
-        return buffer.toString();
-    }
+	@Override
+	public boolean isEmpty() {
+		return file == null;
+	}
+
+	public String getDataURI() {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("data:");
+		buffer.append(mime);
+		buffer.append(";");
+		buffer.append(coding);
+		buffer.append(",");
+		buffer.append(src);
+		return buffer.toString();
+	}
 
 	public String getMime() {
 		return mime;
@@ -82,19 +83,27 @@ public class Picture extends Entity {
 		this.file = file;
 	}
 
-    /**
-     * @return the coding
-     */
-    public String getCoding() {
-        return coding;
-    }
+	/**
+	 * @return the coding
+	 */
+	public String getCoding() {
+		return coding;
+	}
 
-    /**
-     * @param coding
-     *            the coding to set
-     */
-    public void setCoding(String coding) {
-        this.coding = coding;
-    }
+	/**
+	 * @param coding
+	 *            the coding to set
+	 */
+	public void setCoding(String coding) {
+		this.coding = coding;
+	}
+
+	public boolean isMain() {
+		return main;
+	}
+
+	public void setMain(boolean main) {
+		this.main = main;
+	}
 
 }

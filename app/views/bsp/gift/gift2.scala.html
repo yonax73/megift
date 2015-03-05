@@ -178,51 +178,12 @@
 var typeGiftView = sessionStorage.getItem('type-gift-view');
 var nameGiftitle = document.getElementById('name-gift-title');
 var idPOSList = new Array();
-var OTHER_TYPE_ACTION = 14;
-var OTHER_TYPE_GIFT = 24;
 
-//gift type list
-var giftType = new Select(document.getElementById('gift-type-list'),'/giftTypeList',function(){giftType.selectItem(0)});
-//gift status
-var giftStatus = new Select(document.getElementById('gift-status-list'),'/giftStatusList',function(){giftStatus.selectItem(27); giftStatus.setDisabled(true);});
-//action type list
-var actionType = new Select(document.getElementById('action-type-list'),'/actionTypeList',function(){actionType.selectItem(0)});
 //forms
 var giftForm = new Form(document.getElementById('gift-form'));
 //buttonss
 var giftBtn = document.getElementById('gift-Btn');
-//select other type gift
-giftType.onchange(function(){    
-    if(giftType.getOption()==OTHER_TYPE_GIFT){//other type
-    	var otherGiftType = document.getElementById('other-gift-type');
-    	if(otherGiftType.classList.contains('hidden')){
-    		otherGiftType.classList.remove('hidden');
-    		otherGiftType.classList.add('show');
-    	} 
-    }else{
-    	var otherGiftType = document.getElementById('other-gift-type');
-    	if(otherGiftType.classList.contains('show')){
-    		otherGiftType.classList.remove('show');
-    		otherGiftType.classList.add('hidden');
-    	} 
-    }
-});
-//select other type action
-actionType.onchange(function(){    
-    if(actionType.getOption()==OTHER_TYPE_ACTION){//other type
-    	var otherActionType = document.getElementById('other-action-type');
-    	if(otherActionType.classList.contains('hidden')){
-    		otherActionType.classList.remove('hidden');
-    		otherActionType.classList.add('show');
-    	} 
-    }else{
-    	var otherActionType = document.getElementById('other-action-type');
-    	if(otherActionType.classList.contains('show')){
-    		otherActionType.classList.remove('show');
-    		otherActionType.classList.add('hidden');
-    	} 
-    }
-});
+
  if(typeGiftView>0){//Adminstrar gift
     //load data
     //loadPOS(); 

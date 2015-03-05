@@ -245,5 +245,6 @@
 .cover-check-gift .i-checkbox.i-checkbox-toolbar.i-checkbox-toolbar-default label  {
     background-color: #fff;
     border-color: rgb(210, 210, 210);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     color: #000;
 }
