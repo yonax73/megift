@@ -35,4 +35,25 @@ public class ActionLogic {
 		return saved;
 	}
 
+	/**
+	 * @param action
+	 * @return
+	 */
+	public static boolean createAction(Action action) {
+
+		return ActionDao.create(action);
+	}
+
+	/**
+	 * @param action
+	 * @return
+	 */
+	public static boolean update(Action action) {
+		boolean saved = false;
+		if (action.exists()) {
+			saved = ActionDao.update(action);
+		}
+		return saved;
+	}
+
 }

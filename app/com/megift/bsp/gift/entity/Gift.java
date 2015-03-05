@@ -1,6 +1,9 @@
 package com.megift.bsp.gift.entity;
 
+import static com.megift.resources.utils.Constants.DATE_FORMATTER;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.megift.bsp.action.entity.Action;
@@ -52,11 +55,22 @@ public class Gift extends Entity {
 		// TODO Auto-generated constructor stub
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.megift.resources.base.Entity#isEmpty()
-	 */
+	public String getFormatStartDate() {
+		if (startDate != null) {
+			return startDate.format(DateTimeFormatter.ofPattern(DATE_FORMATTER));
+		} else {
+			return "";
+		}
+	}
+
+	public String getFormatExpirtationtDate() {
+		if (expirationDate != null) {
+			return expirationDate.format(DateTimeFormatter.ofPattern(DATE_FORMATTER));
+		} else {
+			return "";
+		}
+	}
+
 	@Override
 	public boolean isEmpty() {
 		return name == null;

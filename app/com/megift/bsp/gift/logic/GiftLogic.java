@@ -57,20 +57,25 @@ public class GiftLogic {
 	 * @return
 	 */
 	public static boolean update(Gift gift) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean saved = false;
+		if (gift.exists()) {
+			saved = GiftDao.update(gift);
+		}
+		return saved;
 	}
 
 	/**
 	 * @param gift
 	 * @return
 	 */
-	public static Gift load(Gift gift) {
-		gift = GiftDao.load(gift);
-		gift.setPictures(PictureLogic.loadPicturesByGift());
-		gift.getAction().setPictures(PictureLogic.loadPicturesByAction());
-		return gift;
-
+	public static boolean load(Gift gift) {
+		boolean result = false;
+		if (gift.exists() && GiftDao.load(gift)) {
+			if (PictureLogic.loadPicturesByGift(gift)) {
+				return PictureLogic.loadPicturesByAction(gift.getAction());
+			}
+		}
+		return result;
 	}
 
 }

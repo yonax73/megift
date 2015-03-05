@@ -18,7 +18,6 @@ import com.megift.bsp.action.logic.ActionLogic;
 import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.gift.logic.GiftLogic;
 import com.megift.bsp.pos.entity.POS;
-import com.megift.bsp.relationgiftpos.entity.RelationGiftPOS;
 import com.megift.set.master.entity.MasterValue;
 
 /**
@@ -56,11 +55,18 @@ public class GiftControl extends Controller {
 					posList.add(p);
 				}
 				gift.setPosList(posList);
-				if (GiftLogic.createGift(gift)) {
-					result = String.valueOf(gift.getId());
+				Action action = new Action(0);
+				if (ActionLogic.createAction(action)) {
+					gift.setAction(action);
+					if (GiftLogic.createGift(gift)) {
+						result = String.valueOf(gift.getId());
+					} else {
+						result = "Error creando el regalo";
+					}
 				} else {
-					result = "Error creando el regalo";
+					result = "Error creando la acción";
 				}
+
 			} else {
 				result = "No hay Puntos de venta para guardar";
 			}
@@ -81,7 +87,7 @@ public class GiftControl extends Controller {
 				action.setOtherType(data.get("other-type-action")[0]);
 			}
 			action.setPrice(Double.parseDouble(data.get("price-action")[0]));
-			if (ActionLogic.save(action)) {
+			if (ActionLogic.update(action)) {
 				gift.setName(data.get("name-gift")[0]);
 				gift.setType(new MasterValue(Integer.parseInt(data.get("gift-type")[0])));
 				if (gift.isOtherType()) {
@@ -108,62 +114,13 @@ public class GiftControl extends Controller {
 	}
 
 	public static Result loadGift(int id) {
-		return ok(Json.toJson(GiftLogic.load(new Gift(id))));
-	}
-
-	public static Result saveGift() {
-		String result = "No se ha podido completar la solicitud";
-		final Map<String, String[]> data = request().body().asFormUrlEncoded();
-		if (data != null) {
-			Gift gift = new Gift(Integer.parseInt(data.get("id-gift")[0]));
-			boolean isNew = !gift.exists();
-			boolean allowed = true;
-			Action action = new Action(Integer.parseInt(data.get("id-action")[0]));
-			action.setName(data.get("name-action")[0]);
-			action.setType(new MasterValue(Integer.parseInt(data.get("action-type")[0])));
-			action.setDescription(data.get("description-action")[0]);
-			if (action.isOtherType()) {
-				action.setOtherType(data.get("other-type-action")[0]);
-			}
-			action.setPrice(Double.parseDouble(data.get("price-action")[0]));
-			if (ActionLogic.save(action)) {
-				gift.setName(data.get("name-gift")[0]);
-				gift.setType(new MasterValue(Integer.parseInt(data.get("gift-type")[0])));
-				if (gift.isOtherType()) {
-					gift.setOtherType(data.get("other-gift-type")[0]);
-				}
-				gift.setPrice(Double.parseDouble(data.get("price-gift")[0]));
-				gift.setStartDate((LocalDate.parse(data.get("start-date-gift")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy"))).atStartOfDay());
-				gift.setExpirationDate((LocalDate.parse(data.get("end-date-gift")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy"))).atStartOfDay());
-				gift.setStatus(new MasterValue(Integer.parseInt(data.get("gift-status")[0])));
-				gift.setDescription(data.get("description-gift")[0]);
-				gift.setAction(action);
-				if (GiftLogic.save(gift)) {
-					if (isNew) {
-						RelationGiftPOS relationGiftPOS = new RelationGiftPOS(0);
-						relationGiftPOS.setIdPOSList(data.get("id-pos-list")[0].split(","));
-						relationGiftPOS.setGift(gift);
-						// ArrayList<RelationGiftPOS> giftPOSList =
-						// RelationGiftPOSLogic.savePOSList(relationGiftPOS);
-						/*
-						 * if (giftPOSList.isEmpty()) { result =
-						 * "Error guardando el regalo en los puntos de venta";
-						 * allowed = false; } else {
-						 * gift.setGiftPOSList(giftPOSList); }
-						 */
-					}
-					if (allowed) {
-						result = Json.toJson(gift).toString();
-					}
-				} else {
-					result = "Error guardando el regalo!";
-				}
-
-			} else {
-				result = "Error guardando la acción!";
-			}
-
+		Gift gift = new Gift(id);
+		if (GiftLogic.load(gift)) {
+			return ok(Json.toJson(gift));
+		} else {
+			return ok("Error cargando los datos del regalo");
 		}
-		return ok(result);
+
 	}
+
 }

@@ -64,14 +64,9 @@ public class ActionDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "CALL sp_bsp_actions_CREATE(?,?,?,?,?,?);";
+			String sql = "CALL sp_bsp_actions_CREATE(?);";
 			cst = conn.prepareCall(sql);
 			cst.registerOutParameter(1, Types.INTEGER);
-			cst.setInt(2, action.getType().getId());
-			cst.setString(3, action.getOtherType());
-			cst.setDouble(4, action.getPrice());
-			cst.setString(5, action.getName());
-			cst.setString(6, action.getDescription());
 			result = cst.executeUpdate() > 0;
 			if (result)
 				action.setId(cst.getInt(1));

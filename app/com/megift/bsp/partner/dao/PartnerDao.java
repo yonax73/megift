@@ -132,4 +132,28 @@ public class PartnerDao extends Dao {
 		}
 		return result;
 	}
+
+	/**
+	 * @param partner
+	 * @return
+	 */
+	public static boolean updatePicture(Partner partner) {
+		boolean result = false;
+		CallableStatement cst = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("CALL sp_bsp_partners_UPDATE_PICTURE(?,?)");
+			cst.setInt(1, partner.getId());
+			cst.setInt(2, partner.getPicture().getId());
+			result = cst.executeUpdate() > 0;
+		} catch (Exception e) {
+			Logger.error(e.getMessage());
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
+	}
 }

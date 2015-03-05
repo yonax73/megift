@@ -1,7 +1,8 @@
 package com.megift.set.picture.logic;
 
-import java.util.List;
-
+import com.megift.bsp.action.entity.Action;
+import com.megift.bsp.gift.entity.Gift;
+import com.megift.bsp.partner.dao.PartnerDao;
 import com.megift.bsp.partner.entity.Partner;
 import com.megift.set.picture.entity.Picture;
 
@@ -21,29 +22,75 @@ public class PictureLogic {
 	 * @param picture
 	 * @return
 	 */
-	public static boolean save(Partner partner) {
+	public static boolean savePicturePartner(Partner partner) {
 		boolean result = false;
-		if (partner.getPicture().exists())
+		if (partner.getPicture().exists()) {
 			result = PictureDao.update(partner.getPicture());
-		else if (partner.exists())
-			result = PictureDao.create(partner);
+		} else if (partner.exists()) {
+			result = PictureDao.create(partner.getPicture());
+			if (partner.getPicture().exists()) {
+				result = PartnerDao.updatePicture(partner);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * @param gift
+	 * @return
+	 */
+	public static boolean savePictureCollection(Gift gift) {
+		boolean result = false;
+		Picture picture = gift.getPictures().get(0);
+		if (picture.exists()) {
+			result = PictureDao.update(picture);
+		} else if (gift.exists()) {
+			result = PictureDao.create(picture);
+			if (picture.exists()) {
+				result = PictureDao.createPictureCollection(gift);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * @param gift
+	 * @return
+	 */
+	public static boolean savePictureCollection(Action action) {
+		boolean result = false;
+		Picture picture = action.getPictures().get(0);
+		if (picture.exists()) {
+			result = PictureDao.update(picture);
+		} else if (action.exists()) {
+			result = PictureDao.create(picture);
+			if (picture.exists()) {
+				result = PictureDao.createPictureCollection(action);
+			}
+		}
 		return result;
 	}
 
 	/**
 	 * @return
 	 */
-	public static List<Picture> loadPicturesByGift() {
-		// TODO Auto-generated method stub
-		return null;
+	public static boolean loadPicturesByGift(Gift gift) {
+		boolean result = false;
+		if (gift.exists()) {
+			result = PictureDao.loadPicturesByGift(gift);
+		}
+		return result;
 	}
 
 	/**
 	 * @return
 	 */
-	public static List<Picture> loadPicturesByAction() {
-		// TODO Auto-generated method stub
-		return null;
+	public static boolean loadPicturesByAction(Action action) {
+		boolean result = false;
+		if (action.exists()) {
+			result = PictureDao.loadPicturesByAction(action);
+		}
+		return result;
 	}
 
 }

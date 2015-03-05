@@ -40,9 +40,10 @@ public class GiftDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "CALL sp_bsp_gift_CREATE(?);";
+			String sql = "CALL sp_bsp_gift_CREATE(?,?);";
 			cst = conn.prepareCall(sql);
 			cst.registerOutParameter(1, Types.INTEGER);
+			cst.setInt(2, gift.getAction().getId());
 			result = cst.executeUpdate() > 0;
 			if (result)
 				gift.setId(cst.getInt(1));
@@ -92,7 +93,8 @@ public class GiftDao extends Dao {
 	 * @param gift
 	 * @return
 	 */
-	public static Gift load(Gift gift) {
+	public static boolean load(Gift gift) {
+		boolean result = false;
 		CallableStatement cst = null;
 		ResultSet rs = null;
 		Connection conn = DB.getConnection();
@@ -121,16 +123,16 @@ public class GiftDao extends Dao {
 				gift.setExpirationDate(rs.getTimestamp(12).toLocalDateTime());
 				gift.setName(rs.getString(13));
 				gift.setDescription(rs.getString(14));
-
+				result = true;
 			}
 		} catch (Exception e) {
-			Logger.error("An error has been occurred tryning loading the POS.\n" + e.getMessage(), e);
+			Logger.error("An error has been occurred tryning loading the Gift.\n" + e.getMessage(), e);
 		} finally {
 			if (cst != null)
 				cst = null;
 			close(conn);
 		}
-		return gift;
+		return result;
 	}
 
 }

@@ -8,8 +8,8 @@
 		<div class="row">
 			<div class="col-md-12 ">				
 				<div class="btn-group btn-group-lg pull-right" >
-					<button class="btn btn-default btn-lg" id="terms-and-conditions">
-						<i class="fa fa-file-text-o fa-fw"></i>&nbsp; Terminos y condiciones
+					<button class="btn btn-default btn-lg" id="terms-and-conditions-btn-open">
+						<i id="terms-and-conditions-btn-ico-open" class="fa fa-file-text-o fa-fw"></i>&nbsp; Terminos y condiciones
 					</button>
 					<button class="btn btn-default btn-lg" id="pos-list">
 						<i class="fa fa-cart-plus fa-fw"></i>&nbsp; Agregar a puntos de venta
@@ -24,15 +24,16 @@
 						<div class="col-md-12">
 							<ul class="list-group text-center">
 								<li id="content-img-gift" class="list-group-item content-img">
-									<img src="@routes.Assets.at("images/gift/gift.png")"/>
+									<img id="picture-gift-img" src="@routes.Assets.at("images/gift/gift.png")"/>
 								</li>
 								<li >
-									<button id="picture-gift-upload" class="btn list-group-item" ><i class="fa fa-upload fa-fw"></i>&nbsp; Imagen de regalo</button>
+									<button id="picture-gift-upload" class="btn list-group-item" ><i id="picture-gift-icon" class="fa fa-upload fa-fw"></i>&nbsp; Imagen de regalo</button>
 								</li>
 							</ul>
 						</div>
 					</div>
 					<input type="file" accept="image/*" id="picture-gift-select" name="picture" class="hidden" />
+					<input type="hidden" name="id-picture-gift" value="0">
 				</form>
 			</div>
 			<div class="col-md-6">
@@ -41,15 +42,16 @@
 						<div class="col-md-12">
 							<ul class="list-group text-center">
 								<li id="content-img-action" class="list-group-item content-img">
-									<img src="@routes.Assets.at("images/gift/action.png")"/>
+									<img id="picture-action-img" src="@routes.Assets.at("images/gift/action.png")"/>
 								</li>
 								<li >
-									<button id="picture-action-upload" class="btn list-group-item" href="#picture-action-upload"><i class="fa fa-upload fa-fw"></i>&nbsp; Imagen de la acción</button>
+									<button id="picture-action-upload" class="btn list-group-item" ><i id="picture-action-icon" class="fa fa-upload fa-fw"></i>&nbsp; Imagen de la acción</button>
 								</li>
 							</ul>
 						</div>
 					</div>
 					<input type="file" accept="image/*" id="picture-action-select" name="picture" class="hidden" />
+					<input type="hidden"  name="id-picture-action" value="0">
 				</form>
 			</div>
 		</div>
@@ -162,28 +164,63 @@
 						</div>
 					</div>    
 					<input type="hidden" id="id-gift" name="id-gift"  value="0">
-					<input type="hidden" id="id-action" name="id-action" value="0">
-					<input type="hidden" id="id-pos-list" name="id-pos-list" value="0">
+					<input type="hidden" id="id-action" name="id-action" value="0">					
 				</form>
 			</div>
 		</div>
 	</div>
-	<div>
-		<div  id="create-gift-popup" class="i-popup-panel i-popup-primary hidden">   			
-			<h2 >Crear regalo</h2>    
-			<p>Para empezar debes seleccionar mínimo un punto de venta para ofrecer el regalo.</p>								
-			<div>
-				<form id="create-gift-form" class="form-horizontal">
-					<fieldset>
-						<legend>Puntos de venta</legend>						
-						<div id="cover-check-pos" class="i-group-checkbox has-feedback" data-checkmin="1"></div>
-					</fieldset>
-					<button id="create-gift-btn" type="submit" class="btn btn-primary btn-lg pull-right">Continuar
-						<i id="create-gift-btn-ico"></i></button>
-					</form>
-				</div>
+	
+	<div  id="create-gift-popup" class="i-popup-panel i-popup-primary hidden">   			
+		<h2 >Crear regalo</h2>    
+		<p>Para empezar debes seleccionar mínimo un punto de venta para ofrecer el regalo.</p>								
+		<div>
+			<form id="create-gift-form" class="form-horizontal">
+				<fieldset>
+					<legend>Puntos de venta</legend>						
+					<div id="cover-check-pos" class="i-group-checkbox has-feedback" data-checkmin="1"></div>
+				</fieldset>
+				<button id="create-gift-btn" type="submit" class="btn btn-primary btn-lg pull-right">Continuar
+					<i id="create-gift-btn-ico"></i></button>
+				</form>
 			</div>
-			<script>
+		</div>
+		<div  id="terms-and-conditions-popup" class="i-popup-panel i-popup-primary hidden">   					
+			<form id="terms-and-conditions-form" class="form-horizontal">
+				<fieldset>
+					<legend>Terminos y condiciones para el regalo</legend>
+					<div class="row">
+						<div class="col-md-12 margin-bottom-1em">
+							<button id="add-term-and-condition-btn" type="button" class="btn btn-default pull-right" onclick="addTermAndCondition(0)">
+								<i class="fa fa-plus-circle"></i>
+								&nbsp;Agregar termino y condición
+							</button>		
+						</div>		
+					</div>
+					<div class="row">
+						<div id="content-terms-and-conditions" class="col-md-12">
+							<h4>No hay terminos y condiciones para este regalo. Desea agregar uno ?</h4>
+							<button id="add-term-and-condition-btn" type="button" class="btn btn-default" onclick="addTermAndCondition(0,1)">
+								<i class="fa fa-plus-circle"></i>
+								&nbsp;Agregar termino y condición
+							</button>	
+						</div>	
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="pull-right">
+								<button  type="button" class="btn btn-default  btn-lg i-popup-close">Cancelar</button>
+								<button id="terms-and-conditions-btn" type="submit" class="btn btn-success  btn-lg ">
+									Aceptar<i id="terms-and-conditions-btn-ico"></i>
+								</button>								
+							</div>
+						</div>
+					</div>
+				</fieldset>
+
+			</form>
+		</div>
+
+		<script>
 		//atributtes
 		var createGiftPopup = new Popup(document.getElementById('create-gift-popup'));		
 		var typeGiftView = sessionStorage.getItem('type-gift-view');
@@ -195,55 +232,226 @@
 		init();	
         //functions
         function init(){
-		  	 if(typeGiftView>0){//Adminstrar gift
-		  	 	loadGift();
 
-		 }else{//Crear gift 	
-		 	openCreateGiftPopup();
-		 }
-		}
+	  	 if(typeGiftView>0){//Adminstrar gift
+	  	 	loadGift();
+			 }else{//Crear gift 	
+			 	openCreateGiftPopup();
+			 }
+			}
 
-		function openCreateGiftPopup(){
-			var coverCheckPos = document.getElementById('cover-check-pos');
-			var createGiftFormXHR = new XHR('GET','/loadPOSByBusiness');
-			createGiftFormXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
-			createGiftFormXHR.onBeforeSend(function(){
-				coverCheckPos.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
-			});
-			createGiftFormXHR.onReady(function (xhr) {   
-				try {
-					var pos = JSON.parse(xhr.responseText); 					
-					coverCheckPos.innerHTML = '';  
-					fillCoverCheckPos(coverCheckPos,'id-pos',pos);
-					createGift();
-					createGiftPopup.show();
-				} catch (e) {			
-					console.log(e)
-					coverCheckPos.innerHTML = '<a href="/POS" onclick="newPOS()">No hay puntos de ventas, clic para comenzar</a>';
+
+			function initTermsAndConditions(){				
+				document.getElementById('terms-and-conditions-btn-open').onclick = function(){
+					loadTermnsAndConditions();                     
 				}
-			});
-			createGiftFormXHR.send();	
-		}
+			}
 
-		function createGift(){
-			var createGiftForm = new Form(document.getElementById('create-gift-form'));
-			createGiftForm.onsubmit(function(){
-				if(createGiftForm.isValid()){
-					var createGiftBtn = document.getElementById('create-gift-btn');
-					var createGiftBtnIcon = document.getElementById('create-gift-btn-ico');
-					var createGiftFormXHR = new XHR('POST','/createGift');
-					createGiftFormXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
-					createGiftFormXHR.onBeforeSend(function(){
-						createGiftBtn.disabled = true;
-						createGiftBtnIcon.className = 'fa fa-spinner fa-spin';
+			function loadTermnsAndConditions(){
+				if(typeGiftView>0){				
+					var termsAndConditionsPopup = new Popup(document.getElementById('terms-and-conditions-popup'));
+					var termsAndConditionsBtn = document.getElementById('terms-and-conditions-btn-open');
+					var termsAndConditionsBtnIcon = document.getElementById('terms-and-conditions-btn-ico-open');
+					var loadTermsAndConditionsXHR = new XHR('GET','/loadTermsAndConditionGift?id='+typeGiftView);						
+					loadTermsAndConditionsXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+					loadTermsAndConditionsXHR.onBeforeSend(function(){
+						termsAndConditionsBtn.disabled = true;
+						termsAndConditionsBtnIcon.className = 'fa fa-spinner fa-spin';
 					});
-					createGiftFormXHR.onReady(function (xhr) {   
-						if(xhr.responseText >0){                                 
+					loadTermsAndConditionsXHR.onReady(function (xhr) {  
+						termsAndConditionsBtn.disabled = false;
+						termsAndConditionsBtnIcon.className = 'fa fa-file-text-o fa-fw'; 
+						try{
+							var t = JSON.parse(xhr.responseText);
+							termsAndConditionsPopup.show();
+						}catch (ex) {	      
+							console.log(ex);
+							notification.danger(xhr.responseText);
+						}
+					});
+					loadTermsAndConditionsXHR.send();		
+				}
+				var termsAndConditionsForm = new Form(document.getElementById('terms-and-conditions-form'));
+				termsAndConditionsForm.onsubmit(function(){
+	                
+				});
+			}
+
+			function initPictureAction(){
+				document.getElementById('picture-action-upload').onclick = function (e) {
+					e.preventDefault();
+					document.getElementById('picture-action-select').click();
+				}
+	        //trigger event picture upload
+	        document.getElementById('picture-action-select').onchange = function (e) {
+	        	handlePictureActionSelect(e);
+	        }
+	    }
+
+	    function initUpdateGift(){
+	    	var giftForm = new Form(document.getElementById('gift-form'));
+	    	giftForm.onsubmit(function(){
+	    		if(giftForm.isValid()){
+	    			var giftBtn = document.getElementById('gift-Btn');
+	    			var giftBtnIcon = document.getElementById('gift-btn-ico');
+	    			var giftXHR = new XHR('POST','/updateGift');
+	    			giftXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+	    			giftXHR.onBeforeSend(function(){
+	    				giftBtn.disabled = true;
+	    				giftBtnIcon.className = 'fa fa-spinner fa-spin';
+	    			});
+	    			giftXHR.onReady(function (xhr) {   
+	    				giftBtn.disabled = false;
+	    				giftBtnIcon.className = '';			
+	    				try {
+	    					var gift = JSON.parse(xhr.responseText);                     
+	    					nameGiftTitle.textContent = gift.name;                 
+	    					notification.success('El regalo se guardo exitosamente!');				
+	    				} catch (ex) {	            	    					
+	    					notification.danger(xhr.responseText);
+	    				}
+	    			});
+	    			giftXHR.send(giftForm.serialize());
+	    		}
+	    	});
+	    }
+
+	    function handlePictureActionSelect(e) {
+	    	var picture = e.target.files[0];
+	    	if (picture.type.match('image.*')) {
+	    		if (picture.size <= 65535) {
+	    			var formData = new FormData();
+	    			formData.append('picture', picture);
+	    			formData.append('id-picture-action', document.getElementsByName('id-picture-action')[0].value);
+	    			formData.append('id-action', document.getElementsByName('id-action')[0].value);
+	    			var uploadPictureActionXHR = new XHR('POST','/uploadpictureAction');
+	    			var icon = document.getElementById('picture-action-icon');
+	    			var btn =  document.getElementById('picture-action-upload');
+	    			uploadPictureActionXHR.onBeforeSend(function () {
+	    				btn.disabled = true;
+	    				icon.className = 'fa fa-spinner fa-spin';
+	    			});
+	    			uploadPictureActionXHR.onReady(function (xhr) {
+	    				btn.disabled = false;
+	    				icon.className = 'fa fa-upload fa-fw';
+	    				var response = xhr.responseText;
+	    				if (response === SUCCESS_RESPONSE) {
+	    					var reader = new FileReader();
+	    					reader.onload = (function (theFile) {
+	    						return function (evt) {
+	    							document.getElementById('picture-action-img').src = evt.target.result;
+	    						};
+	    					})(picture);
+	    					reader.readAsDataURL(picture);
+	    					notification.success('La foto se guardo correctamente!');
+	    				} else {
+	    					notification.danger(response);
+	    				}
+	    			});
+	    			uploadPictureActionXHR.send(formData);
+	    		} else {
+	    			notification.danger('La imagen no puede ser mayor que 64KB');    			
+	    		}
+	    	} else {    		
+	    		notification.danger('Seleccione una imagen válida');
+	    	}
+	    }
+	    function initPictureGift(){
+	    	document.getElementById('picture-gift-upload').onclick = function (e) {
+	    		e.preventDefault();
+	    		document.getElementById('picture-gift-select').click();
+	    	}
+	        //trigger event picture upload
+	        document.getElementById('picture-gift-select').onchange = function (e) {
+	        	handlePictureGiftSelect(e);
+	        }
+	    }
+	    function handlePictureGiftSelect(e) {
+	    	var picture = e.target.files[0];
+	    	if (picture.type.match('image.*')) {
+	    		if (picture.size <= 65535) {
+	    			var formData = new FormData();
+	    			formData.append('picture', picture);
+	    			formData.append('id-picture-gift', document.getElementsByName('id-picture-gift')[0].value);
+	    			formData.append('id-gift', document.getElementsByName('id-gift')[0].value);
+	    			var uploadPictureGiftXHR = new XHR('POST','/uploadpictureGift');
+	    			var icon = document.getElementById('picture-gift-icon');
+	    			var btn =  document.getElementById('picture-gift-upload');
+	    			uploadPictureGiftXHR.onBeforeSend(function () {
+	    				btn.disabled = true;
+	    				icon.className = 'fa fa-spinner fa-spin';
+	    			});
+	    			uploadPictureGiftXHR.onReady(function (xhr) {
+	    				btn.disabled = false;
+	    				icon.className = 'fa fa-upload fa-fw';
+	    				var response = xhr.responseText;
+	    				if (response === SUCCESS_RESPONSE) {
+	    					var reader = new FileReader();
+	    					reader.onload = (function (theFile) {
+	    						return function (evt) {
+	    							document.getElementById('picture-gift-img').src = evt.target.result;
+	    						};
+	    					})(picture);
+	    					reader.readAsDataURL(picture);
+	    					notification.success('La foto se guardo correctamente!');
+	    				} else {
+	    					notification.danger(response);
+	    				}
+	    			});
+	    			uploadPictureGiftXHR.send(formData);
+	    		} else {
+	    			notification.danger('La imagen no puede ser mayor que 64KB');    			
+	    		}
+	    	} else {    		
+	    		notification.danger('Seleccione una imagen válida');
+	    	}
+	    }
+
+
+
+	    function openCreateGiftPopup(){
+	    	var coverCheckPos = document.getElementById('cover-check-pos');
+	    	var createGiftFormXHR = new XHR('GET','/loadPOSByBusiness');
+	    	createGiftFormXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+	    	createGiftFormXHR.onBeforeSend(function(){
+	    		coverCheckPos.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+	    	});
+	    	createGiftFormXHR.onReady(function (xhr) {   
+	    		try {
+	    			var pos = JSON.parse(xhr.responseText); 					
+	    			coverCheckPos.innerHTML = '';  
+	    			fillCoverCheckPos(coverCheckPos,'id-pos',pos);
+	    			createGift();
+	    			createGiftPopup.show();
+	    		} catch (e) {			
+	    			coverCheckPos.innerHTML = '<a href="/POS" onclick="newPOS()">No hay puntos de ventas, clic para comenzar</a>';
+	    		}
+	    	});
+	    	createGiftFormXHR.send();	
+	    }
+
+	    function createGift(){
+	    	var createGiftForm = new Form(document.getElementById('create-gift-form'));
+	    	createGiftForm.onsubmit(function(){
+	    		if(createGiftForm.isValid()){
+	    			var createGiftBtn = document.getElementById('create-gift-btn');
+	    			var createGiftBtnIcon = document.getElementById('create-gift-btn-ico');
+	    			var createGiftFormXHR = new XHR('POST','/createGift');
+	    			createGiftFormXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+	    			createGiftFormXHR.onBeforeSend(function(){
+	    				createGiftBtn.disabled = true;
+	    				createGiftBtnIcon.className = 'fa fa-spinner fa-spin';
+	    			});
+	    			createGiftFormXHR.onReady(function (xhr) {   
+	    				if(xhr.responseText >0){                                 
 						//load data by this gift						
 						typeGiftView = xhr.responseText;
+						sessionStorage.setItem('type-gift-view',typeGiftView);
 						createGiftPopup.closeAll();
 						loadGift();
 					}else{
+						createGiftBtn.disabled = false;
+						createGiftBtnIcon.className = '';
 						var msg = document.getElementById('create-gift-popup-msg');			
 						msg.textContent = xhr.responseText;
 						if(msg.classList.contains('hidden')){
@@ -251,9 +459,9 @@
 						}
 					}
 				});
-					createGiftFormXHR.send(createGiftForm.serialize());				
-				}
-			});
+	    			createGiftFormXHR.send(createGiftForm.serialize());				
+	    		}
+	    	});
 }
 
 function loadGift(){
@@ -264,21 +472,32 @@ function loadGift(){
 			nameGiftTitle.textContent = 'Cargando...';
 		});
 		loadGiftFormXHR.onReady(function (xhr) {   
-			var gift = JSON.parse(xhr.responseText);
-			initList(gift.type.id,gift.otherType,gift.status.id,gift.action.type.id,gift.action.otherType);
-			fillImages();
-			nameGiftTitle.textContent = gift.name;
-			document.getElementsByName('name-gift')[0].value = gift.name;
-			document.getElementsByName('price-gift')[0].value = gift.price;
-			document.getElementsByName('start-date-gift')[0].value = gift.startDate;
-			document.getElementsByName('end-date-gift')[0].value = gift.expirationDate;
-			document.getElementsByName('description-gift')[0].value = gift.description;			
-			document.getElementsByName('name-action')[0].value =  gift.action.name;			
-			document.getElementsByName('price-action')[0].value = gift.action.price;
-			document.getElementsByName('description-action')[0].value = gift.action.description;
+			try{
+				var gift = JSON.parse(xhr.responseText);
+				initList(gift.type.id,gift.otherType,gift.status.id,gift.action.type.id,gift.action.otherType);
+				initUpdateGift()
+				initPictureGift();
+				initPictureAction();
+				initTermsAndConditions();
+				fillImages(gift.pictures,gift.action.pictures);
+				nameGiftTitle.textContent = gift.name;			
+				document.getElementsByName('id-gift')[0].value = typeGiftView;
+				document.getElementsByName('name-gift')[0].value = gift.name;
+				document.getElementsByName('price-gift')[0].value = gift.price;
+				document.getElementsByName('start-date-gift')[0].value = gift.formatStartDate;
+				document.getElementsByName('end-date-gift')[0].value = gift.formatExpirtationtDate;
+				document.getElementsByName('description-gift')[0].value = gift.description;			
+				document.getElementsByName('name-action')[0].value =  gift.action.name;			
+				document.getElementsByName('price-action')[0].value = gift.action.price;
+				document.getElementsByName('description-action')[0].value = gift.action.description;
+				document.getElementsByName('id-action')[0].value = gift.action.id;
+			}catch (ex) {	         
+				console.error(ex)   	    					;
+				notification.danger(xhr.responseText);
+			}
 		});
-		loadGiftFormXHR.send();		
-	}
+loadGiftFormXHR.send();		
+}
 }
 
 function initList(giftTypeId,otherTypeGiftStr,giftStatusId,actionTypeId,otherTypeActionStr){
@@ -338,8 +557,10 @@ function initList(giftTypeId,otherTypeGiftStr,giftStatusId,actionTypeId,otherTyp
 		});
 	}
 
-	function fillImages(){
-
+	function fillImages(picturesGift,picturesAction){
+		if(picturesGift!=null && picturesGift.length >0){
+			document.getElementsByName('id-picture-gift')[0].value = picturesGift[0].id;
+		}      
 	}
 
 	function fillCoverCheckPos(element,name,pos){
@@ -421,7 +642,41 @@ function initList(giftTypeId,otherTypeGiftStr,giftStatusId,actionTypeId,otherTyp
 		    element.appendChild(row);
 		}
 
+		function addTermAndCondition(id){		        	
+			//icon
+			var icon = document.createElement('i');
+			icon.className = 'fa fa-trash-o fa-fw';
+			//link
+			var a = document.createElement('a');
+			a.href="/deleteTermnAndCondition?id="+id;
+			a.appendChild(icon);
+			a.appendChild(document.createTextNode("  Eliminar"))
+			a.onclick = function(){
+				//eliminar this
+			}
+			//panel footer
+			var panelFooter = document.createElement('div');
+			panelFooter.className = 'panel-footer';
+			panelFooter.appendChild(a);
+			//textarea
+			textArea = document.createElement('textArea');
+			textArea.classList.add('form-control');
+			textArea.placeholder = 'Nuevo termino y condición';
+			textArea.name = 'term-and-condition-txt'
+			textArea.dataset.required = true;
+			textArea.rows = 1;
+			//panel default
+			var panel = document.createElement('div');
+			panel.className = 'panel panel-default form-group has-feedback';
+			panel.appendChild(textArea);
+			panel.appendChild(panelFooter);
+			//content
+			var content = document.getElementById('content-terms-and-conditions');
+			var x = content.querySelectorAll('textarea');
+			if(x.length<=0)content.innerHTML = '';			
+			content.appendChild(panel);
 
+		} 
 
 		</script>
 	}

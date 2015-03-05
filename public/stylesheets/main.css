@@ -215,7 +215,11 @@
  padding: 0;
 }
 .form-picture img{
-  width: 100%
+ height: 120px;
+    margin: 0 auto;
+    max-height: 120px;
+    max-width: 120px;
+    width: 120px;
 }
 .form-picture button{
   width: 100%;
@@ -247,4 +251,14 @@
     border-color: rgb(210, 210, 210);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     color: #000;
+}
+/*utils*/
+.margin-bottom-1em{
+   margin-bottom: 1em;
+}
+
+#content-terms-and-conditions{
+    margin: 1.5em 0;
+    max-height: 400px;
+    overflow: auto;
 }
