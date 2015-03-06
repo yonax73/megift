@@ -93,14 +93,15 @@ public class POSDao extends Dao {
 	}
 
 	/**
-	 * @param businessid
+	 * @param business
 	 * @return
 	 */
-	public static List<POS> loadPOSByBusiness(Business business) {
+	public static boolean loadPOSByBusiness(Business business) {
 		List<POS> POSList = null;
 		CallableStatement cst = null;
 		ResultSet rs = null;
 		Connection conn = null;
+		boolean result = false;
 		try {
 			conn = DB.getConnection();
 			cst = conn.prepareCall("{CALL sp_bsp_POS_LOAD_BY_BUSINESS(?)}");
@@ -123,6 +124,8 @@ public class POSDao extends Dao {
 					POSList.add(pos);
 				} while (rs.next());
 			}
+			business.setPosList(POSList);
+			result = true;
 		} catch (Exception e) {
 			Logger.error("An error has been occurred trying to load the POS List.\n" + e.getMessage(), e);
 		} finally {
@@ -130,7 +133,7 @@ public class POSDao extends Dao {
 				cst = null;
 			close(conn);
 		}
-		return POSList;
+		return result;
 	}
 
 	/**
@@ -179,9 +182,33 @@ public class POSDao extends Dao {
 	 * @param gift
 	 * @return
 	 */
-	public static boolean saveGift(Gift gift) {
-
-		return false;
+	public static boolean loadPOSByGift(Gift gift) {
+		List<POS> POSList = null;
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		boolean result = false;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("{CALL sp_bsp_POS_LOAD_BY_GIFT(?)}");
+			cst.setInt(1, gift.getId());
+			rs = cst.executeQuery();
+			if (rs.next()) {
+				POSList = new ArrayList<POS>();
+				do {
+					POSList.add(new POS(rs.getInt(1)));
+				} while (rs.next());
+			}
+			gift.setPosList(POSList);
+			result = true;
+		} catch (Exception e) {
+			Logger.error("An error has been occurred trying to load the POS List by Gift.\n" + e.getMessage(), e);
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
 	}
 
 }

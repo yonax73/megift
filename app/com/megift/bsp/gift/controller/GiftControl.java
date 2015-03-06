@@ -52,7 +52,9 @@ public class GiftControl extends Controller {
 				List<POS> posList = new ArrayList<POS>();
 				for (int i = 0; i < n; i++) {
 					POS p = new POS(Integer.parseInt(pos[i]));
-					posList.add(p);
+					if (p.exists()) {
+						posList.add(p);
+					}
 				}
 				gift.setPosList(posList);
 				Action action = new Action(0);
@@ -120,7 +122,6 @@ public class GiftControl extends Controller {
 		} else {
 			return ok("Error cargando los datos del regalo");
 		}
-
 	}
 
 }

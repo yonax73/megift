@@ -4,8 +4,8 @@
 package com.megift.bsp.pos.controller;
 
 import static com.megift.resources.utils.Constants.SESSION_BUSINESS_ID;
+import static com.megift.resources.utils.Constants.SUCCESS_RESPONSE;
 
-import java.util.List;
 import java.util.Map;
 
 import play.libs.Json;
@@ -13,10 +13,13 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.megift.bsp.business.entity.Business;
+import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.partner.entity.Partner;
 import com.megift.bsp.partner.logic.PartnerLogic;
 import com.megift.bsp.pos.entity.POS;
 import com.megift.bsp.pos.logic.POSLogic;
+import com.megift.bsp.term_and_condition.TermAndCondition;
+import com.megift.bsp.term_and_condition.logic.TermAndConditionLogic;
 import com.megift.set.location.address.entity.Address;
 import com.megift.set.location.address.logic.AddressLogic;
 import com.megift.set.location.entity.Location;
@@ -102,14 +105,64 @@ public class POSControl extends Controller {
 	}
 
 	public static Result loadPOSByBusiness() {
-		List<POS> POSList = POSLogic.loadPOSByBusiness(new Business(Integer.parseInt(session(SESSION_BUSINESS_ID))));
-		if (POSList != null && !POSList.isEmpty()) {
-			return ok(Json.toJson(POSList));
+		Business business = new Business(Integer.parseInt(session(SESSION_BUSINESS_ID)));
+		if (POSLogic.loadPOSByBusiness(business) && business.getPosList() != null && !business.getPosList().isEmpty()) {
+			return ok(Json.toJson(business.getPosList()));
 		}
 		return ok("No hay puntos de venta para mostrar");
 	}
 
 	public static Result loadPOS(int id) {
 		return ok(Json.toJson(POSLogic.load(new POS(id))));
+	}
+
+	/*
+	 * Todos los puntos de venta que tiene como este regalo y ademas trae
+	 * tambien los que no tiene el regalo para que se puedan seleccioanr desde
+	 * el cliente
+	 */
+	public static Result loadPOSByGift(int id) {
+		Business business = new Business(Integer.parseInt(session(SESSION_BUSINESS_ID)));
+		Gift gift = new Gift(id);
+		if (POSLogic.loadPOSByGift(business, gift)) {
+			return ok(Json.toJson(business.getPosList()));
+		}
+		return ok("No hay puntos de venta para mostrar");
+	}
+
+	/*
+	 * Asociar este regalo a este punto de venta
+	 */
+	public static Result associateGifToPOS(int idPos, int idGift) {
+		String result = "No se ha podido completar la solicitud";
+		TermAndCondition termAndCondition = new TermAndCondition(idPos);
+		if (termAndCondition.exists()) {
+			if (TermAndConditionLogic.delete(termAndCondition)) {
+				result = SUCCESS_RESPONSE;
+			} else {
+				result = "Error eliminando termino y condición";
+			}
+		} else {
+			result = SUCCESS_RESPONSE;
+		}
+		return ok(result);
+	}
+
+	/*
+	 * Eliminar este regalo de este punto de venta
+	 */
+	public static Result removeGiftOfPOS(int idPos, int idGift) {
+		String result = "No se ha podido completar la solicitud";
+		TermAndCondition termAndCondition = new TermAndCondition(idPos);
+		if (termAndCondition.exists()) {
+			if (TermAndConditionLogic.delete(termAndCondition)) {
+				result = SUCCESS_RESPONSE;
+			} else {
+				result = "Error eliminando termino y condición";
+			}
+		} else {
+			result = SUCCESS_RESPONSE;
+		}
+		return ok(result);
 	}
 }

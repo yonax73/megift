@@ -28,6 +28,7 @@ public class POS extends Entity {
 	private Location location;
 	private Partner contact;
 	private List<Gift> giftList;
+	private Gift gift;
 	private int bussinesId;
 
 	/**
@@ -55,6 +56,14 @@ public class POS extends Entity {
 	public boolean isEmpty() {
 
 		return name == null;
+	}
+
+	public boolean equals(POS pos) {
+		return id == pos.id;
+	}
+
+	public boolean hasGift() {
+		return gift != null && gift.exists();
 	}
 
 	public Partner getContact() {
@@ -109,6 +118,21 @@ public class POS extends Entity {
 	 */
 	public void setBussinesId(int bussinesId) {
 		this.bussinesId = bussinesId;
+	}
+
+	/**
+	 * @return the gift
+	 */
+	public Gift getGift() {
+		return gift;
+	}
+
+	/**
+	 * @param gift
+	 *            the gift to set
+	 */
+	public void setGift(Gift gift) {
+		this.gift = gift;
 	}
 
 }

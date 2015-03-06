@@ -47,6 +47,9 @@ GET /POS                com.megift.bsp.pos.controller.POSControl.POS()
 POST /savePOS                com.megift.bsp.pos.controller.POSControl.savePOS()
 GET /loadPOSByBusiness                com.megift.bsp.pos.controller.POSControl.loadPOSByBusiness()
 GET /loadPOS                com.megift.bsp.pos.controller.POSControl.loadPOS(id:Integer)
+GET /loadPOSByGift                com.megift.bsp.pos.controller.POSControl.loadPOSByGift(id:Integer)
+GET /associateGifToPOS                com.megift.bsp.pos.controller.POSControl.associateGifToPOS(idPos:Integer,idGift:Integer)
+GET /removeGiftOfPOS                com.megift.bsp.pos.controller.POSControl.removeGiftOfPOS(idPos:Integer,idGift:Integer)
 #Gift
 GET /giftList                com.megift.bsp.gift.controller.GiftControl.giftList()
 GET /gift                    com.megift.bsp.gift.controller.GiftControl.gift()
@@ -55,6 +58,8 @@ POST /updateGift                    com.megift.bsp.gift.controller.GiftControl.u
 GET /loadGift                    com.megift.bsp.gift.controller.GiftControl.loadGift(id:Integer)
 #Terms and condition
 GET /loadTermsAndConditionGift      com.megift.bsp.term_and_condition.controller.TermAndConditionControl.loadTermsAndConditionGift(id:Integer)
+POST /saveTermnsAndConditions      com.megift.bsp.term_and_condition.controller.TermAndConditionControl.saveTermnsAndConditions()
+GET /deleteTermAndCondition      com.megift.bsp.term_and_condition.controller.TermAndConditionControl.deleteTermAndCondition(id:Integer)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET /robots.txt controllers.Assets.at(path="/public",file="robots.txt")

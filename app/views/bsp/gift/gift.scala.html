@@ -11,8 +11,8 @@
 					<button class="btn btn-default btn-lg" id="terms-and-conditions-btn-open">
 						<i id="terms-and-conditions-btn-ico-open" class="fa fa-file-text-o fa-fw"></i>&nbsp; Terminos y condiciones
 					</button>
-					<button class="btn btn-default btn-lg" id="pos-list">
-						<i class="fa fa-cart-plus fa-fw"></i>&nbsp; Agregar a puntos de venta
+					<button class="btn btn-default btn-lg" id="associate-pos-btn">
+						<i id="associate-pos-btn-icon" class="fa fa-cart-plus fa-fw"></i>&nbsp; Agregar a puntos de venta
 					</button>
 				</div>
 			</div>
@@ -185,6 +185,11 @@
 			</div>
 		</div>
 		<div  id="terms-and-conditions-popup" class="i-popup-panel i-popup-primary hidden">   					
+			<div class="row center">
+				<div class="col-md-6">
+					<div id="terms-and-condition-notification"></div>
+				</div>
+			</div>
 			<form id="terms-and-conditions-form" class="form-horizontal">
 				<fieldset>
 					<legend>Terminos y condiciones para el regalo</legend>
@@ -208,25 +213,50 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="pull-right">
-								<button  type="button" class="btn btn-default  btn-lg i-popup-close">Cancelar</button>
+								<button  type="button" class="btn btn-default  btn-lg i-popup-close">Cerrar</button>
 								<button id="terms-and-conditions-btn" type="submit" class="btn btn-success  btn-lg ">
-									Aceptar<i id="terms-and-conditions-btn-ico"></i>
+									Guardar<i id="terms-and-conditions-btn-ico"></i>
 								</button>								
 							</div>
 						</div>
 					</div>
 				</fieldset>
-
+				<input type="hidden" name="id-git-terms-and-conditions" value="0">
 			</form>
 		</div>
 
-		<script>
+		<div  id="associate-pos-popup" class="i-popup-panel i-popup-primary hidden">  
+			<div class="row center">
+				<div class="col-md-6">
+					<div id="associate-pos-notification"></div>
+				</div>
+			</div> 			
+			<div class="row">
+				<div class="col-md-12 page-header">
+					<h2 >Puntos de venta</h2>    			
+				</div>
+				<p>Asociar regalo a puntos de venta</p>		
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div id="associate-pos-cover"></div>
+				</div>
+				<div class="col-md-2 pull-right">
+					<div class="form-group ">
+						<button type="button" class="btn btn-default btn-lg btn-block i-popup-close">Cerrar</button>
+						</div>
+					</div>   
+			</div>
+
+			<script>
 		//atributtes
 		var createGiftPopup = new Popup(document.getElementById('create-gift-popup'));		
 		var typeGiftView = sessionStorage.getItem('type-gift-view');
 		var giftType,giftStatus,actionType ;
 		var OTHER_TYPE_ACTION = 14;
 		var OTHER_TYPE_GIFT = 24;
+		var ASSOCIATE_POS_COVER_USE_CASE = 1;
+		var CREATE_GIFT_COVER_USE_CASE = 0;
 		var nameGiftTitle = document.getElementById('name-gift-title');
 		//init
 		init();	
@@ -240,6 +270,36 @@
 			 }
 			}
 
+
+			function initPOS(){
+				var associatePOSPopup = new Popup(document.getElementById('associate-pos-popup'));
+				var associatePOSNotification = new Alert(document.getElementById('associate-pos-notification'));
+				document.getElementById('associate-pos-btn').onclick = function(){
+		    	var coverCheckPos = document.getElementById('associate-pos-cover');
+		    	var associatePOSBtn = document.getElementById('associate-pos-btn');
+		    	var associatePOSBtnIcon = document.getElementById('associate-pos-btn-icon');
+		    	var loadPOSXHR = new XHR('GET','/loadPOSByGift?id='+typeGiftView);
+		    	loadPOSXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+		    	loadPOSXHR.onBeforeSend(function(){
+		    		associatePOSBtn.disabled = true;
+		    		associatePOSBtnIcon.className = 'fa fa-spinner fa-spin';		    		
+		    	});
+		    	loadPOSXHR.onReady(function (xhr) {   
+		    		associatePOSBtn.disabled = false;
+		    		associatePOSBtnIcon.className = 'fa fa-file-text-o fa-fw';		
+		    		try {
+		    			var pos = JSON.parse(xhr.responseText);		  
+		    			coverCheckPos.innerHTML = '';    		
+		    			fillCoverCheckPos(coverCheckPos,'associate-pos',pos,ASSOCIATE_POS_COVER_USE_CASE);		    			
+		    			associatePOSPopup.show();
+		    		} catch (ex) {		
+		    		    console.log(ex);
+		    			associatePOSNotification.danger(xhr.responseText);
+		    		}
+		    	});
+				loadPOSXHR.send();
+				}   
+			}
 
 			function initTermsAndConditions(){				
 				document.getElementById('terms-and-conditions-btn-open').onclick = function(){
@@ -263,6 +323,7 @@
 						termsAndConditionsBtnIcon.className = 'fa fa-file-text-o fa-fw'; 
 						try{
 							var t = JSON.parse(xhr.responseText);
+							fillTermsAndConditions(t);
 							termsAndConditionsPopup.show();
 						}catch (ex) {	      
 							console.log(ex);
@@ -273,15 +334,35 @@
 				}
 				var termsAndConditionsForm = new Form(document.getElementById('terms-and-conditions-form'));
 				termsAndConditionsForm.onsubmit(function(){
-	                
+					document.getElementsByName('id-git-terms-and-conditions')[0].value = typeGiftView;	
+					var termsAndConditionsSaveBtn =	document.getElementById('terms-and-conditions-btn');			
+					var termsAndConditionsSaveBtnIcon = document.getElementById('terms-and-conditions-btn-ico');
+					var termsAndConditionsxHR = new XHR('POST','/saveTermnsAndConditions');
+					termsAndConditionsxHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+					termsAndConditionsxHR.onBeforeSend(function(){
+						termsAndConditionsSaveBtn.disabled = true;
+						termsAndConditionsSaveBtnIcon.className = 'fa fa-spinner fa-spin';
+					});
+					termsAndConditionsxHR.onReady(function (xhr) {   
+						termsAndConditionsSaveBtn.disabled = false;
+						termsAndConditionsSaveBtnIcon.className = '';
+						if(xhr.responseText === SUCCESS_RESPONSE){                                 
+							termsAndConditionsPopup.closeAll();
+							notification.success('Terminos y condiciones guardados exitosamente!');							
+						}else{
+							notification.danger(xhr.responseText);
+							termsAndConditionsPopup.closeAll();
+						}
+					});
+					termsAndConditionsxHR.send(termsAndConditionsForm.serialize());
 				});
-			}
+}
 
-			function initPictureAction(){
-				document.getElementById('picture-action-upload').onclick = function (e) {
-					e.preventDefault();
-					document.getElementById('picture-action-select').click();
-				}
+function initPictureAction(){
+	document.getElementById('picture-action-upload').onclick = function (e) {
+		e.preventDefault();
+		document.getElementById('picture-action-select').click();
+	}
 	        //trigger event picture upload
 	        document.getElementById('picture-action-select').onchange = function (e) {
 	        	handlePictureActionSelect(e);
@@ -307,7 +388,8 @@
 	    					var gift = JSON.parse(xhr.responseText);                     
 	    					nameGiftTitle.textContent = gift.name;                 
 	    					notification.success('El regalo se guardo exitosamente!');				
-	    				} catch (ex) {	            	    					
+	    				} catch (ex) {	  
+	    				    console.log(ex);          	    					
 	    					notification.danger(xhr.responseText);
 	    				}
 	    			});
@@ -420,16 +502,16 @@
 	    		try {
 	    			var pos = JSON.parse(xhr.responseText); 					
 	    			coverCheckPos.innerHTML = '';  
-	    			fillCoverCheckPos(coverCheckPos,'id-pos',pos);
+	    			fillCoverCheckPos(coverCheckPos,'id-pos',pos,CREATE_GIFT_COVER_USE_CASE);
 	    			createGift();
 	    			createGiftPopup.show();
-	    		} catch (e) {			
+	    		} catch (ex) {	
+	    		    console.log(ex);		
 	    			coverCheckPos.innerHTML = '<a href="/POS" onclick="newPOS()">No hay puntos de ventas, clic para comenzar</a>';
 	    		}
 	    	});
 	    	createGiftFormXHR.send();	
 	    }
-
 	    function createGift(){
 	    	var createGiftForm = new Form(document.getElementById('create-gift-form'));
 	    	createGiftForm.onsubmit(function(){
@@ -478,6 +560,7 @@ function loadGift(){
 				initUpdateGift()
 				initPictureGift();
 				initPictureAction();
+				initPOS();
 				initTermsAndConditions();
 				fillImages(gift.pictures,gift.action.pictures);
 				nameGiftTitle.textContent = gift.name;			
@@ -563,8 +646,8 @@ function initList(giftTypeId,otherTypeGiftStr,giftStatusId,actionTypeId,otherTyp
 		}      
 	}
 
-	function fillCoverCheckPos(element,name,pos){
-		var n = pos.length;
+	function fillCoverCheckPos(element,name,pos,useCase){
+		var n = pos.length;		
 		for (var i = 0; i < n; i++) {
 			var p = pos[i];
 			var idElelement = 'cover-check-gift-'+p.id;
@@ -597,8 +680,46 @@ function initList(giftTypeId,otherTypeGiftStr,giftStatusId,actionTypeId,otherTyp
 		       var input = document.createElement('input');
 		       input.type = 'checkbox';
 		       input.id = idElelement;
-		       input.name = name;
-		       input.value = p.id;
+		       input.dataset.id = p.id;
+		       switch(useCase){
+		       	case CREATE_GIFT_COVER_USE_CASE:
+		       	input.name = name;
+		       	input.value = 0;			       
+		       	input.onclick = function(){
+		       		if(this.checked){
+		       			this.value = this.dataset.id;
+		       		}else{
+		       			this.value = 0;
+		       		}
+		       	}
+		       	break;
+		       	case ASSOCIATE_POS_COVER_USE_CASE:
+		       	input.checked = p.gift!=null;
+		       	input.onclick = function(){						
+		       		var idPOS = this.dataset.id;
+		       		var idGift = typeGiftView;
+		       		var actionXHR = null;
+		       		var msg = null;						
+		       		if(this.checked){			       	  	    
+		       			actionXHR = new XHR('GET','/removeGiftOfPOS?idPos='+idPOS+'&idGift='+idGift);
+		       			msg = "Se elimino el regalo del punto de venta";
+		       		}else{
+		       			actionXHR = new XHR('GET','/associateGifToPOS?idPos='+idPOS+'&idGift='+idGift);
+		       			msg = "Se Asocio el regalo al punto de venta";
+		       		}
+		       		actionXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+		       		actionXHR.onReady(function (xhr) {   					    		
+		       			if(xhr.responseText== SUCCESS_RESPONSE){
+		       				associatePOSNotification.success(msg);
+		       			}else{
+		       				associatePOSNotification.danger(xhr.responseText);
+		       			}			    			
+		       		});
+		       		actionXHR.send();
+		       	}
+		       	break;
+
+		       }
 		       //span
 		       var span = document.createElement('span');
 		       span.classList.add('i-checkbox');
@@ -642,17 +763,39 @@ function initList(giftTypeId,otherTypeGiftStr,giftStatusId,actionTypeId,otherTyp
 		    element.appendChild(row);
 		}
 
-		function addTermAndCondition(id){		        	
+		function addTermAndCondition(id,description,content){		        	
 			//icon
 			var icon = document.createElement('i');
 			icon.className = 'fa fa-trash-o fa-fw';
 			//link
 			var a = document.createElement('a');
-			a.href="/deleteTermnAndCondition?id="+id;
+			a.href="#";
 			a.appendChild(icon);
-			a.appendChild(document.createTextNode("  Eliminar"))
-			a.onclick = function(){
-				//eliminar this
+			a.appendChild(document.createTextNode("  Eliminar"));
+			a.dataset.id = id;
+			a.onclick = function(e){
+				e.preventDefault();
+				var id = this.dataset.id;
+				if(id>0){
+					var icon = this.getElementsByClassName('fa-trash-o')[0];
+					var deleteGiftFormXHR = new XHR('GET','/deleteTermAndCondition?id='+id);
+					var termsAndConditionsNotification = new Alert(document.getElementById('terms-and-condition-notification'));
+					deleteGiftFormXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+					deleteGiftFormXHR.onBeforeSend(function(){			    		
+						icon.className = 'fa fa-spinner fa-spin';			    		
+					});
+					deleteGiftFormXHR.onReady(function (xhr) {   
+						icon.className = 'fa fa-trash-o fa-fw';
+						if(xhr.responseText== SUCCESS_RESPONSE){
+							document.getElementById('term-and-condition-panel-'+id).remove();
+						}else{
+							termsAndConditionsNotification.danger(xhr.responseText);
+						}			    			
+					});
+					deleteGiftFormXHR.send();	
+				}else{
+					document.getElementById('term-and-condition-panel-'+id).remove();
+				}
 			}
 			//panel footer
 			var panelFooter = document.createElement('div');
@@ -665,18 +808,42 @@ function initList(giftTypeId,otherTypeGiftStr,giftStatusId,actionTypeId,otherTyp
 			textArea.name = 'term-and-condition-txt'
 			textArea.dataset.required = true;
 			textArea.rows = 1;
+			if(description){
+				textArea.value = description;
+			}
+			//input hidden
+			var input = document.createElement('input');
+			input.type = 'hidden';
+			input.name = 'id-term-and-condition';
+			input.value = id;
 			//panel default
 			var panel = document.createElement('div');
-			panel.className = 'panel panel-default form-group has-feedback';
+			panel.id = "term-and-condition-panel-"+id;
+			panel.className = 'panel panel-default';
 			panel.appendChild(textArea);
+			panel.appendChild(input);
 			panel.appendChild(panelFooter);
 			//content
-			var content = document.getElementById('content-terms-and-conditions');
-			var x = content.querySelectorAll('textarea');
-			if(x.length<=0)content.innerHTML = '';			
+			if(!content){
+				var content = document.getElementById('content-terms-and-conditions');
+				var x = content.querySelectorAll('textarea');
+				if(x.length<=0)content.innerHTML = '';							
+			}
 			content.appendChild(panel);
+		}
 
-		} 
+
+		function fillTermsAndConditions(termAndConditionList){
+			var n = termAndConditionList.length;
+			if(n>0){
+				var content = document.getElementById('content-terms-and-conditions');
+				content.innerHTML = '';
+				for (var i = 0; i < n; i++) {
+					var t = termAndConditionList[i];
+					addTermAndCondition(t.id,t.description);
+				}
+			}
+		}		
 
 		</script>
 	}

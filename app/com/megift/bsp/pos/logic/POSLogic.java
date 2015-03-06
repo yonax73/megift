@@ -6,6 +6,7 @@ package com.megift.bsp.pos.logic;
 import java.util.List;
 
 import com.megift.bsp.business.entity.Business;
+import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.pos.dao.POSDao;
 import com.megift.bsp.pos.entity.POS;
 
@@ -44,8 +45,12 @@ public class POSLogic {
 	 * @param parseInt
 	 * @return
 	 */
-	public static List<POS> loadPOSByBusiness(Business business) {
-		return POSDao.loadPOSByBusiness(business);
+	public static boolean loadPOSByBusiness(Business business) {
+		boolean result = false;
+		if (business.exists()) {
+			result = POSDao.loadPOSByBusiness(business) && business.getPosList() != null;
+		}
+		return result;
 	}
 
 	/**
@@ -56,4 +61,42 @@ public class POSLogic {
 		return POSDao.load(pos);
 	}
 
+	/**
+	 * @param business
+	 * @param gift
+	 * @return
+	 */
+	public static boolean loadPOSByGift(Business business, Gift gift) {
+		boolean result = false;
+		if (business.exists() && gift.exists()) {
+			result = POSDao.loadPOSByBusiness(business) && business.getPosList() != null;
+			if (result) {
+				result = POSDao.loadPOSByGift(gift) && gift.getPosList() != null;
+				if (result) {
+					/*
+					 * puntos de venta con este regalo
+					 */
+					List<POS> POSList = business.getPosList();
+					/*
+					 * Todos puntos de venta del negocio
+					 */
+					List<POS> POSListByGift = gift.getPosList();
+					for (POS pos : POSListByGift) {
+						boolean found = false;
+						int i = 0;
+						int n = POSList.size();
+						do {
+							POS tmpPOS = POSList.get(i);
+							if (pos.equals(tmpPOS)) {
+								tmpPOS.setGift(new Gift(gift.getId()));
+								found = true;
+							}
+							i++;
+						} while (!found || i < n);
+					}
+				}
+			}
+		}
+		return result;
+	}
 }

@@ -62,8 +62,16 @@ public class TermAndCondition extends Entity {
 	 */
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		if (description == null)
+			return true;
+		else if (description.isEmpty())
+			return true;
+		else if (description.length() <= 0)
+			return true;
+		else if (description.equals(""))
+			return true;
+		else
+			return false;
 
+	}
 }
