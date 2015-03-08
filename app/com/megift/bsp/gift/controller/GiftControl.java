@@ -21,7 +21,11 @@ import com.megift.bsp.action.logic.ActionLogic;
 import com.megift.bsp.business.entity.Business;
 import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.gift.logic.GiftLogic;
+import com.megift.bsp.partner.entity.Partner;
 import com.megift.bsp.pos.entity.POS;
+import com.megift.set.location.address.entity.Address;
+import com.megift.set.location.entity.Location;
+import com.megift.set.location.geolocation.entity.Geolocation;
 import com.megift.set.master.entity.MasterValue;
 
 /**
@@ -171,6 +175,20 @@ public class GiftControl extends Controller {
 			return ok(Json.toJson(business.getGiftList()));
 		}
 		return ok("No hay regalos para mostrar");
+	}
+
+	public static Result searchGift() {
+		response().setHeader("Access-Control-Allow-Origin", "*");
+		String result = "No se ha podido completar la solicitud";
+		final Map<String, String[]> data = request().body().asFormUrlEncoded();
+		if (data != null) {
+			Partner partner = new Partner(Integer.parseInt(data.get("id-login")[0]));
+			Geolocation geolocation = new Geolocation(Double.parseDouble(data.get("latitude")[0]), Double.parseDouble(data.get("longitude")[0]));
+			partner.setLocation(new Location(new Address(geolocation)));
+			int distanceKM = Geolocation.distanceInMetersBetween(geolocation, new Geolocation(6.23317, -75.60418));
+			result = String.valueOf(distanceKM);
+		}
+		return ok(result);
 	}
 
 }

@@ -59,6 +59,7 @@ POST /updateGift                    com.megift.bsp.gift.controller.GiftControl.u
 GET /loadGift                    com.megift.bsp.gift.controller.GiftControl.loadGift(id:Integer)
 GET /loadGiftByBusiness                    com.megift.bsp.gift.controller.GiftControl.loadGiftByBusiness()
 GET /loadGiftsByPOS                    com.megift.bsp.gift.controller.GiftControl.loadGiftsByPOS(id:Integer)
+POST /searchGift                       com.megift.bsp.gift.controller.GiftControl.searchGift()
 #Terms and condition
 GET /loadTermsAndConditionGift      com.megift.bsp.term_and_condition.controller.TermAndConditionControl.loadTermsAndConditionGift(id:Integer)
 POST /saveTermnsAndConditions      com.megift.bsp.term_and_condition.controller.TermAndConditionControl.saveTermnsAndConditions()

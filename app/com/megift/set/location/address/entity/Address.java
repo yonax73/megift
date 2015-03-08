@@ -38,6 +38,11 @@ public class Address extends Entity {
 		this.city = city;
 	}
 
+	public Address(Geolocation geolocation) {
+		super(0);
+		this.geolocation = geolocation;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

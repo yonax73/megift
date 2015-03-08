@@ -48,6 +48,11 @@ public class Location extends Entity {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Location(Address address) {
+		super(0);
+		this.address = address;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
