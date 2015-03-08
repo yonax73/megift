@@ -8,12 +8,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 import play.Logger;
 import play.db.DB;
 
 import com.megift.bsp.action.entity.Action;
+import com.megift.bsp.business.entity.Business;
 import com.megift.bsp.gift.entity.Gift;
+import com.megift.bsp.pos.entity.POS;
 import com.megift.resources.base.Dao;
 import com.megift.set.master.entity.MasterValue;
 
@@ -127,6 +131,129 @@ public class GiftDao extends Dao {
 			}
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the Gift.\n" + e.getMessage(), e);
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
+	}
+
+	/**
+	 * @param business
+	 * @return
+	 */
+	public static boolean loadGiftByBusiness(Business business) {
+		List<Gift> giftList = null;
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		boolean result = false;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("{CALL sp_bsp_gifts_LOAD_BY_BUSINESS(?)}");
+			cst.setInt(1, business.getId());
+			rs = cst.executeQuery();
+			if (rs.next()) {
+				giftList = new ArrayList<Gift>();
+				do {
+					Gift gift = new Gift(rs.getInt(1));
+					gift.setStatus(new MasterValue(rs.getString(2)));
+					gift.setPrice(rs.getDouble(3));
+					gift.setStartDate(rs.getTimestamp(4).toLocalDateTime());
+					gift.setExpirationDate(rs.getTimestamp(5).toLocalDateTime());
+					gift.setName(rs.getString(6));
+					giftList.add(gift);
+				} while (rs.next());
+			}
+			business.setGiftList(giftList);
+			result = true;
+		} catch (Exception e) {
+			Logger.error("An error has been occurred trying to load the Gift List.\n" + e.getMessage(), e);
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
+	}
+
+	/**
+	 * @param pos
+	 * @return
+	 */
+	public static boolean loadGiftsByPOS(POS pos) {
+		List<Gift> giftList = null;
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		boolean result = false;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("{CALL sp_bsp_gifts_LOAD_BY_POS(?)}");
+			cst.setInt(1, pos.getId());
+			rs = cst.executeQuery();
+			if (rs.next()) {
+				giftList = new ArrayList<Gift>();
+				do {
+					giftList.add(new Gift(rs.getInt(1)));
+				} while (rs.next());
+			}
+			pos.setGiftList(giftList);
+			result = true;
+		} catch (Exception e) {
+			Logger.error("An error has been occurred trying to load the gift List by Pos.\n" + e.getMessage(), e);
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
+	}
+
+	/**
+	 * @param pos
+	 * @return
+	 */
+	public static boolean associateGifToPOS(POS pos) {
+		boolean result = false;
+		CallableStatement cst = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			String sql = "{CALL sp_bsp_POS_ASSOCIATE_GIFT(?,?,?)}";
+			cst = conn.prepareCall(sql);
+			cst.registerOutParameter(1, Types.INTEGER);
+			cst.setInt(2, pos.getId());
+			cst.setInt(3, pos.getGift().getId());
+			result = cst.executeUpdate() > 0 && cst.getInt(1) > 0;
+		} catch (Exception e) {
+			Logger.error("An error has been ocurred trying to associate the gift to pos.\n" + e.getMessage());
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
+	}
+
+	/**
+	 * @param pos
+	 * @return
+	 */
+	public static boolean removeGifToPOS(POS pos) {
+		boolean result = false;
+		CallableStatement cst = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			String sql = "{call sp_bsp_POS_REMOVE_GIFT(?,?)}";
+			cst = conn.prepareCall(sql);
+			cst.setInt(1, pos.getId());
+			cst.setInt(2, pos.getGift().getId());
+			result = cst.executeUpdate() > 0;
+		} catch (Exception e) {
+			Logger.error("An error has been occurred tryning remove gift from pos.\n" + e.getMessage());
 		} finally {
 			if (cst != null)
 				cst = null;

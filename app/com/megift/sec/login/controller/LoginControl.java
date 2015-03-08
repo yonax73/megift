@@ -132,6 +132,7 @@ public class LoginControl extends Controller {
 
 	public static Result passwordChangeSafely() {
 		return ok(views.html.sec.login.passwordChange.render());
+
 	}
 
 	public static Result passwordReset() {
@@ -163,18 +164,26 @@ public class LoginControl extends Controller {
 	public static Result login() {
 		session().clear();
 		return ok(views.html.sec.login.login.render());
+
+	}
+
+	public static Result signOut() {
+		return redirect("/login");
 	}
 
 	public static Result termsAndConditions() {
 		return ok(views.html.sec.login.termsAndConditions.render());
+
 	}
 
 	public static Result privacyPolicy() {
 		return ok(views.html.sec.login.privacyPolicy.render());
+
 	}
 
 	public static Result recoveryPassword() {
 		return ok(views.html.sec.login.recoveryPassword.render());
+
 	}
 
 }

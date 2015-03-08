@@ -19,28 +19,127 @@
 </div>
 <script>
   //loadGiftsByBusiness
-  //loadGiftsByBusiness();
+  loadGiftsByBusiness();
 
   function loadGiftsByBusiness(){
     var cover = document.getElementById('cover-gift');
-  	var giftByBusinessXHR = new XHR('GET','/loadGiftsByBusiness');
-  	giftByBusinessXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
-  	giftByBusinessXHR.onBeforeSend(function(){
-        cover.innerHTML = '<i class="fa fa-spinner fa-spin">Cargando...</i>';
-  	});
-  	giftByBusinessXHR.onReady(function (xhr) {   
-  			try {
-  				var gift = JSON.parse(xhr.responseText);  				
-  				var n = gift.length;
-  				cover.innerHTML = '';  
-          covergift(cover,gift);
-        } catch (e) {						
-          cover.innerHTML = '<a href="/gift" onclick="newGift()">No hay regalos, clic para comenzar</a>';
-        }
-      });
-  	giftByBusinessXHR.send();
+    var giftByBusinessXHR = new XHR('GET','/loadGiftByBusiness');
+    giftByBusinessXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+    giftByBusinessXHR.onBeforeSend(function(){
+      cover.innerHTML = '<i class="fa fa-spinner fa-spin"></i>Cargando...';
+    });
+    giftByBusinessXHR.onReady(function (xhr) {   
+     try {
+      var gift = JSON.parse(xhr.responseText);  				
+      var n = gift.length;
+      cover.innerHTML = '';  
+      coverGift(cover,gift);
+    } catch (ex) {						
+      console.log(ex);
+      cover.innerHTML = '<a href="/gift" onclick="newGift()">No hay regalos, clic para comenzar</a>';
+    }
+  });
+    giftByBusinessXHR.send();
 
   }
-  </script>
+
+
+
+
+
+  // Cover Gifts
+function coverGift(element,gift){
+  var n = gift.length;
+  for (var i = 0; i < n; i++) {
+    var g = gift[i];
+     //col
+     var col = document.createElement('div');
+     col.classList.add('col-lg-2');
+     col.classList.add('col-md-4');
+     col.classList.add('col-sm-6');
+     col.classList.add('cover-col');
+     //content
+     var content = document.createElement('div');
+     content.classList.add('cover-content');    
+    //header
+    var header = document.createElement('div')  ;
+    header.classList.add('cover-header');
+    //img  
+    var img = document.createElement('img');  
+    var src = null;
+    if(g.pictures!=null){
+        var m = g.pictures.length;
+        if(m>0){          
+          var j = 0;
+          var found = false;
+          do{
+            var pic = g.pictures[j];
+            if(pic.main){
+             src = pic.dataURI;
+             found = true;
+           }
+           j++;
+         }while(!found || j<m);
+      }      
+     }
+     if(src==null){
+      src = '@routes.Assets.at("images/gift/gift.png")';
+     }
+     img.src = src;
+     header.appendChild(img);
+     //title
+    var title = document.createElement('p');
+    title.textContent = g.name;   
+    header.appendChild(title);  
+     //body
+     var body = document.createElement('div');
+     body.classList.add('cover-body');
+    //ul
+    var ul = document.createElement('ul');      
+    //icon
+    var icon = document.createElement('i');
+    icon.className = ' fa fa-money';
+    //li
+    var li = document.createElement('li');
+    li.appendChild(icon);
+    li.appendChild(document.createTextNode(g.price));        
+    ul.appendChild(li);
+    //icon
+    icon = document.createElement('i');
+    icon.className = ' fa fa-clock-o';
+    //li
+    li = document.createElement('li');    
+    li.appendChild(icon);
+    li.appendChild(document.createTextNode(g.expirationTime));        
+    ul.appendChild(li);
+    //icon 
+    icon = document.createElement('i');
+    icon.className = ' fa fa-paperclip';
+    //li
+    li = document.createElement('li');    
+    li.appendChild(icon);
+    li.appendChild(document.createTextNode(g.status.value1));        
+    ul.appendChild(li);
+    body.appendChild(ul);        
+    //footer
+    var footer = document.createElement('div');
+    footer.classList.add('cover-footer');
+    var a = document.createElement('a');
+    a.href = '/gift';
+    a.textContent = 'Administrar';   
+    a.dataset.id = g.id;
+    a.onclick = function(){      
+      sessionStorage.setItem('type-gift-view',this.dataset.id); 
+    }
+    footer.appendChild(a);
+    //appends
+    content.appendChild(header);
+    content.appendChild(body);
+    content.appendChild(footer);      
+    col.appendChild(content);
+    element.appendChild(col);
+  };
+}
+</script>
 
 }

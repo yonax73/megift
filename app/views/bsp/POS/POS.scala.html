@@ -1,85 +1,121 @@
 @import resources._
 @nav(titlePage = "Punto de Venta"){
-<div class="row center">            
-	<h2 id="name-POS-title"></h2>    
-	<form id="POS-form" class="form-horizontal">
-		<fieldset class="col-md-6">
-			<legend>Datos de Punto de Venta</legend>
-			<div class="col-md-12">
-				<div class="form-group has-feedback">
-					<input type="text" class="form-control input-lg" name="name-POS" data-required="true" placeholder="Nombre Punto de Venta">
-					<span class="form-control-feedback"></span>
-					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+<div class="row row-centered">    
+	<div class="col-md-8 col-centered">
+		<div class="row">
+			<div class="col-md-12 ">				
+				<div class="btn-group btn-group-lg pull-right" >
+					<button class="btn btn-default btn-lg" id="associate-gift-btn" disabled="disabled">
+						<i id="associate-gift-btn-icon" class="fa fa-gift fa-fw"></i>&nbsp; Regalos
+					</button>
 				</div>
 			</div>
-			<div class="col-md-12">
-				<div class="form-group has-feedback">
-					<input type="text" class="form-control input-lg" name="name-contact" data-required="true" placeholder="Nombre Contacto">
-					<span class="form-control-feedback"></span>
-					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="form-group has-feedback">
-					<input type="text" class="form-control input-lg" name="phone-pos" data-required="true" placeholder="Teléfono">
-					<span class="form-control-feedback"></span>
-					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="form-group has-feedback">
-					<input type="text" class="form-control input-lg" name="extension-phone-pos" data-required="true" placeholder="Extención Teléfono">
-					<span class="form-control-feedback"></span>
-					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="form-group has-feedback">
-					<input type="text" class="form-control input-lg" name="mobile-phone-pos" data-required="true" placeholder="Celular">
-					<span class="form-control-feedback"></span>
-					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="form-group has-feedback">
-					<input type="text" class="form-control input-lg" name="address-pos" data-required="true" placeholder="Dirección">
-					<span class="form-control-feedback"></span>
-					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="form-group">
-					<a href="http://www.coordenadas-gps.com/" target="_blank">Obtener coordenadas aquí</a>
-				</div>
-			</div>
-			<div class="col-md-12">				
-				<div class="form-group has-feedback">
-					<input type="text" class="form-control input-lg" name="longitude-address-pos" data-required="true" placeholder="longitude">
-					<span class="form-control-feedback"></span>
-					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="form-group has-feedback">
-					<input type="text" class="form-control input-lg" name="latitude-address-pos" data-required="true" placeholder="Latitud">
-					<span class="form-control-feedback"></span>
-					<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-				</div>
-			</div>
-			<div class="col-md-12 ">
-				<div class="form-group">
-					<button id="POSBtn" type="submit" class="btn btn-success btn-lg btn-block">Guardar
-						<i id="POS-btn-ico"></i></button>
+		</div><br>   
+		<div class="page-header">
+			<h2 class="text-left" id="name-POS-title"></h2>  
+		</div>	
+		<form id="POS-form" class="form-horizontal row">
+			<fieldset class="col-md-6">
+				<legend>Datos de Punto de Venta</legend>
+				<div class="col-md-12">
+					<div class="form-group has-feedback">
+						<input type="text" class="form-control input-lg" name="name-POS" data-required="true" placeholder="Nombre Punto de Venta">
+						<span class="form-control-feedback"></span>
+						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
 					</div>
-				</div>    
-			</fieldset>
-			<input type="hidden" id="id-POS" name="id-POS" value="0">
-			<input type="hidden" id="id-contact" name="id-contact" value="0">
-			<input type="hidden" id="id-phone-pos" name="id-phone-pos" value="0">    
-			<input type="hidden" id="id-address-pos" name="id-address-pos" value="0">    
-			<input type="hidden" id="id-location-pos" name="id-location-pos" value="0">   
-			<input type="hidden" id="id-geolocation-pos" name="id-geolocation-pos" value="0">     
-		</form>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group has-feedback">
+						<input type="text" class="form-control input-lg" name="name-contact" data-required="true" placeholder="Nombre Contacto">
+						<span class="form-control-feedback"></span>
+						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group has-feedback">
+						<input type="text" class="form-control input-lg" name="phone-pos" data-required="true" placeholder="Teléfono">
+						<span class="form-control-feedback"></span>
+						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group has-feedback">
+						<input type="text" class="form-control input-lg" name="extension-phone-pos" data-required="true" placeholder="Extención Teléfono">
+						<span class="form-control-feedback"></span>
+						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group has-feedback">
+						<input type="text" class="form-control input-lg" name="mobile-phone-pos" data-required="true" placeholder="Celular">
+						<span class="form-control-feedback"></span>
+						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group has-feedback">
+						<input type="text" class="form-control input-lg" name="address-pos" data-required="true" placeholder="Dirección">
+						<span class="form-control-feedback"></span>
+						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<a href="http://www.coordenadas-gps.com/" target="_blank">Obtener coordenadas aquí</a>
+					</div>
+				</div>
+				<div class="col-md-12">				
+					<div class="form-group has-feedback">
+						<input type="text" class="form-control input-lg" name="longitude-address-pos" data-required="true" placeholder="longitude">
+						<span class="form-control-feedback"></span>
+						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group has-feedback">
+						<input type="text" class="form-control input-lg" name="latitude-address-pos" data-required="true" placeholder="Latitud">
+						<span class="form-control-feedback"></span>
+						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+					</div>
+				</div>
+				<div class="col-md-12 ">
+					<div class="form-group">
+						<button id="POSBtn" type="submit" class="btn btn-success btn-lg btn-block">Guardar
+							<i id="POS-btn-ico"></i></button>
+						</div>
+					</div>    
+				</fieldset>
+				<input type="hidden" id="id-POS" name="id-POS" value="0">
+				<input type="hidden" id="id-contact" name="id-contact" value="0">
+				<input type="hidden" id="id-phone-pos" name="id-phone-pos" value="0">    
+				<input type="hidden" id="id-address-pos" name="id-address-pos" value="0">    
+				<input type="hidden" id="id-location-pos" name="id-location-pos" value="0">   
+				<input type="hidden" id="id-geolocation-pos" name="id-geolocation-pos" value="0">     
+			</form>
+		</div>	
+		<div  id="associate-gift-popup" class="i-popup-panel i-popup-primary hidden">  
+			<div class="row center">
+				<div class="col-md-12">
+					<div id="associate-gift-notification"></div>
+				</div>
+			</div> 			
+			<div class="row">
+				<div class="col-md-12 page-header">
+					<h2 >Regalos</h2>    			
+				</div>
+				<p>Asociar regalos a punto de venta</p>		
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div id="associate-gift-cover"></div>
+				</div>
+				<div class="col-md-2 pull-right">
+					<div class="form-group ">
+						<button type="button" class="btn btn-default btn-lg btn-block i-popup-close">Cerrar</button>
+					</div>
+				</div>   
+			</div>
+		</div>
 	}
 
 
@@ -87,6 +123,7 @@
 //atributes
 var typePOSView = sessionStorage.getItem('type-POS-view');
 var namePOSTitle = document.getElementById('name-POS-title');
+var associateGiftNotification = new Alert(document.getElementById('associate-gift-notification'));
 //forms
 var POSForm = new Form(document.getElementById('POS-form'));
 //buttonss
@@ -96,8 +133,6 @@ var POSBtn = document.getElementById('POSBtn');
     loadPOS(); 
  }else{//Crear pos 	
  	namePOSTitle.textContent = 'Crear Punto de Venta';
-    //remove sessionStorage
-    sessionStorage.removeItem('type-POS-view');
 }
 //form POS
 POSForm.onsubmit(function(){
@@ -112,9 +147,9 @@ POSForm.onsubmit(function(){
 			POSBtn.disabled = false;
 			document.getElementById('POS-btn-ico').className = '';	
 			try {
-						var POS = JSON.parse(xhr.responseText);
-						typePOSView = POS.id;	;
-						namePOSTitle.textContent = POS.name;
+				var POS = JSON.parse(xhr.responseText);
+				typePOSView = POS.id;	;
+				namePOSTitle.textContent = POS.name;
 					    //fill ids			
 					    document.getElementsByName('id-POS')[0].value = POS.id;					
 					    document.getElementsByName('id-contact')[0].value = POS.contact.id;					
@@ -122,8 +157,11 @@ POSForm.onsubmit(function(){
 					    document.getElementsByName('id-address-pos')[0].value = POS.location.address.id;					
 					    document.getElementsByName('id-location-pos')[0].value = POS.location.id;					
 					    document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;	
-					    notification.success('El punto de venta se guardo exitosamente!');				
-					} catch (e) {						
+					    document.getElementById('associate-gift-btn').disabled = false;
+					    notification.success('El punto de venta se guardo exitosamente!');	
+					    initGifts();			
+					} catch (e) {		
+					     console.log(e);
 						notification.danger(xhr.responseText);
 					}
 				});
@@ -140,8 +178,7 @@ function loadPOS(){
     });
     loadPOSxHR.onReady(function (xhr) {       	
     	var POS = JSON.parse(xhr.responseText);
-    	namePOSTitle.textContent = POS.name;
-
+    	namePOSTitle.textContent = POS.name;         
     	document.getElementsByName('name-POS')[0].value =  POS.name;
     	document.getElementsByName('name-contact')[0].value = POS.contact.name;
     	document.getElementsByName('phone-pos')[0].value =  POS.location.phone.number;
@@ -156,9 +193,164 @@ function loadPOS(){
     	document.getElementsByName('id-address-pos')[0].value = POS.location.address.id;
     	document.getElementsByName('id-location-pos')[0].value = POS.location.id;
     	document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;
-
+    	document.getElementById('associate-gift-btn').disabled = false;
+    	initGifts();
     });
 loadPOSxHR.send();
 }
 
-</script>
+function initGifts(){
+	var associateGiftPopup = new Popup(document.getElementById('associate-gift-popup'));
+	
+	document.getElementById('associate-gift-btn').onclick = function(){
+		var coverCheckGift = document.getElementById('associate-gift-cover');
+		var associateGiftBtn = document.getElementById('associate-gift-btn');
+		var associateGiftBtnIcon = document.getElementById('associate-gift-btn-icon');
+		var loadGiftXHR = new XHR('GET','/loadGiftsByPOS?id='+typePOSView);
+		loadGiftXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+		loadGiftXHR.onBeforeSend(function(){
+			associateGiftBtn.disabled = true;
+			associateGiftBtnIcon.className = 'fa fa-spinner fa-spin';		    		
+		});
+		loadGiftXHR.onReady(function (xhr) {   
+			associateGiftBtn.disabled = false;
+			associateGiftBtnIcon.className = 'fa fa-gift fa-fw';		
+			try {
+				var gift = JSON.parse(xhr.responseText);		  
+				coverCheckGift.innerHTML = '';    		
+				fillCoverCheckGift(coverCheckGift,'associate-gift',gift);		    			
+				associateGiftPopup.show();
+			} catch (ex) {		
+				console.log(ex);
+				associateGiftNotification.danger(xhr.responseText);
+			}
+		});
+		loadGiftXHR.send();
+	}   
+}
+function fillCoverCheckGift(element,name,gifts){
+	var n = gifts.length;		
+	for (var i = 0; i < n; i++) {
+		var g = gifts[i];
+		var idElelement = 'cover-check-pos-'+g.id;
+				//ul
+				var ul = document.createElement('ul');				
+				//icon
+				var icon = document.createElement('i');
+				icon.className = 'fa fa-price';
+			    //li
+			    var li = document.createElement('li');
+			    li.appendChild(icon);
+			    li.appendChild(document.createTextNode(g.price));        
+			    ul.appendChild(li);
+			    //icon
+			    icon = document.createElement('i');
+			    icon.className = 'fa fa-clock-o';
+			    //li
+			    li = document.createElement('li');    
+			    li.appendChild(icon);
+			    li.appendChild(document.createTextNode(g.expirationTime));        
+			    ul.appendChild(li);
+			    //icon 
+			    icon = document.createElement('i');
+			    icon.className = 'fa fa-paperclip';
+			    //li
+			    li = document.createElement('li');    
+			    li.appendChild(icon);
+			    li.appendChild(document.createTextNode(g.status.value1));        
+			    ul.appendChild(li);				            
+				//cover check body
+				var coverCheckBody = document.createElement('div');
+				coverCheckBody.classList.add('cover-check-body');
+				coverCheckBody.appendChild(ul); 
+				//cover check header
+				var coverCheckHeader = document.createElement('div');
+				coverCheckHeader.classList.add('cover-check-header');
+			    //img  
+			    var img = document.createElement('img');  
+			    var src = null;
+			    if(g.pictures!=null){
+			    	var m = g.pictures.length;
+			    	if(m>0){          
+			    		var j = 0;
+			    		var found = false;
+			    		do{
+			    			var pic = g.pictures[j];
+			    			if(pic.main){
+			    				src = pic.dataURI;
+			    				found = true;
+			    			}
+			    			j++;
+			    		}while(!found && j<m);
+			    	}      
+			    }
+			    if(src==null){
+			    	src = '@routes.Assets.at("images/gift/gift.png")';
+			    }
+			    img.src = src;
+		        //li img		      
+		        coverCheckHeader.appendChild(img);			
+				coverCheckHeader.appendChild(document.createTextNode(g.name));
+		       //label
+		       var label = document.createElement('label');
+		       label.setAttribute('for',idElelement);
+		       label.appendChild(coverCheckHeader);
+		       label.appendChild(coverCheckBody);
+		       //input
+		       var input = document.createElement('input');
+		       input.type = 'checkbox';
+		       input.id = idElelement;
+		       input.dataset.id = g.id;		       
+		       input.checked = g.pos!=null;
+		       input.onclick = function(){						
+		       		var idPOS = typePOSView;
+		       		var idGift = this.dataset.id;
+		       		var actionXHR = null;
+		       		var msg = null;						
+		       		if(this.checked){			       	  	    
+		       			actionXHR = new XHR('GET','/associateGifToPOS?idPos='+idPOS+'&idGift='+idGift);
+		       			msg = "Se Asocio el regalo al punto de venta";
+		       		}else{
+		       			actionXHR = new XHR('GET','/removeGiftOfPOS?idPos='+idPOS+'&idGift='+idGift);
+		       			msg = "Se elimino el regalo del punto de venta";
+		       		}
+		       		actionXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+		       		actionXHR.onReady(function (xhr) {   					    		
+		       			if(xhr.responseText== SUCCESS_RESPONSE){
+		       				associateGiftNotification.success(msg);
+		       			}else{
+		       				associateGiftNotification.danger(xhr.responseText);
+		       			}			    			
+		       		});
+		       		actionXHR.send();
+		       	}
+		     
+		       //span
+		       var span = document.createElement('span');
+		       span.classList.add('i-checkbox');
+		       span.classList.add('i-checkbox-toolbar');
+		       span.classList.add('i-checkbox-right');
+		       span.classList.add('i-checkbox');
+		       span.classList.add('i-checkbox-toolbar-default');
+		       span.appendChild(input);
+		       span.appendChild(label);
+		       //group
+		       var group = document.createElement('div');
+		       group.classList.add('form-group');
+		       group.classList.add('i-checkbox-horizontal');
+		       group.classList.add('cover-check');
+		       group.classList.add('cover-check-gift');
+		       group.appendChild(span);
+		       //colunm
+		       var col = document.createElement('div');
+		       col.classList.add('col-lg-2');
+		       col.classList.add('col-md-2');
+		       col.classList.add('col-sm-4')
+		       col.appendChild(group);		      
+		       //element
+		       element.appendChild(col);
+		   } 
+
+		}
+
+		</script>

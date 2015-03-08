@@ -3,8 +3,12 @@
  */
 package com.megift.bsp.gift.logic;
 
+import java.util.List;
+
+import com.megift.bsp.business.entity.Business;
 import com.megift.bsp.gift.dao.GiftDao;
 import com.megift.bsp.gift.entity.Gift;
+import com.megift.bsp.pos.entity.POS;
 import com.megift.bsp.relationgiftpos.logic.RelationGiftPOSLogic;
 import com.megift.set.picture.logic.PictureLogic;
 
@@ -72,7 +76,63 @@ public class GiftLogic {
 		boolean result = false;
 		if (gift.exists() && GiftDao.load(gift)) {
 			if (PictureLogic.loadPicturesByGift(gift)) {
-				return PictureLogic.loadPicturesByAction(gift.getAction());
+				result = PictureLogic.loadPicturesByAction(gift.getAction());
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * @param business
+	 * @return
+	 */
+	public static boolean loadGiftByBusiness(Business business) {
+		boolean result = false;
+		if (business.exists()) {
+			result = GiftDao.loadGiftByBusiness(business) && business.getGiftList() != null;
+			if (result) {
+				result = PictureLogic.loadPicturesByGiftList(business.getGiftList());
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * @param business
+	 * @param pos
+	 * @return
+	 */
+	public static boolean loadGiftsByPOS(Business business, POS pos) {
+		boolean result = false;
+		if (business.exists() && pos.exists()) {
+			result = GiftDao.loadGiftByBusiness(business) && business.getGiftList() != null;
+			if (result) {
+				result = PictureLogic.loadPicturesByGiftList(business.getGiftList());
+			}
+			if (result) {
+				if (GiftDao.loadGiftsByPOS(pos) && pos.getGiftList() != null) {
+					/*
+					 * regalos de este punto de venta
+					 */
+					List<Gift> giftList = business.getGiftList();
+					/*
+					 * Todos los regalos de este negocio
+					 */
+					List<Gift> giftListByPOS = pos.getGiftList();
+					for (Gift gift : giftListByPOS) {
+						boolean found = false;
+						int i = 0;
+						int n = giftList.size();
+						do {
+							Gift tmpGift = giftList.get(i);
+							if (gift.equals(tmpGift)) {
+								tmpGift.setPos(new POS(pos.getId()));
+								found = true;
+							}
+							i++;
+						} while (!found && i < n);
+					}
+				}
 			}
 		}
 		return result;

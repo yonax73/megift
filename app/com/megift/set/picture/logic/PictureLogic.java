@@ -1,5 +1,7 @@
 package com.megift.set.picture.logic;
 
+import java.util.List;
+
 import com.megift.bsp.action.entity.Action;
 import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.partner.dao.PartnerDao;
@@ -89,6 +91,18 @@ public class PictureLogic {
 		boolean result = false;
 		if (action.exists()) {
 			result = PictureDao.loadPicturesByAction(action);
+		}
+		return result;
+	}
+
+	/**
+	 * @param gifList
+	 * @return
+	 */
+	public static boolean loadPicturesByGiftList(List<Gift> giftList) {
+		boolean result = false;
+		if (giftList != null && !giftList.isEmpty()) {
+			result = PictureDao.loadPicturesByGiftList(giftList);
 		}
 		return result;
 	}

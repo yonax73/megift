@@ -2,6 +2,7 @@ package com.megift.bsp.business.entity;
 
 import java.util.List;
 
+import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.partner.entity.Partner;
 import com.megift.bsp.pos.entity.POS;
 import com.megift.resources.base.Entity;
@@ -35,6 +36,7 @@ public class Business extends Entity {
 	private String tradeName;
 	private String legalName;
 	private List<POS> posList;
+	private List<Gift> giftList;
 
 	/**
 	 * @param id
@@ -154,6 +156,14 @@ public class Business extends Entity {
 	public boolean isOtherType() {
 
 		return type.getId() == OTHER_TYPE;
+	}
+
+	public List<Gift> getGiftList() {
+		return giftList;
+	}
+
+	public void setGiftList(List<Gift> giftList) {
+		this.giftList = giftList;
 	}
 
 }

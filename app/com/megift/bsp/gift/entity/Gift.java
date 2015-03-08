@@ -4,6 +4,7 @@ import static com.megift.resources.utils.Constants.DATE_FORMATTER;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import com.megift.bsp.action.entity.Action;
@@ -44,7 +45,7 @@ public class Gift extends Entity {
 	private List<Picture> pictures;
 	private List<TermAndCondition> termsAndConditions;
 	private List<POS> posList;
-
+	private POS pos;
 	private List<RelationGiftPOS> giftPOSList;
 
 	/**
@@ -53,6 +54,16 @@ public class Gift extends Entity {
 	public Gift(int id) {
 		super(id);
 		// TODO Auto-generated constructor stub
+	}
+
+	public String getExpirationTime() {
+		if (startDate != null && expirationDate != null) {
+			String hours = String.valueOf(ChronoUnit.HOURS.between(startDate, expirationDate));
+			return hours.concat(":").concat(" Horas");
+		} else {
+			return "";
+		}
+
 	}
 
 	public String getFormatStartDate() {
@@ -74,6 +85,10 @@ public class Gift extends Entity {
 	@Override
 	public boolean isEmpty() {
 		return name == null;
+	}
+
+	public boolean equals(Gift gift) {
+		return id == gift.getId();
 	}
 
 	public Action getAction() {
@@ -209,6 +224,14 @@ public class Gift extends Entity {
 	 */
 	public void setPosList(List<POS> posList) {
 		this.posList = posList;
+	}
+
+	public POS getPos() {
+		return pos;
+	}
+
+	public void setPos(POS pos) {
+		this.pos = pos;
 	}
 
 }

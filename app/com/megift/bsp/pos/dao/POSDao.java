@@ -211,4 +211,55 @@ public class POSDao extends Dao {
 		return result;
 	}
 
+	/**
+	 * @param pos
+	 * @return
+	 */
+	public static boolean associateGifToPOS(POS pos) {
+		boolean result = false;
+		CallableStatement cst = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			String sql = "{CALL sp_bsp_POS_ASSOCIATE_GIFT(?,?,?)}";
+			cst = conn.prepareCall(sql);
+			cst.registerOutParameter(1, Types.INTEGER);
+			cst.setInt(2, pos.getId());
+			cst.setInt(3, pos.getGift().getId());
+			result = cst.executeUpdate() > 0 && cst.getInt(1) > 0;
+		} catch (Exception e) {
+			Logger.error("An error has been ocurred trying to associate the gift to pos.\n" + e.getMessage());
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
+	}
+
+	/**
+	 * @param pos
+	 * @return
+	 */
+	public static boolean removeGifToPOS(POS pos) {
+		boolean result = false;
+		CallableStatement cst = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			String sql = "{call sp_bsp_POS_REMOVE_GIFT(?,?)}";
+			cst = conn.prepareCall(sql);
+			cst.setInt(1, pos.getId());
+			cst.setInt(2, pos.getGift().getId());
+			result = cst.executeUpdate() > 0;
+		} catch (Exception e) {
+			Logger.error("An error has been occurred tryning remove gift from pos.\n" + e.getMessage());
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
+	}
+
 }

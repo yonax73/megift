@@ -92,10 +92,34 @@ public class POSLogic {
 								found = true;
 							}
 							i++;
-						} while (!found || i < n);
+						} while (!found && i < n);
 					}
 				}
 			}
+		}
+		return result;
+	}
+
+	/**
+	 * @param pos
+	 * @return
+	 */
+	public static boolean associateGiftToPOS(POS pos) {
+		boolean result = false;
+		if (pos.exists() && pos.getGift().exists()) {
+			result = POSDao.associateGifToPOS(pos);
+		}
+		return result;
+	}
+
+	/**
+	 * @param pos
+	 * @return
+	 */
+	public static boolean removeGiftToPOS(POS pos) {
+		boolean result = false;
+		if (pos.exists() && pos.getGift().exists()) {
+			result = POSDao.removeGifToPOS(pos);
 		}
 		return result;
 	}

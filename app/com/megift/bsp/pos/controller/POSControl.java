@@ -4,6 +4,7 @@
 package com.megift.bsp.pos.controller;
 
 import static com.megift.resources.utils.Constants.SESSION_BUSINESS_ID;
+import static com.megift.resources.utils.Constants.SESSION_LOGIN_ID;
 import static com.megift.resources.utils.Constants.SUCCESS_RESPONSE;
 
 import java.util.Map;
@@ -18,8 +19,6 @@ import com.megift.bsp.partner.entity.Partner;
 import com.megift.bsp.partner.logic.PartnerLogic;
 import com.megift.bsp.pos.entity.POS;
 import com.megift.bsp.pos.logic.POSLogic;
-import com.megift.bsp.term_and_condition.TermAndCondition;
-import com.megift.bsp.term_and_condition.logic.TermAndConditionLogic;
 import com.megift.set.location.address.entity.Address;
 import com.megift.set.location.address.logic.AddressLogic;
 import com.megift.set.location.entity.Location;
@@ -38,19 +37,30 @@ import com.megift.set.location.phone.logic.PhoneLogic;
  * 
  * @version : 0.1 <br/>
  * @author Yonatan Alexis Quintero Rodriguez
- *
+ * 
  */
 public class POSControl extends Controller {
 
 	public static Result POSList() {
-		return ok(views.html.bsp.POS.POSList.render());
+		if (session(SESSION_LOGIN_ID) == null) {
+			return redirect("/login");
+		}
+		// return ok(views.html.bsp.POS.POSList.render());
+		return ok();
 	}
 
 	public static Result POS() {
-		return ok(views.html.bsp.POS.POS.render());
+		if (session(SESSION_LOGIN_ID) == null) {
+			return redirect("/login");
+		}
+		// return ok(views.html.bsp.POS.POS.render());
+		return ok();
 	}
 
 	public static Result savePOS() {
+		if (session(SESSION_LOGIN_ID) == null) {
+			return redirect("/login");
+		}
 		String result = "No se ha podido completar la solicitud";
 		final Map<String, String[]> data = request().body().asFormUrlEncoded();
 
@@ -105,14 +115,20 @@ public class POSControl extends Controller {
 	}
 
 	public static Result loadPOSByBusiness() {
+		if (session(SESSION_LOGIN_ID) == null) {
+			return redirect("/login");
+		}
 		Business business = new Business(Integer.parseInt(session(SESSION_BUSINESS_ID)));
-		if (POSLogic.loadPOSByBusiness(business) && business.getPosList() != null && !business.getPosList().isEmpty()) {
+		if (POSLogic.loadPOSByBusiness(business)) {
 			return ok(Json.toJson(business.getPosList()));
 		}
 		return ok("No hay puntos de venta para mostrar");
 	}
 
 	public static Result loadPOS(int id) {
+		if (session(SESSION_LOGIN_ID) == null) {
+			return redirect("/login");
+		}
 		return ok(Json.toJson(POSLogic.load(new POS(id))));
 	}
 
@@ -122,6 +138,9 @@ public class POSControl extends Controller {
 	 * el cliente
 	 */
 	public static Result loadPOSByGift(int id) {
+		if (session(SESSION_LOGIN_ID) == null) {
+			return redirect("/login");
+		}
 		Business business = new Business(Integer.parseInt(session(SESSION_BUSINESS_ID)));
 		Gift gift = new Gift(id);
 		if (POSLogic.loadPOSByGift(business, gift)) {
@@ -134,16 +153,16 @@ public class POSControl extends Controller {
 	 * Asociar este regalo a este punto de venta
 	 */
 	public static Result associateGifToPOS(int idPos, int idGift) {
+		if (session(SESSION_LOGIN_ID) == null) {
+			return redirect("/login");
+		}
 		String result = "No se ha podido completar la solicitud";
-		TermAndCondition termAndCondition = new TermAndCondition(idPos);
-		if (termAndCondition.exists()) {
-			if (TermAndConditionLogic.delete(termAndCondition)) {
-				result = SUCCESS_RESPONSE;
-			} else {
-				result = "Error eliminando termino y condición";
-			}
-		} else {
+		POS pos = new POS(idPos);
+		pos.setGift(new Gift(idGift));
+		if (POSLogic.associateGiftToPOS(pos)) {
 			result = SUCCESS_RESPONSE;
+		} else {
+			result = "Error intentando asociar el regalo al punto de venta";
 		}
 		return ok(result);
 	}
@@ -152,16 +171,16 @@ public class POSControl extends Controller {
 	 * Eliminar este regalo de este punto de venta
 	 */
 	public static Result removeGiftOfPOS(int idPos, int idGift) {
+		if (session(SESSION_LOGIN_ID) == null) {
+			return redirect("/login");
+		}
 		String result = "No se ha podido completar la solicitud";
-		TermAndCondition termAndCondition = new TermAndCondition(idPos);
-		if (termAndCondition.exists()) {
-			if (TermAndConditionLogic.delete(termAndCondition)) {
-				result = SUCCESS_RESPONSE;
-			} else {
-				result = "Error eliminando termino y condición";
-			}
-		} else {
+		POS pos = new POS(idPos);
+		pos.setGift(new Gift(idGift));
+		if (POSLogic.removeGiftToPOS(pos)) {
 			result = SUCCESS_RESPONSE;
+		} else {
+			result = "Error intentando eliminar el regalo al punto de venta";
 		}
 		return ok(result);
 	}

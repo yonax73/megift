@@ -57,62 +57,20 @@ function changeValueCheckbox(element){
 	}
 }
 
-
-// Cover Gifts
-function coverGift(element,POS){
-  var n = POS.length;
-  for (var i = 0; i < n; i++) {
-    var p = POS[i];
-     //col
-    var col = document.createElement('div');
-    col.classList.add('col-md-2');
-    col.classList.add('col-sm-6');
-     //content
-    var content = document.createElement('div');
-    content.classList.add('cover-content');    
-    //header
-    var header = document.createElement('div')  ;
-    header.classList.add('cover-header');
-    var title = document.createElement('p');
-    title.textContent = p.name;   
-    header.appendChild(title);  
-     //body
-    var body = document.createElement('div');
-    body.classList.add('cover-body');
-    var ul = document.createElement('ul');   
-    var li = document.createElement('li');
-    li.textContent = p.location.address.address;
-    ul.appendChild(li);
-    li = document.createElement('li');
-    li.textContent = p.location.phone.number;
-    ul.appendChild(li);
-    li = document.createElement('li');
-    li.textContent = p.contact.name;
-    ul.appendChild(li);
-    body.appendChild(ul); 
-    //footer
-    var footer = document.createElement('div');
-    footer.classList.add('cover-footer');
-    var a = document.createElement('a');
-    a.href = '/POS';
-    a.textContent = 'Administrar';   
-    a.dataset.id = p.id;
-    a.onclick = function(){      
-      sessionStorage.setItem('type-POS-view',this.dataset.id); 
-    }
-    var icon = document.createElement('div');
-    icon.classList.add('fa');
-    icon.classList.add('fa-gift');
-    icon.classList.add(' fa-fw');
-    footer.appendChild(a);
-    //appends
-    content.appendChild(header);
-    content.appendChild(body);
-    content.appendChild(footer);      
-    col.appendChild(content);
-    element.appendChild(col);
-  };
+window.onload = function () {
+    Toggle.init();        
 }
+
+document.onclick = function () {
+    Toggle.clearDropDown();
+    Select.clear();
+}
+
+function signOut(){
+	localStorage.clear();
+	sessionStorage.clear();
+}
+
 </script>
 </body>
 

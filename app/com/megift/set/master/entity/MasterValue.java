@@ -32,6 +32,14 @@ public class MasterValue extends Entity {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * @param string
+	 */
+	public MasterValue(String value1) {
+		super(0);
+		this.value1 = value1;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -3,6 +3,9 @@
  */
 package com.megift.bsp.gift.controller;
 
+import static com.megift.resources.utils.Constants.SESSION_BUSINESS_ID;
+import static com.megift.resources.utils.Constants.SESSION_LOGIN_ID;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -15,6 +18,7 @@ import play.mvc.Result;
 
 import com.megift.bsp.action.entity.Action;
 import com.megift.bsp.action.logic.ActionLogic;
+import com.megift.bsp.business.entity.Business;
 import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.gift.logic.GiftLogic;
 import com.megift.bsp.pos.entity.POS;
@@ -34,14 +38,25 @@ import com.megift.set.master.entity.MasterValue;
 public class GiftControl extends Controller {
 
 	public static Result giftList() {
+		if (session(SESSION_LOGIN_ID) == null) {
+			return redirect("/login");
+		}
 		return ok(views.html.bsp.gift.giftList.render());
+
 	}
 
 	public static Result gift() {
+		if (session(SESSION_LOGIN_ID) == null) {
+			return redirect("/login");
+		}
 		return ok(views.html.bsp.gift.gift.render());
+
 	}
 
 	public static Result createGift() {
+		if (session(SESSION_LOGIN_ID) == null) {
+			return redirect("/login");
+		}
 		String result = "No se ha podido completar la solicitud";
 		final Map<String, String[]> data = request().body().asFormUrlEncoded();
 		if (data != null) {
@@ -77,6 +92,9 @@ public class GiftControl extends Controller {
 	}
 
 	public static Result updateGift() {
+		if (session(SESSION_LOGIN_ID) == null) {
+			return redirect("/login");
+		}
 		String result = "No se ha podido completar la solicitud";
 		final Map<String, String[]> data = request().body().asFormUrlEncoded();
 		if (data != null) {
@@ -116,12 +134,43 @@ public class GiftControl extends Controller {
 	}
 
 	public static Result loadGift(int id) {
+		if (session(SESSION_LOGIN_ID) == null) {
+			return redirect("/login");
+		}
 		Gift gift = new Gift(id);
 		if (GiftLogic.load(gift)) {
 			return ok(Json.toJson(gift));
 		} else {
 			return ok("Error cargando los datos del regalo");
 		}
+	}
+
+	public static Result loadGiftByBusiness() {
+		if (session(SESSION_LOGIN_ID) == null) {
+			return redirect("/login");
+		}
+		Business business = new Business(Integer.parseInt(session(SESSION_BUSINESS_ID)));
+		if (GiftLogic.loadGiftByBusiness(business)) {
+			return ok(Json.toJson(business.getGiftList()));
+		}
+		return ok("No hay regalos para mostrar");
+	}
+
+	/*
+	 * Todos los regalos que tiene este punto de venta y ademas trae tambien los
+	 * regalos que no estan asociados a este punto de venta para poder ser
+	 * asociados desde el cliente
+	 */
+	public static Result loadGiftsByPOS(int id) {
+		if (session(SESSION_LOGIN_ID) == null) {
+			return redirect("/login");
+		}
+		Business business = new Business(Integer.parseInt(session(SESSION_BUSINESS_ID)));
+		POS pos = new POS(id);
+		if (GiftLogic.loadGiftsByPOS(business, pos)) {
+			return ok(Json.toJson(business.getGiftList()));
+		}
+		return ok("No hay regalos para mostrar");
 	}
 
 }
