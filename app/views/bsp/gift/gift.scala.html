@@ -17,8 +17,13 @@
 		<h2 class="text-left" id="name-gift-title"></h2> 	  
 	</div>	
 	<div class="col-md-9 col-centered">
-
-		<div class="row">
+        
+        <div class="row">
+        	<div class="col-md-12 text-center">
+        		<small class="text-info ">Recomendamos usar una imagen de 180px X 160px</small>
+        	</div>
+        </div>
+		<div class="row">			
 			<div class="col-md-6">
 				<form id="picture-gift-form" class="form-horizontal form-picture">
 					<div class="form-group">
@@ -176,14 +181,16 @@
 		<p>Para empezar debes seleccionar mínimo un punto de venta para ofrecer el regalo.</p>								
 		<div>
 			<form id="create-gift-form" class="form-horizontal">
-				<fieldset>
-					<legend>Puntos de venta</legend>						
-					<div id="cover-check-pos" class="i-group-checkbox has-feedback" data-checkmin="1"></div>
-				</fieldset>
-				<a  class="btn btn-primary btn-lg pull-right" href="/giftList">Cancelar</a>
-				<button id="create-gift-btn" type="submit" class="btn btn-primary btn-lg pull-right">Continuar
-					<i id="create-gift-btn-ico"></i></button>
-				    
+					<fieldset>
+						<legend>Puntos de venta</legend>						
+						<div id="cover-check-pos" class="i-group-checkbox has-feedback" data-checkmin="1"></div>
+					</fieldset>
+					<div class="pull-right">				
+						 <button id="create-gift-btn" type="submit" class="btn btn-primary btn-lg">Continuar
+							<i id="create-gift-btn-ico"></i>
+						</button>
+						<a  class="btn btn-default btn-lg " href="/giftList">Cancelar</a>
+					</div>				    
 				</form>
 			</div>
 		</div>

@@ -104,7 +104,7 @@ public class GiftControl extends Controller {
 			action.setType(new MasterValue(Integer.parseInt(data.get("action-type")[0])));
 			action.setDescription(data.get("description-action")[0]);
 			if (action.isOtherType()) {
-				action.setOtherType(data.get("other-type-action")[0]);
+				action.setOtherType(data.get("other-action-type")[0]);
 			}
 			action.setPrice(Double.parseDouble(data.get("price-action")[0]));
 			if (ActionLogic.update(action)) {

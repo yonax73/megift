@@ -45,16 +45,16 @@ public class POSControl extends Controller {
 		if (session(SESSION_LOGIN_ID) == null) {
 			return redirect("/login");
 		}
-		// return ok(views.html.bsp.POS.POSList.render());
-		return ok();
+		return ok(views.html.bsp.POS.POSList.render());
+
 	}
 
 	public static Result POS() {
 		if (session(SESSION_LOGIN_ID) == null) {
 			return redirect("/login");
 		}
-		// return ok(views.html.bsp.POS.POS.render());
-		return ok();
+		return ok(views.html.bsp.POS.POS.render());
+
 	}
 
 	public static Result savePOS() {

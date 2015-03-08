@@ -43,9 +43,7 @@ import com.megift.set.master.entity.MasterValue;
 public class BusinessControl extends Controller {
 
 	public static Result business() {
-		if (session(SESSION_LOGIN_ID) == null) {
-			return redirect("/login");
-		}
+
 		return ok(views.html.bsp.business.business.render());
 
 	}

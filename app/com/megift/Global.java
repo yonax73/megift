@@ -1,6 +1,8 @@
 package com.megift;
 
 import static play.mvc.Results.badRequest;
+import static play.mvc.Results.internalServerError;
+import static play.mvc.Results.notFound;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
