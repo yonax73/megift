@@ -185,7 +185,8 @@ public class GiftControl extends Controller {
 			Partner partner = new Partner(Integer.parseInt(data.get("id-login")[0]));
 			Geolocation geolocation = new Geolocation(Double.parseDouble(data.get("latitude")[0]), Double.parseDouble(data.get("longitude")[0]));
 			partner.setLocation(new Location(new Address(geolocation)));
-			int distanceKM = Geolocation.distanceInMetersBetween(geolocation, new Geolocation(6.23317, -75.60418));
+
+			double distanceKM = Geolocation.distanceInMetersBetween(new Geolocation(6.230833, -75.59055599999999), new Geolocation(6.21442, -75.57645));
 			result = String.valueOf(distanceKM);
 		}
 		return ok(result);

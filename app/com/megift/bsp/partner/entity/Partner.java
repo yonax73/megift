@@ -5,7 +5,9 @@ import static com.megift.resources.utils.Constants.DATE_FORMATTER;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
+import com.megift.bsp.pos.entity.POS;
 import com.megift.resources.base.Person;
 import com.megift.sec.login.entity.Login;
 
@@ -27,6 +29,7 @@ public class Partner extends Person {
      */
 	private static final long serialVersionUID = 1L;
 	private LocalDate birthday;
+	private List<POS> POSList;
 
 	/**
 	 * @param id
@@ -34,6 +37,19 @@ public class Partner extends Person {
 	public Partner(int id) {
 		super(id);
 		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param name
+	 */
+	public Partner(String name) {
+		super(0);
+		this.name = name;
+	}
+
+	public Partner(Login login) {
+		super(0);
+		this.login = login;
 	}
 
 	public int getAge() {
@@ -53,25 +69,27 @@ public class Partner extends Person {
 		}
 	}
 
-	/**
-	 * @param name
-	 */
-	public Partner(String name) {
-		super(0);
-		this.name = name;
-	}
-
-	public Partner(Login login) {
-		super(0);
-		this.login = login;
-	}
-
 	public LocalDate getBirthday() {
 		return birthday;
 	}
 
 	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
+	}
+
+	/**
+	 * @return the pOSList
+	 */
+	public List<POS> getPOSList() {
+		return POSList;
+	}
+
+	/**
+	 * @param pOSList
+	 *            the pOSList to set
+	 */
+	public void setPOSList(List<POS> pOSList) {
+		POSList = pOSList;
 	}
 
 }

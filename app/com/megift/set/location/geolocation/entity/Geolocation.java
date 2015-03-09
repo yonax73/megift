@@ -1,5 +1,9 @@
 package com.megift.set.location.geolocation.entity;
 
+import static com.megift.resources.utils.Constants.convertKilometersToMeteres;
+import static com.megift.resources.utils.Constants.deg2rad;
+import static com.megift.resources.utils.Constants.rad2deg;
+
 import java.time.LocalDate;
 
 import com.megift.resources.base.Entity;
@@ -17,7 +21,6 @@ import com.megift.resources.base.Entity;
  */
 public class Geolocation extends Entity {
 
-	public final static double AVERAGE_RADIUS_OF_EARTH = 6371;
 	/**
      * 
      */
@@ -46,18 +49,27 @@ public class Geolocation extends Entity {
 	}
 
 	/*
-	 * calculate distance between two points with the Haversine formula. Note
-	 * that here we are rounding the answer to the nearest meters.
+	 * calculate distance in between two points
 	 */
-	public static int distanceInMetersBetween(Geolocation point1, Geolocation point2) {
-		double latDistance = Math.toRadians(point2.getLatitude() - point1.getLatitude());
-		double lngDistance = Math.toRadians(point2.getLongitude() - point1.getLongitude());
-		double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + Math.cos(Math.toRadians(point1.getLatitude())) * Math.cos(Math.toRadians(point2.getLatitude()))
-		        * Math.sin(lngDistance / 2) * Math.sin(lngDistance / 2);
+	public static double distance(Geolocation point1, Geolocation point2, char unit) {
+		double theta = point1.getLongitude() - point2.getLongitude();
+		double dist = Math.sin(deg2rad(point1.getLatitude())) * Math.sin(deg2rad(point2.getLatitude())) + Math.cos(deg2rad(point1.getLatitude())) * Math.cos(deg2rad(point2.getLatitude())) * Math.cos(deg2rad(theta));
+		dist = Math.acos(dist);
+		dist = rad2deg(dist);
+		dist = dist * 60 * 1.1515;
+		if (unit == 'K') {
+			dist = dist * 1.609344;
+		} else if (unit == 'N') {
+			dist = dist * 0.8684;
+		}
+		return (dist);
+	}
 
-		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-		return (int) (Math.round(AVERAGE_RADIUS_OF_EARTH * c));
+	/*
+	 * calculate distance in meters between two points
+	 */
+	public static double distanceInMetersBetween(Geolocation point1, Geolocation point2) {
+		return convertKilometersToMeteres(distance(point1, point2, 'K'));
 	}
 
 	/*

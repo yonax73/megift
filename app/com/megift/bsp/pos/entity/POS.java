@@ -6,6 +6,7 @@ import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.partner.entity.Partner;
 import com.megift.resources.base.Entity;
 import com.megift.set.location.entity.Location;
+import com.megift.set.location.geolocation.entity.Geolocation;
 
 /**
  * @class : POS.java<br/>
@@ -30,13 +31,14 @@ public class POS extends Entity {
 	private List<Gift> giftList;
 	private Gift gift;
 	private int bussinesId;
+	private Partner user;
+	private double distanceInMeters;
 
 	/**
 	 * @param id
 	 */
 	public POS(int id) {
 		super(id);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -44,14 +46,19 @@ public class POS extends Entity {
 	 */
 	public POS() {
 		super(0);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.megift.resources.base.Entity#isEmpty()
+	 * Distancia entre el usuario y el punto de venta
 	 */
+	public void distanceInMetersBetweenUser() {
+		if (user != null && user.getLocation() != null) {
+			distanceInMeters = Geolocation.distanceInMetersBetween(user.getLocation().getAddress().getGeolocation(), location.getAddress().getGeolocation());
+		}
+
+	}
+
 	@Override
 	public boolean isEmpty() {
 
@@ -133,6 +140,32 @@ public class POS extends Entity {
 	 */
 	public void setGift(Gift gift) {
 		this.gift = gift;
+	}
+
+	/**
+	 * @return the user
+	 */
+	public Partner getUser() {
+		return user;
+	}
+
+	/**
+	 * @param user
+	 *            the user to set
+	 */
+	public void setUser(Partner user) {
+		this.user = user;
+	}
+
+	/**
+	 * @return the distanceInMeters
+	 */
+	public double getDistanceInMeters() {
+		return distanceInMeters;
+	}
+
+	public String getDistanceInMetersStr() {
+		return String.valueOf(distanceInMeters).concat(": mts");
 	}
 
 }
