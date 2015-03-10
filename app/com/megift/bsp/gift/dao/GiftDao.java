@@ -17,8 +17,12 @@ import play.db.DB;
 import com.megift.bsp.action.entity.Action;
 import com.megift.bsp.business.entity.Business;
 import com.megift.bsp.gift.entity.Gift;
+import com.megift.bsp.partner.entity.Partner;
 import com.megift.bsp.pos.entity.POS;
 import com.megift.resources.base.Dao;
+import com.megift.set.location.address.entity.Address;
+import com.megift.set.location.entity.Location;
+import com.megift.set.location.geolocation.entity.Geolocation;
 import com.megift.set.master.entity.MasterValue;
 
 /**
@@ -262,4 +266,63 @@ public class GiftDao extends Dao {
 		return result;
 	}
 
+	public static boolean searchGift(Partner user) {
+		List<POS> POSList = null;
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		boolean result = false;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("{CALL sp_bsp_gifts_SEARCH(?,?)}");
+			cst.setInt(1, user.getPos() == null ? 0 : user.getPos().getId());
+			cst.setInt(2, user.getGift() == null ? 0 : user.getGift().getType().getId());
+			rs = cst.executeQuery();
+			if (rs.next()) {
+				POSList = new ArrayList<POS>();
+				int POSIdOld = 0;
+				POS pos = null;
+				List<Gift> giftList = null;
+				do {
+					int POSIdCurrent = rs.getInt(1);
+					/*
+					 * Si el id del pos es diferente al anterior entonces
+					 * creamos otro punto de venta
+					 */
+					if (POSIdCurrent != POSIdOld) {
+						POSIdOld = POSIdCurrent;
+						/*
+						 * Cuando se va a crear el segundo punto de venta en
+						 * adelante se agrega el anterior a la lista
+						 */
+						if (POSIdCurrent > 1) {
+							pos.setGiftList(giftList);
+							POSList.add(pos);
+						}
+						pos = new POS(POSIdCurrent);
+						pos.setUser(user);
+						pos.setName(rs.getString(2));
+						pos.setLocation(new Location(new Address(new Geolocation(rs.getDouble(3), rs.getDouble(4)))));
+						giftList = new ArrayList<>();
+					}
+					Gift gift = new Gift(rs.getInt(5));
+					gift.setPrice(rs.getDouble(6));
+					gift.setStartDate(rs.getTimestamp(7).toLocalDateTime());
+					gift.setExpirationDate(rs.getTimestamp(8).toLocalDateTime());
+					gift.setName(rs.getString(9));
+					giftList.add(gift);
+
+				} while (rs.next());
+			}
+			user.setPOSList(POSList);
+			result = true;
+		} catch (Exception e) {
+			Logger.error("An error has been occurred trying to search the Gifts .\n" + e.getMessage(), e);
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
+	}
 }

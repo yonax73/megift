@@ -19,6 +19,7 @@ import play.mvc.Result;
 import com.megift.bsp.action.entity.Action;
 import com.megift.bsp.action.logic.ActionLogic;
 import com.megift.bsp.business.entity.Business;
+import com.megift.bsp.gift.dao.GiftDao;
 import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.gift.logic.GiftLogic;
 import com.megift.bsp.partner.entity.Partner;
@@ -182,12 +183,11 @@ public class GiftControl extends Controller {
 		String result = "No se ha podido completar la solicitud";
 		final Map<String, String[]> data = request().body().asFormUrlEncoded();
 		if (data != null) {
-			Partner partner = new Partner(Integer.parseInt(data.get("id-login")[0]));
-			Geolocation geolocation = new Geolocation(Double.parseDouble(data.get("latitude")[0]), Double.parseDouble(data.get("longitude")[0]));
-			partner.setLocation(new Location(new Address(geolocation)));
+			Partner user = new Partner(Integer.parseInt(data.get("id-login")[0]));
+			user.setLocation(new Location(new Address(new Geolocation(Double.parseDouble(data.get("latitude")[0]), Double.parseDouble(data.get("longitude")[0])))));
+			GiftDao.searchGift(user);
 
-			double distanceKM = Geolocation.distanceInMetersBetween(new Geolocation(6.230833, -75.59055599999999), new Geolocation(6.21442, -75.57645));
-			result = String.valueOf(distanceKM);
+			result = String.valueOf("OK");
 		}
 		return ok(result);
 	}

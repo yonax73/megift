@@ -7,6 +7,7 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.pos.entity.POS;
 import com.megift.resources.base.Person;
 import com.megift.sec.login.entity.Login;
@@ -30,6 +31,8 @@ public class Partner extends Person {
 	private static final long serialVersionUID = 1L;
 	private LocalDate birthday;
 	private List<POS> POSList;
+	private POS pos;
+	private Gift gift;
 
 	/**
 	 * @param id
@@ -90,6 +93,22 @@ public class Partner extends Person {
 	 */
 	public void setPOSList(List<POS> pOSList) {
 		POSList = pOSList;
+	}
+
+	public POS getPos() {
+		return pos;
+	}
+
+	public void setPos(POS pos) {
+		this.pos = pos;
+	}
+
+	public Gift getGift() {
+		return gift;
+	}
+
+	public void setGift(Gift gift) {
+		this.gift = gift;
 	}
 
 }

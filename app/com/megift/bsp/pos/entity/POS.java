@@ -31,6 +31,7 @@ public class POS extends Entity {
 	private List<Gift> giftList;
 	private Gift gift;
 	private int bussinesId;
+	private String businessName;
 	private Partner user;
 	private double distanceInMeters;
 
@@ -57,6 +58,13 @@ public class POS extends Entity {
 			distanceInMeters = Geolocation.distanceInMetersBetween(user.getLocation().getAddress().getGeolocation(), location.getAddress().getGeolocation());
 		}
 
+	}
+
+	public int quantityOfGifts() {
+		if (giftList != null) {
+			return giftList.size();
+		}
+		return 0;
 	}
 
 	@Override
@@ -166,6 +174,14 @@ public class POS extends Entity {
 
 	public String getDistanceInMetersStr() {
 		return String.valueOf(distanceInMeters).concat(": mts");
+	}
+
+	public String getBusinessName() {
+		return businessName;
+	}
+
+	public void setBusinessName(String businessName) {
+		this.businessName = businessName;
 	}
 
 }
