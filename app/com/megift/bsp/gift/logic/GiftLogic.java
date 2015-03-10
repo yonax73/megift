@@ -3,11 +3,14 @@
  */
 package com.megift.bsp.gift.logic;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.megift.bsp.business.entity.Business;
 import com.megift.bsp.gift.dao.GiftDao;
 import com.megift.bsp.gift.entity.Gift;
+import com.megift.bsp.partner.entity.Partner;
 import com.megift.bsp.pos.entity.POS;
 import com.megift.bsp.relationgiftpos.logic.RelationGiftPOSLogic;
 import com.megift.set.picture.logic.PictureLogic;
@@ -138,4 +141,32 @@ public class GiftLogic {
 		return result;
 	}
 
+	public static boolean searchGift(Partner user) {
+		boolean result = false;
+		if (user.getLocation() != null) {
+			result = GiftDao.searchGift(user);
+			if (result) {
+				/*
+				 * Ordenar los puntos de ventas por distancia de menor a mayor
+				 */
+				Collections.sort(user.getPOSList(), new Comparator<POS>() {
+					@Override
+					public int compare(POS pos1, POS pos2) {
+						return pos1.compareTo(pos2);
+					}
+				});
+				/*
+				 * Cargar las imagenes del regalo
+				 */
+				for (POS pos : user.getPOSList()) {
+					result = PictureLogic.loadPicturesByGiftList(pos.getGiftList());
+					if (!result) {
+						break;
+					}
+				}
+
+			}
+		}
+		return result;
+	}
 }

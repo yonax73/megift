@@ -300,9 +300,16 @@ public class GiftDao extends Dao {
 							POSList.add(pos);
 						}
 						pos = new POS(POSIdCurrent);
-						pos.setUser(user);
+						Partner tmpuser = new Partner(user.getLogin());
+						tmpuser.setLocation(user.getLocation());
+						pos.setUser(tmpuser);// impl clon
 						pos.setName(rs.getString(2));
 						pos.setLocation(new Location(new Address(new Geolocation(rs.getDouble(3), rs.getDouble(4)))));
+						/*
+						 * Calcula la distancia en metros del usuario al punto
+						 * de venta
+						 */
+						pos.distanceInMetersBetweenUser();
 						giftList = new ArrayList<>();
 					}
 					Gift gift = new Gift(rs.getInt(5));

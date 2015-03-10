@@ -50,6 +50,10 @@ public class POS extends Entity {
 
 	}
 
+	public int compareTo(POS pos) {
+		return distanceInMeters > pos.getDistanceInMeters() ? 1 : distanceInMeters == pos.getDistanceInMeters() ? 0 : -1;
+	}
+
 	/*
 	 * Distancia entre el usuario y el punto de venta
 	 */

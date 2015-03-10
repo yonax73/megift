@@ -19,7 +19,6 @@ import play.mvc.Result;
 import com.megift.bsp.action.entity.Action;
 import com.megift.bsp.action.logic.ActionLogic;
 import com.megift.bsp.business.entity.Business;
-import com.megift.bsp.gift.dao.GiftDao;
 import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.gift.logic.GiftLogic;
 import com.megift.bsp.partner.entity.Partner;
@@ -185,9 +184,12 @@ public class GiftControl extends Controller {
 		if (data != null) {
 			Partner user = new Partner(Integer.parseInt(data.get("id-login")[0]));
 			user.setLocation(new Location(new Address(new Geolocation(Double.parseDouble(data.get("latitude")[0]), Double.parseDouble(data.get("longitude")[0])))));
-			GiftDao.searchGift(user);
+			if (GiftLogic.searchGift(user)) {
+				result = Json.toJson(user.getPOSList()).toString();
+			} else {
+				result = "Error buscando regalos";
+			}
 
-			result = String.valueOf("OK");
 		}
 		return ok(result);
 	}
