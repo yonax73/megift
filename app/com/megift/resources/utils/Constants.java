@@ -16,7 +16,7 @@ public class Constants {
 	public static final String SESSION_BUSINESS_ID = "BUSINESS-LOGIN-ID";
 
 	public static final double KILOMETER_TO_METERS = 1000;// 1 KM IS EQUAL TO
-															// 1000 METERS
+	                                                      // 1000 METERS
 
 	/*
 	 * This function converts decimal degrees to radians
@@ -34,6 +34,10 @@ public class Constants {
 
 	public static double convertKilometersToMeteres(double kilometers) {
 		return kilometers * KILOMETER_TO_METERS;
+	}
+
+	public static double roundTo2Decimals(double value) {
+		return (double) Math.round(value * 100) / 100;
 	}
 
 }

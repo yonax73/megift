@@ -59,7 +59,7 @@ public class Gift extends Entity {
 	public String getExpirationTime() {
 		if (startDate != null && expirationDate != null) {
 			String hours = String.valueOf(ChronoUnit.HOURS.between(startDate, expirationDate));
-			return hours.concat(":").concat(" Horas");
+			return hours;
 		} else {
 			return "";
 		}

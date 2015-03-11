@@ -1,5 +1,7 @@
 package com.megift.bsp.pos.entity;
 
+import static com.megift.resources.utils.Constants.roundTo2Decimals;
+
 import java.util.List;
 
 import com.megift.bsp.gift.entity.Gift;
@@ -177,7 +179,7 @@ public class POS extends Entity {
 	}
 
 	public String getDistanceInMetersStr() {
-		return String.valueOf(distanceInMeters).concat(": mts");
+		return String.valueOf(roundTo2Decimals(distanceInMeters)).concat(" mts");
 	}
 
 	public String getBusinessName() {
