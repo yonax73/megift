@@ -41,6 +41,14 @@ public class Login extends Entity {
 		this.password = password;
 	}
 
+	/**
+	 * @param email
+	 */
+	public Login(String email) {
+		super(0);
+		this.email = email;
+	}
+
 	@Override
 	public boolean isEmpty() {
 		return email == null || email == "";

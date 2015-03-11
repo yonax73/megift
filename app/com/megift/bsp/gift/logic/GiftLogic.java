@@ -89,6 +89,20 @@ public class GiftLogic {
 	 * @param business
 	 * @return
 	 */
+	public static boolean load(Business business) {
+		boolean result = false;
+		if (business.getPos().exists() && business.getPos().getGift().exists() && GiftDao.load(business)) {
+			if (PictureLogic.loadPicturesByGift(business.getPos().getGift())) {
+				result = PictureLogic.loadPicturesByAction(business.getPos().getGift().getAction());
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * @param business
+	 * @return
+	 */
 	public static boolean loadGiftByBusiness(Business business) {
 		boolean result = false;
 		if (business.exists()) {
@@ -158,6 +172,7 @@ public class GiftLogic {
 				/*
 				 * Cargar las imagenes del regalo
 				 */
+				// TODO: Traer solo la imagen principal
 				for (POS pos : user.getPOSList()) {
 					result = PictureLogic.loadPicturesByGiftList(pos.getGiftList());
 					if (!result) {

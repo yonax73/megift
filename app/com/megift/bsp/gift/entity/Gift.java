@@ -43,10 +43,12 @@ public class Gift extends Entity {
 	private String name;
 	private String description;
 	private List<Picture> pictures;
-	private List<TermAndCondition> termsAndConditions;
+	private List<TermAndCondition> termsAndConditions;// TODO: se reemplazon por
+														// un String
 	private List<POS> posList;
 	private POS pos;
 	private List<RelationGiftPOS> giftPOSList;
+	private String termsConditions;
 
 	/**
 	 * @param id
@@ -232,6 +234,21 @@ public class Gift extends Entity {
 
 	public void setPos(POS pos) {
 		this.pos = pos;
+	}
+
+	/**
+	 * @return the termsConditions
+	 */
+	public String getTermsConditions() {
+		return termsConditions;
+	}
+
+	/**
+	 * @param termsConditions
+	 *            the termsConditions to set
+	 */
+	public void setTermsConditions(String termsConditions) {
+		this.termsConditions = termsConditions;
 	}
 
 }

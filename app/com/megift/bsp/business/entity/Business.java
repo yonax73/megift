@@ -36,6 +36,7 @@ public class Business extends Entity {
 	private String tradeName;
 	private String legalName;
 	private List<POS> posList;
+	private POS pos;
 	private List<Gift> giftList;
 
 	/**
@@ -44,6 +45,14 @@ public class Business extends Entity {
 	public Business(int id) {
 		super(id);
 		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param pos
+	 */
+	public Business(POS pos) {
+		super(0);
+		this.pos = pos;
 	}
 
 	/*
@@ -164,6 +173,21 @@ public class Business extends Entity {
 
 	public void setGiftList(List<Gift> giftList) {
 		this.giftList = giftList;
+	}
+
+	/**
+	 * @return the pos
+	 */
+	public POS getPos() {
+		return pos;
+	}
+
+	/**
+	 * @param pos
+	 *            the pos to set
+	 */
+	public void setPos(POS pos) {
+		this.pos = pos;
 	}
 
 }

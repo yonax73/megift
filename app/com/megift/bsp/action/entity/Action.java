@@ -39,6 +39,15 @@ public class Action extends Entity {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * @param id
+	 * @param name
+	 */
+	public Action(int id, String name) {
+		super(id);
+		this.name = name;
+	}
+
 	public MasterValue getType() {
 		return type;
 	}

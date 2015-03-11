@@ -20,9 +20,11 @@ import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.partner.entity.Partner;
 import com.megift.bsp.pos.entity.POS;
 import com.megift.resources.base.Dao;
+import com.megift.sec.login.entity.Login;
 import com.megift.set.location.address.entity.Address;
 import com.megift.set.location.entity.Location;
 import com.megift.set.location.geolocation.entity.Geolocation;
+import com.megift.set.location.phone.entity.Phone;
 import com.megift.set.master.entity.MasterValue;
 
 /**
@@ -135,6 +137,60 @@ public class GiftDao extends Dao {
 			}
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the Gift.\n" + e.getMessage(), e);
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
+	}
+
+	/**
+	 * @param business
+	 * @return
+	 */
+	public static boolean load(Business business) {
+		boolean result = false;
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = DB.getConnection();
+		POS pos = business.getPos();
+		Gift gift = pos.getGift();
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("{CALL sp_bsp_gifts_LOAD_FOR_MOBILE(?,?)}");
+			cst.setInt(1, pos.getId());
+			cst.setInt(2, gift.getId());
+			rs = cst.executeQuery();
+			if (rs.next()) {
+				Action action = new Action(rs.getInt(1), rs.getString(2));
+				action.setDescription(rs.getString(3));
+				action.setPrice(rs.getDouble(4));
+				gift.setAction(action);
+				MasterValue type = new MasterValue(rs.getInt(5));
+				type.setValue1(rs.getString(6));
+				gift.setType(type);
+				if (gift.isOtherType()) {
+					gift.setOtherType(rs.getString(7));
+				}
+				gift.setPrice(rs.getDouble(8));
+				gift.setName(rs.getString(9));
+				gift.setDescription(rs.getString(10));
+				gift.setTermsConditions(rs.getString(11));
+				Phone phone = new Phone(rs.getString(12));
+				phone.setExtension(rs.getString(13));
+				phone.setMobile(rs.getString(14));
+				Address address = new Address(rs.getString(15));
+				address.setGeolocation(new Geolocation(rs.getDouble(16), rs.getDouble(17)));
+				pos.setLocation(new Location(address, phone));
+				pos.distanceInMetersBetweenUser();
+				business.setTradeName(rs.getString(18));
+				business.setContact(new Partner(new Login(rs.getString(19))));
+
+				result = true;
+			}
+		} catch (Exception e) {
+			Logger.error("An error has been occurred tryning loading the Gift by Mobile.\n" + e.getMessage(), e);
 		} finally {
 			if (cst != null)
 				cst = null;

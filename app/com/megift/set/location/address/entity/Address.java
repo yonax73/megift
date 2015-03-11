@@ -43,6 +43,14 @@ public class Address extends Entity {
 		this.geolocation = geolocation;
 	}
 
+	/**
+	 * @param address
+	 */
+	public Address(String address) {
+		super(0);
+		this.address = address;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

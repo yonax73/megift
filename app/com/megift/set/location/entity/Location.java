@@ -53,6 +53,16 @@ public class Location extends Entity {
 		this.address = address;
 	}
 
+	/**
+	 * @param address
+	 * @param phone
+	 */
+	public Location(Address address, Phone phone) {
+		super(0);
+		this.address = address;
+		this.phone = phone;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

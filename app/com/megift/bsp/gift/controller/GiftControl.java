@@ -189,7 +189,18 @@ public class GiftControl extends Controller {
 			} else {
 				result = "Error buscando regalos";
 			}
+		}
+		return ok(result);
+	}
 
+	public static Result loadGiftForMobile(int idPOS, int idGift) {
+		response().setHeader("Access-Control-Allow-Origin", "*");
+		String result = "No se ha podido completar la solicitud";
+		Business business = new Business(new POS(idPOS, new Gift(idGift)));
+		if (GiftLogic.load(business)) {
+			result = Json.toJson(business.getPos()).toString();
+		} else {
+			result = "Error cargando el regalo ";
 		}
 		return ok(result);
 	}

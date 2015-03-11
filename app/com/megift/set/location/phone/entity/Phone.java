@@ -31,6 +31,14 @@ public class Phone extends Entity {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * @param number
+	 */
+	public Phone(String number) {
+		super(0);
+		this.number = number;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

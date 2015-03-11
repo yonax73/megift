@@ -9,6 +9,7 @@ import com.megift.bsp.partner.entity.Partner;
 import com.megift.resources.base.Entity;
 import com.megift.set.location.entity.Location;
 import com.megift.set.location.geolocation.entity.Geolocation;
+import com.megift.set.location.phone.entity.Phone;
 
 /**
  * @class : POS.java<br/>
@@ -32,6 +33,7 @@ public class POS extends Entity {
 	private Partner contact;
 	private List<Gift> giftList;
 	private Gift gift;
+	// TODO: cambiar por el obejto
 	private int bussinesId;
 	private String businessName;
 	private Partner user;
@@ -50,6 +52,15 @@ public class POS extends Entity {
 	public POS() {
 		super(0);
 
+	}
+
+	/**
+	 * @param idPOS
+	 * @param gift
+	 */
+	public POS(int id, Gift gift) {
+		super(id);
+		this.gift = gift;
 	}
 
 	public int compareTo(POS pos) {
@@ -188,6 +199,15 @@ public class POS extends Entity {
 
 	public void setBusinessName(String businessName) {
 		this.businessName = businessName;
+	}
+
+	/**
+	 * @param location2
+	 * @param phone
+	 */
+	public void setLocation(Location location2, Phone phone) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
