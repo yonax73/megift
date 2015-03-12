@@ -1,6 +1,7 @@
 package com.megift.bsp.gift.entity;
 
 import static com.megift.resources.utils.Constants.DATE_FORMATTER;
+import static com.megift.resources.utils.Constants.priceWithoutDecimal;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -55,17 +56,17 @@ public class Gift extends Entity {
 	 */
 	public Gift(int id) {
 		super(id);
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getExpirationTime() {
 		if (startDate != null && expirationDate != null) {
 			String hours = String.valueOf(ChronoUnit.HOURS.between(startDate, expirationDate));
-			return hours;
+			return hours.concat(":00:00");
 		} else {
 			return "";
 		}
-
+		// return getElapsaTime(startDate,new
+		// Date(expirationDate.toLocalDate().getM));
 	}
 
 	public String getFormatStartDate() {
@@ -249,6 +250,10 @@ public class Gift extends Entity {
 	 */
 	public void setTermsConditions(String termsConditions) {
 		this.termsConditions = termsConditions;
+	}
+
+	public String getPriceFormatted() {
+		return priceWithoutDecimal(price, "$");
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.megift.bsp.action.entity;
 
+import static com.megift.resources.utils.Constants.priceWithoutDecimal;
+
 import java.util.List;
 
 import com.megift.resources.base.Entity;
@@ -116,4 +118,7 @@ public class Action extends Entity {
 		return false;
 	}
 
+	public String getPriceFormatted() {
+		return priceWithoutDecimal(price, "$");
+	}
 }

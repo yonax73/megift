@@ -186,7 +186,8 @@ public class GiftDao extends Dao {
 				pos.distanceInMetersBetweenUser();
 				business.setTradeName(rs.getString(18));
 				business.setContact(new Partner(new Login(rs.getString(19))));
-
+				gift.setStartDate(rs.getTimestamp(20).toLocalDateTime());
+				gift.setExpirationDate(rs.getTimestamp(21).toLocalDateTime());
 				result = true;
 			}
 		} catch (Exception e) {

@@ -198,7 +198,7 @@ public class GiftControl extends Controller {
 		String result = "No se ha podido completar la solicitud";
 		Business business = new Business(new POS(idPOS, new Gift(idGift)));
 		if (GiftLogic.load(business)) {
-			result = Json.toJson(business.getPos()).toString();
+			result = Json.toJson(business).toString();
 		} else {
 			result = "Error cargando el regalo ";
 		}

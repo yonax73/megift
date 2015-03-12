@@ -66,10 +66,18 @@ public class Geolocation extends Entity {
 	}
 
 	/*
+	 * TODO:quitar
 	 * calculate distance in meters between two points
 	 */
 	public static double distanceInMetersBetween(Geolocation point1, Geolocation point2) {
 		return convertKilometersToMeteres(distance(point1, point2, 'K'));
+	}
+
+	/*
+	 * calculate distance in meters between two points
+	 */
+	public static double distanceInKiloMetersBetween(Geolocation point1, Geolocation point2) {
+		return distance(point1, point2, 'K');
 	}
 
 	/*
