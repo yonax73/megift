@@ -187,16 +187,20 @@ public class GiftControl extends Controller {
 			if (GiftLogic.searchGift(user)) {
 				result = Json.toJson(user.getPOSList()).toString();
 			} else {
-				result = "Error buscando regalos";
+				result = "No hay regalos disponibles cerca a tu ubicación";
 			}
 		}
 		return ok(result);
 	}
 
-	public static Result loadGiftForMobile(int idPOS, int idGift) {
+	public static Result loadGiftForMobile(int idPOS, int idGift, double lat, double lng) {
 		response().setHeader("Access-Control-Allow-Origin", "*");
 		String result = "No se ha podido completar la solicitud";
-		Business business = new Business(new POS(idPOS, new Gift(idGift)));
+		POS pos = new POS(idPOS, new Gift(idGift));
+		Partner user = new Partner(0);
+		user.setLocation(new Location(new Address(new Geolocation(lat, lng))));
+		pos.setUser(user);
+		Business business = new Business(pos);
 		if (GiftLogic.load(business)) {
 			result = Json.toJson(business).toString();
 		} else {

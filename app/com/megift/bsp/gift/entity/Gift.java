@@ -44,8 +44,9 @@ public class Gift extends Entity {
 	private String name;
 	private String description;
 	private List<Picture> pictures;
-	private List<TermAndCondition> termsAndConditions;// TODO: se reemplazon por
-														// un String
+	private Picture mainPicture;
+	// TODO: se reemplazon por un String
+	private List<TermAndCondition> termsAndConditions;
 	private List<POS> posList;
 	private POS pos;
 	private List<RelationGiftPOS> giftPOSList;
@@ -58,6 +59,7 @@ public class Gift extends Entity {
 		super(id);
 	}
 
+	// TODO:Quitar
 	public String getExpirationTime() {
 		if (startDate != null && expirationDate != null) {
 			String hours = String.valueOf(ChronoUnit.HOURS.between(startDate, expirationDate));
@@ -67,6 +69,21 @@ public class Gift extends Entity {
 		}
 		// return getElapsaTime(startDate,new
 		// Date(expirationDate.toLocalDate().getM));
+	}
+
+	public String getElapseTime() {
+		String elapseTime = "0 Horas";
+		Long h = ChronoUnit.HOURS.between(startDate, expirationDate);
+		if (h > 24) {
+			Long d = ChronoUnit.DAYS.between(startDate, expirationDate);
+			elapseTime = String.valueOf(d.intValue()).concat(" Dias");
+		} else if (h < 1) {
+			Long m = ChronoUnit.MINUTES.between(startDate, expirationDate);
+			elapseTime = String.valueOf(m.intValue()).concat(" Minutos");
+		} else {
+			elapseTime = String.valueOf(h.intValue()).concat(" Horas");
+		}
+		return elapseTime;
 	}
 
 	public String getFormatStartDate() {
@@ -254,6 +271,21 @@ public class Gift extends Entity {
 
 	public String getPriceFormatted() {
 		return priceWithoutDecimal(price, "$");
+	}
+
+	/**
+	 * @return the mainPicture
+	 */
+	public Picture getMainPicture() {
+		return mainPicture;
+	}
+
+	/**
+	 * @param mainPicture
+	 *            the mainPicture to set
+	 */
+	public void setMainPicture(Picture mainPicture) {
+		this.mainPicture = mainPicture;
 	}
 
 }

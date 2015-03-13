@@ -107,4 +107,16 @@ public class PictureLogic {
 		return result;
 	}
 
+	/**
+	 * @param giftList
+	 * @return
+	 */
+	public static boolean loadMainPicturesByGiftList(List<Gift> giftList) {
+		boolean result = false;
+		if (giftList != null && !giftList.isEmpty()) {
+			result = PictureDao.loadMainPicturesByGiftList(giftList);
+		}
+		return result;
+	}
+
 }

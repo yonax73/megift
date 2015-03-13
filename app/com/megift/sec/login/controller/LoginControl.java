@@ -45,7 +45,7 @@ public class LoginControl extends Controller {
 					partner = new Partner(data.get("name-partner")[0]);
 					partner.setLogin(login);
 					if (PartnerLogic.create(partner)) {
-						result = SUCCESS_RESPONSE;
+						result = String.valueOf(partner.getLogin().getId());
 					} else {
 						result = "Error tryning create Partner";
 					}

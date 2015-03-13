@@ -264,4 +264,41 @@ public class PictureDao extends Dao {
 		return result;
 	}
 
+	/**
+	 * @param giftList
+	 * @return
+	 */
+	public static boolean loadMainPicturesByGiftList(List<Gift> giftList) {
+		boolean result = false;
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = DB.getConnection();
+
+		try {
+			conn = DB.getConnection();
+			for (Gift gift : giftList) {
+				cst = conn.prepareCall("{CALL sp_set_pictures_LOAD_PICTURES_BY_GIFT(?)}");
+				cst.setInt(1, gift.getId());
+				rs = cst.executeQuery();
+				if (rs.next()) {
+					Picture p = new Picture(rs.getInt(1));
+					p.setMime(rs.getString(2));
+					p.setCoding(rs.getString(3));
+					Blob blob = rs.getBlob(4);
+					p.setSrc(Base64.getEncoder().encodeToString(blob.getBytes(1, (int) blob.length())));
+					p.setMain(true);
+					gift.setMainPicture(p);
+				}
+			}
+			result = true;
+		} catch (Exception e) {
+			Logger.error("An error has been occurred tryning loading the Pictures by Gift.\n" + e.getMessage(), e);
+		} finally {
+			if (cst != null)
+				cst = null;
+			close(conn);
+		}
+		return result;
+	}
+
 }

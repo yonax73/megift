@@ -378,8 +378,8 @@ public class GiftDao extends Dao {
 
 				} while (rs.next());
 			}
+			result = POSList != null && !POSList.isEmpty();
 			user.setPOSList(POSList);
-			result = true;
 		} catch (Exception e) {
 			Logger.error("An error has been occurred trying to search the Gifts .\n" + e.getMessage(), e);
 		} finally {

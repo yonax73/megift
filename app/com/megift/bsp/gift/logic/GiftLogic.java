@@ -170,11 +170,10 @@ public class GiftLogic {
 					}
 				});
 				/*
-				 * Cargar las imagenes del regalo
+				 * Traer solo la imagen principal
 				 */
-				// TODO: Traer solo la imagen principal
 				for (POS pos : user.getPOSList()) {
-					result = PictureLogic.loadPicturesByGiftList(pos.getGiftList());
+					result = PictureLogic.loadMainPicturesByGiftList(pos.getGiftList());
 					if (!result) {
 						break;
 					}
