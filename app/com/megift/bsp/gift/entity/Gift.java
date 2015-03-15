@@ -30,6 +30,7 @@ import com.megift.set.picture.entity.Picture;
 public class Gift extends Entity {
 
 	public static final int OTHER_TYPE = 24;
+	public static final int INACTIVE = 28;
 	/**
      * 
      */
@@ -216,6 +217,11 @@ public class Gift extends Entity {
 	}
 
 	public MasterValue getStatus() {
+		if (ChronoUnit.MINUTES.between(startDate, expirationDate) <= 0) {
+			if (status != null) {
+				status.setId(INACTIVE);
+			}
+		}
 		return status;
 	}
 

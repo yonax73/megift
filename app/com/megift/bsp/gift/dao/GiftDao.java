@@ -77,7 +77,7 @@ public class GiftDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			cst = conn.prepareCall("CALL sp_bsp_gift_UPDATE(?,?,?,?,?,?,?,?,?,?)");
+			cst = conn.prepareCall("CALL sp_bsp_gift_UPDATE(?,?,?,?,?,?,?,?,?,?,?)");
 			cst.setInt(1, gift.getId());
 			cst.setInt(2, gift.getAction().getId());
 			cst.setInt(3, gift.getStatus().getId());
@@ -88,6 +88,7 @@ public class GiftDao extends Dao {
 			cst.setTimestamp(8, Timestamp.valueOf(gift.getExpirationDate()));
 			cst.setString(9, gift.getName());
 			cst.setString(10, gift.getDescription());
+			cst.setString(11, gift.getTermsConditions());
 			result = cst.executeUpdate() > 0;
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
@@ -133,6 +134,7 @@ public class GiftDao extends Dao {
 				gift.setExpirationDate(rs.getTimestamp(12).toLocalDateTime());
 				gift.setName(rs.getString(13));
 				gift.setDescription(rs.getString(14));
+				gift.setTermsConditions(rs.getString(15));
 				result = true;
 			}
 		} catch (Exception e) {
@@ -338,10 +340,11 @@ public class GiftDao extends Dao {
 			if (rs.next()) {
 				POSList = new ArrayList<POS>();
 				int POSIdOld = 0;
+				int POSIdCurrent = 0;
 				POS pos = null;
 				List<Gift> giftList = null;
 				do {
-					int POSIdCurrent = rs.getInt(1);
+					POSIdCurrent = rs.getInt(1);
 					/*
 					 * Si el id del pos es diferente al anterior entonces
 					 * creamos otro punto de venta
@@ -377,6 +380,11 @@ public class GiftDao extends Dao {
 					giftList.add(gift);
 
 				} while (rs.next());
+				// agregar el ultimo punto de venta
+				if (POSIdCurrent == POSIdOld && !giftList.isEmpty()) {
+					pos.setGiftList(giftList);
+					POSList.add(pos);
+				}
 			}
 			result = POSList != null && !POSList.isEmpty();
 			user.setPOSList(POSList);

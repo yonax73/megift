@@ -4,9 +4,6 @@
 	<div class="row">
 		<div class="col-md-12 ">				
 			<div class="btn-group btn-group-lg pull-right" >
-				<button class="btn btn-default btn-lg" id="terms-and-conditions-btn-open">
-					<i id="terms-and-conditions-btn-ico-open" class="fa fa-file-text-o fa-fw"></i>&nbsp; Terminos y condiciones
-				</button>
 				<button class="btn btn-default btn-lg" id="associate-pos-btn">
 					<i id="associate-pos-btn-icon" class="fa fa-cart-plus fa-fw"></i>&nbsp; Agregar a puntos de venta
 				</button>
@@ -20,7 +17,8 @@
         
         <div class="row">
         	<div class="col-md-12 text-center">
-        		<small class="text-info ">Recomendamos usar una imagen de 180px X 160px</small>
+        		<small class="text-info ">Recomendamos usar una imagen de 180px X 160px</small><br/> 
+        		<small> Los campos con <span class="text-danger">*</span> son obligatorios</small> <br/>
         	</div>
         </div>
 		<div class="row">			
@@ -66,6 +64,7 @@
 				<fieldset class="col-md-6">
 					<legend>Datos del regalo</legend>			
 					<div class="col-md-12">
+						<span class="text-danger">*</span>
 						<div class="form-group has-feedback">
 							<input type="text" class="form-control input-lg" name="name-gift"  data-required="true" placeholder="Nombre regalo">
 							<span class="form-control-feedback"></span>
@@ -73,12 +72,13 @@
 						</div>
 					</div>
 					<div class="col-md-12">
+						<span class="text-danger">*</span>
 						<div class="form-group has-feedback"> 
 							<div id="gift-type-list" data-required="true" data-name="gift-type" class="i-select i-select-lg i-select-dafault"></div>
 							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
 						</div>
 					</div>
-					<div id="other-gift-type" class="col-md-12 hidden">
+					<div id="other-gift-type" class="col-md-12 hidden">						
 						<div class="form-group has-feedback">
 							<input type="text" class="form-control input-lg" name="other-gift-type"  placeholder="Cual ?">
 							<span class="form-control-feedback"></span>
@@ -86,6 +86,7 @@
 						</div>
 					</div>
 					<div class="col-md-12">
+						<span class="text-danger">*</span>
 						<div class="form-group has-feedback">
 							<input type="text" class="form-control input-lg" name="price-gift"  data-required="true" data-money="true" placeholder="Valor Comercial">
 							<span class="form-control-feedback"></span>
@@ -93,6 +94,7 @@
 						</div>
 					</div>
 					<div class="col-md-12">
+						<span class="text-danger">*</span>
 						<div class="form-group has-feedback">
 							<input type="text" class="form-control input-lg" name="start-date-gift" data-required="true" data-date="dd-mm-yyyy" placeholder="Fecha inicio (dd-mm-yyyy)">
 							<span class="form-control-feedback"></span>
@@ -100,6 +102,7 @@
 						</div>
 					</div>
 					<div class="col-md-12">
+						<span class="text-danger">*</span>
 						<div class="form-group has-feedback">
 							<input type="text" class="form-control input-lg" name="end-date-gift" data-required="true" data-date="dd-mm-yyyy" placeholder="Fecha finalización (dd-mm-yyyy)">
 							<span class="form-control-feedback"></span>
@@ -107,6 +110,7 @@
 						</div>
 					</div>
 					<div class="col-md-12">
+						<span class="text-danger">*</span>
 						<div class="form-group has-feedback">
 							<textarea name="description-gift" class="form-control" rows="4" placeholder="Descripción del regalo" data-required="true"></textarea>
 							<span class="form-control-feedback"></span>
@@ -114,21 +118,26 @@
 						</div>
 					</div>
 					<div class="col-md-12">
+						<span class="text-danger">*</span>
+						<div class="form-group has-feedback">
+							<textarea name="termsConditions-gift" class="form-control" rows="4" placeholder="Terminos y condiciones del regalo" data-required="true"></textarea>
+							<span class="form-control-feedback"></span>
+							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<span class="text-danger">*</span>
 						<div class="form-group has-feedback"> 
 							<div id="gift-status-list" data-name="gift-status" data-required="true"  class="i-select i-select-lg i-select-dafault"></div>
 							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
 						</div>
 					</div>
-					<div class="col-md-12">
-						<div class="form-group has-feedback"> 
-							<div id="gift-status-list" data-required="true" data-name="gift-status" class="i-select i-select-lg i-select-dafault"></div>
-							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-						</div>
-					</div>
+
 				</fieldset>
 				<fieldset class="col-md-6">
 					<legend>Datos de la acción</legend>
 					<div class="col-md-12">
+						<span class="text-danger">*</span>
 						<div class="form-group has-feedback">
 							<input type="text" class="form-control input-lg" name="name-action"  data-required="true" placeholder="Nombre Acción">
 							<span class="form-control-feedback"></span>
@@ -136,12 +145,13 @@
 						</div>
 					</div>
 					<div class="col-md-12">
+						<span class="text-danger">*</span>
 						<div class="form-group has-feedback"> 
 							<div id="action-type-list" data-required="true" data-name="action-type" class="i-select i-select-lg i-select-dafault"></div>
 							<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
 						</div>
 					</div>
-					<div id="other-action-type" class="col-md-12 hidden">
+					<div id="other-action-type" class="col-md-12 hidden">						
 						<div class="form-group has-feedback">
 							<input type="text" class="form-control input-lg" name="other-action-type"  placeholder="Cual ?">
 							<span class="form-control-feedback"></span>
@@ -149,6 +159,7 @@
 						</div>
 					</div>
 					<div class="col-md-12">
+						<span class="text-danger">*</span>
 						<div class="form-group has-feedback">
 							<input type="text" class="form-control input-lg" name="price-action"  data-required="true" data-money="true" placeholder="Valor Comercial">
 							<span class="form-control-feedback"></span>
@@ -156,6 +167,7 @@
 						</div>
 					</div>
 					<div class="col-md-12">
+						<span class="text-danger">*</span>
 						<div class="form-group has-feedback">
 							<textarea name="description-action" class="form-control" rows="4" placeholder="Descripción de la acción" data-required="true"></textarea>
 							<span class="form-control-feedback"></span>
@@ -314,9 +326,9 @@
 			}
 
 			function initTermsAndConditions(){				
-				document.getElementById('terms-and-conditions-btn-open').onclick = function(){
+				/*document.getElementById('terms-and-conditions-btn-open').onclick = function(){
 					loadTermnsAndConditions();                     
-				}
+				}*/
 			}
 
 			function loadTermnsAndConditions(){
@@ -586,6 +598,7 @@ function loadGift(){
 				document.getElementsByName('price-action')[0].value = gift.action.price;
 				document.getElementsByName('description-action')[0].value = gift.action.description;
 				document.getElementsByName('id-action')[0].value = gift.action.id;
+				document.getElementsByName('termsConditions-gift')[0].value = gift.termsConditions;
 			}catch (ex) {	         
 				console.error(ex)   	    					;
 				notification.danger(xhr.responseText);

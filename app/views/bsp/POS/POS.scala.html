@@ -1,356 +1,484 @@
-@import resources._
+@import resources._ 
 @nav(titlePage = "Punto de Venta"){
-<div class="row row-centered">    
+<div class="row row-centered">
 	<div class="col-md-8 col-centered">
 		<div class="row">
-			<div class="col-md-12 ">				
-				<div class="btn-group btn-group-lg pull-right" >
-					<button class="btn btn-default btn-lg" id="associate-gift-btn" disabled="disabled">
-						<i id="associate-gift-btn-icon" class="fa fa-gift fa-fw"></i>&nbsp; Regalos
-					</button>
-				</div>
+			<div class="col-md-12 ">
+				<div class="btn-group btn-group-lg pull-right"><button class="btn btn-default btn-lg" id="associate-gift-btn"disabled="disabled"><i id="associate-gift-btn-icon" class="fa fa-gift fa-fw"></i>&nbsp;Regalos</button></div>
 			</div>
-		</div><br>   
+		</div>
+		<br>
 		<div class="page-header">
-			<h2 class="text-left" id="name-POS-title"></h2>  
-		</div>	
+			<h2 class="text-left" id="name-POS-title"></h2>
+		</div>
+		<small> Los campos con <span class="text-danger">*</span> son obligatorios</small> <br/> <br/>
 		<form id="POS-form" class="form-horizontal row">
-			<fieldset class="col-md-6">
+			<fieldset class="col-md-12">
 				<legend>Datos de Punto de Venta</legend>
 				<div class="col-md-12">
-					<div class="form-group has-feedback">
-						<input type="text" class="form-control input-lg" name="name-POS" data-required="true" placeholder="Nombre Punto de Venta">
-						<span class="form-control-feedback"></span>
-						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-					</div>
+					<span class="text-danger">*</span>
+					<div class="form-group has-feedback"><input type="text" class="form-control input-lg" name="name-POS"data-required="true" placeholder="Nombre Punto de Venta"><span class="form-control-feedback"></span> <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small></div>
 				</div>
 				<div class="col-md-12">
-					<div class="form-group has-feedback">
-						<input type="text" class="form-control input-lg" name="name-contact" data-required="true" placeholder="Nombre Contacto">
-						<span class="form-control-feedback"></span>
-						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-					</div>
+					<span class="text-danger">*</span>
+					<div class="form-group has-feedback"><input type="text" class="form-control input-lg"name="name-contact" data-required="true"placeholder="Nombre Contacto"> <span class="form-control-feedback"></span> <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small></div>
 				</div>
 				<div class="col-md-12">
-					<div class="form-group has-feedback">
-						<input type="text" class="form-control input-lg" name="phone-pos" data-required="true" placeholder="Teléfono">
-						<span class="form-control-feedback"></span>
-						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-					</div>
+					<span class="text-danger">*</span>
+					<div class="form-group has-feedback"><input type="text" class="form-control input-lg" name="phone-pos"data-required="true" placeholder="Teléfono"> <span class="form-control-feedback"></span> <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small></div>
 				</div>
 				<div class="col-md-12">
-					<div class="form-group has-feedback">
-						<input type="text" class="form-control input-lg" name="extension-phone-pos" data-required="true" placeholder="Extención Teléfono">
-						<span class="form-control-feedback"></span>
-						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-					</div>
+					<div class="form-group has-feedback"><input type="text" class="form-control input-lg"name="extension-phone-pos" placeholder="Extención Teléfono"><span class="form-control-feedback"></span> <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small></div>
 				</div>
 				<div class="col-md-12">
-					<div class="form-group has-feedback">
-						<input type="text" class="form-control input-lg" name="mobile-phone-pos" data-required="true" placeholder="Celular">
-						<span class="form-control-feedback"></span>
-						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-					</div>
+					<span class="text-danger">*</span>
+					<div class="form-group has-feedback"><input type="text" class="form-control input-lg"name="mobile-phone-pos" data-required="true"placeholder="Celular"> <span class="form-control-feedback"></span> <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small></div>
 				</div>
 				<div class="col-md-12">
+					<span class="text-danger">*</span>
 					<div class="form-group has-feedback">
-						<input type="text" class="form-control input-lg" name="address-pos" data-required="true" placeholder="Dirección">
-						<span class="form-control-feedback"></span>
-						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-					</div>
-				</div>
-				<div class="col-md-12">
-					<div class="form-group">
-						<a href="http://www.coordenadas-gps.com/" target="_blank">Obtener coordenadas aquí</a>
-					</div>
-				</div>
-				<div class="col-md-12">				
-					<div class="form-group has-feedback">
-						<input type="text" class="form-control input-lg" name="longitude-address-pos" data-required="true" placeholder="longitude">
-						<span class="form-control-feedback"></span>
-						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
-					</div>
-				</div>
-				<div class="col-md-12">
-					<div class="form-group has-feedback">
-						<input type="text" class="form-control input-lg" name="latitude-address-pos" data-required="true" placeholder="Latitud">
+						<input type="text" class="form-control input-lg" id="address-pos" name="address-pos" data-required="true" placeholder="Dirección" readonly="true">
+						<span class="input-group-btn form-group">
+							<button class="btn btn-default" type="button" onclick="loadMapAsync()">
+								<i class="fa fa-map-marker"></i>&nbsp;Buscar
+							</button>
+						</span>
 						<span class="form-control-feedback"></span>
 						<small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
 					</div>
 				</div>
 				<div class="col-md-12 ">
-					<div class="form-group">
-						<button id="POSBtn" type="submit" class="btn btn-success btn-lg btn-block">Guardar
-							<i id="POS-btn-ico"></i></button>
-						</div>
-					</div>    
-				</fieldset>
-				<input type="hidden" id="id-POS" name="id-POS" value="0">
-				<input type="hidden" id="id-contact" name="id-contact" value="0">
-				<input type="hidden" id="id-phone-pos" name="id-phone-pos" value="0">    
-				<input type="hidden" id="id-address-pos" name="id-address-pos" value="0">    
-				<input type="hidden" id="id-location-pos" name="id-location-pos" value="0">   
-				<input type="hidden" id="id-geolocation-pos" name="id-geolocation-pos" value="0">     
-			</form>
-		</div>	
-		<div  id="associate-gift-popup" class="i-popup-panel i-popup-primary hidden">  
-			<div class="row center">
-				<div class="col-md-12">
-					<div id="associate-gift-notification"></div>
+					<div class="form-group"><button id="POSBtn" type="submit"class="btn btn-success btn-lg btn-block">Guardar <i id="POS-btn-ico"></i></button></div>
 				</div>
-			</div> 			
-			<div class="row">
-				<div class="col-md-12 page-header">
-					<h2 >Regalos</h2>    			
-				</div>
-				<p>Asociar regalos a punto de venta</p>		
+			</fieldset>
+			<input type="hidden" id="id-POS" name="id-POS" value="0">
+			<input type="hidden" id="id-contact" name="id-contact" value="0">
+			<input type="hidden" id="id-phone-pos" name="id-phone-pos" value="0">
+			<input type="hidden" id="id-address-pos" name="id-address-pos"value="0"> 
+			<input type="hidden" id="id-location-pos"name="id-location-pos" value="0"> 
+			<input type="hidden"id="id-geolocation-pos" name="id-geolocation-pos" value="0">
+			<input type="hidden" id="longitude-address-pos" name="longitude-address-pos" value="0"> 
+			<input type="hidden" id="latitude-address-pos" name="latitude-address-pos" value="0">
+		</form>
+	</div>
+</div>
+<div id="map-popup" class="i-popup-panel i-popup-primary hidden">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="page-header">
+				<h2>Dirección Punto de Venta</h2>
 			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div id="associate-gift-cover"></div>
-				</div>
-				<div class="col-md-2 pull-right">
-					<div class="form-group ">
-						<button type="button" class="btn btn-default btn-lg btn-block i-popup-close">Cerrar</button>
-					</div>
-				</div>   
-			</div>
+			<p>
+				Ubica la dirección del punto de venta en el mapa para tener una mejor precisión en el momento de buscar regalos
+			</p>
 		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="input-group">
+				<input type="text" id="address-input" class="form-control" placeholder="Dirección Punto de Venta">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" onclick="findLocaiton()">
+						<i class="fa fa-map-marker"></i>&nbsp;Buscar
+					</button>
+				</span>
+			</div>
+			<p>
+				<small>Ej: Carrera 25 # 1 A Sur 45 Local 3160 Medellín, Antioquia Colombia</small>
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div id="map" style="height:253px">Cargando Mapa...</div>
+		</div>
+	</div>
+	<br/>
+	<br/>
+	<div class="row">
+		<div class="col-md-12 ">
+			<div class="form-group pull-right ">
+				<button type="button" class="btn btn-default btn-lg  i-popup-close">Cancelar</button>
+				<button type="button" class="btn btn-success btn-lg " onclick="setAddress()">Aceptar</button>
+			</div>
+		</div>    	
+	</div>
+</div>
+<div id="associate-gift-popup"class="i-popup-panel i-popup-primary hidden">
+	<div class="row center">
+		<div class="col-md-12">
+			<div id="associate-gift-notification"></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12 page-header">
+			<h2>Regalos</h2>
+		</div>
+		<p>Asociar regalos a punto de venta</p>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div id="associate-gift-cover"></div>
+		</div>
+		<div class="col-md-2 pull-right">
+			<div class="form-group "><button type="button"class="btn btn-default btn-lg btn-block i-popup-close">Cerrar</button></div>
+		</div>
+	</div>
+</div>
+<script>
+	//atributes
+	var typePOSView = sessionStorage.getItem('type-POS-view');
+	var namePOSTitle = document.getElementById('name-POS-title');
+	var associateGiftNotification = new Alert(document.getElementById('associate-gift-notification'));
+	//forms
+	var POSForm = new Form(document.getElementById('POS-form'));
+
+	//popup map
+	var mapPopup = new Popup(document.getElementById('map-popup'));
+
+	//buttonss
+	var POSBtn = document.getElementById('POSBtn');
+	//atributtes for google map
+	var geocoder = null;
+	var map = null;
+	var marker = null;
+	if (typePOSView > 0) { //Adminstrar pos
+	    //load data
+	    loadPOS();
+	} else { //Crear pos 	
+		namePOSTitle.textContent = 'Crear Punto de Venta';
 	}
+     //load map async
+     function loadMapAsync() {    
+        setAddressInput(); 
+     	mapPopup.show();
+     	document.getElementById('address-input').focus();
+     	var isGoogleMapsAdded = document.getElementById('google-map-id');
+     	if(!isGoogleMapsAdded){
+     		var script = document.createElement('script');
+     		script.type = 'text/javascript';
+     		script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp' +
+     		'&signed_in=true&callback=initializeMap';
+     		script.id = 'google-map-id';
+     		document.body.appendChild(script);     		
+     	}
+     }
+     
+     //init map
+     function initializeMap() {         
+     	var lat = document.getElementById('latitude-address-pos').value;
+     	var lng = document.getElementById('longitude-address-pos').value;	  
+     	var posName = document.getElementsByName('name-POS')[0].value; 
+     	if(lat==0){
+     		lat = 6.197569;
+     	}
+     	if(lng == 0){
+     		lng = -75.5740543;
+     	}
+     	var latlng = new google.maps.LatLng(lat,lng);
+     	var myOptions =
+     	{
+     		zoom: 17,
+     		center: latlng,
+     		mapTypeId: google.maps.MapTypeId.ROADMAP,
+     		disableDefaultUI: true
+     	};
 
+     	map = new google.maps.Map(document.getElementById("map"), myOptions);
+     	var image = "@routes.Assets.at("images/gift/gift-shop64.png")";
+        // To add the marker to the map, use the 'map' property
+        marker = new google.maps.Marker({
+        	position: latlng,
+        	map: map,
+        	title:posName,
+        	draggable:true,
+        	icon: image
+        });
+         
+        google.maps.event.addListener(marker, 'click', function (event) {
+        	document.getElementById('latitude-address-pos').value = event.latLng.lat();
+        	document.getElementById('longitude-address-pos').value = event.latLng.lng();
+        	geocodePosition(marker.getPosition());        	
+        });
 
-	<script>
-//atributes
-var typePOSView = sessionStorage.getItem('type-POS-view');
-var namePOSTitle = document.getElementById('name-POS-title');
-var associateGiftNotification = new Alert(document.getElementById('associate-gift-notification'));
-//forms
-var POSForm = new Form(document.getElementById('POS-form'));
-//buttonss
-var POSBtn = document.getElementById('POSBtn');
- if(typePOSView>0){//Adminstrar pos
-    //load data
-    loadPOS(); 
- }else{//Crear pos 	
- 	namePOSTitle.textContent = 'Crear Punto de Venta';
+        google.maps.event.addListener(marker, 'click', function (event) {
+        	document.getElementById("latitude-address-pos").value = this.getPosition().lat();
+        	document.getElementById("longitude-address-pos").value = this.getPosition().lng();
+        	geocodePosition(marker.getPosition());        	
+        });
+        google.maps.event.addListener(marker, 'dragend', function (event) {
+        	document.getElementById("latitude-address-pos").value = this.getPosition().lat();
+        	document.getElementById("longitude-address-pos").value = this.getPosition().lng();
+        	geocodePosition(marker.getPosition());        	
+        });
+        // add a click event handler to the map object
+        google.maps.event.addListener(map, "click", function(event){
+          // change marker position
+          marker.setPosition(event.latLng);
+          geocodePosition(marker.getPosition());
+           // display the lat/lng in your form's lat/lng fields
+           document.getElementById("latitude-address-pos").value = event.latLng.lat();
+           document.getElementById("longitude-address-pos").value = event.latLng.lng();  
+       });
+    }
+
+    //Code Position from google maps
+    function geocodePosition(pos) {
+    	geocoder = new google.maps.Geocoder();
+    	geocoder.geocode({
+    		latLng: pos
+    	}, function(responses) {
+    		if (responses && responses.length > 0) {
+    			document.getElementById('address-input').value = responses[0].formatted_address;
+    		} else {
+    			document.getElementById('address-input').value ='No se puede determinar la dirección para esta ubicación';
+    		}
+    	});
+    }
+    //find location google map
+   function findLocaiton() {
+        geocoder = new google.maps.Geocoder();
+        initializeMap();
+        var address = document.getElementById("address-input").value;
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+                document.getElementById("latitude-address-pos").value = results[0].geometry.location.lat();
+        	    document.getElementById("longitude-address-pos").value = results[0].geometry.location.lng();
+               marker.setPosition(results[0].geometry.location);
+            }
+            else {
+                alert("Geocode was not successful for the following reason: " + status);
+            }
+        });
+    }
+    //set address from popup
+    function setAddress(){
+    	document.getElementById('address-pos').value = document.getElementById('address-input').value;
+    	mapPopup.closeAll();
+    }    //set address input from form
+    function setAddressInput(){
+    	document.getElementById('address-input').value = document.getElementById('address-pos').value;
+    	mapPopup.closeAll();
+    }
+	//form POS
+	POSForm.onsubmit(function() {
+		if (POSForm.isValid()) {
+			var POSxHR = new XHR('POST', '/savePOS');
+			POSxHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+			POSxHR.onBeforeSend(function() {
+				POSBtn.disabled = true;
+				document.getElementById('POS-btn-ico').className = 'fa fa-spinner fa-spin';
+			});
+			POSxHR.onReady(function(xhr) {
+				POSBtn.disabled = false;
+				document.getElementById('POS-btn-ico').className = '';
+				try {
+					var POS = JSON.parse(xhr.responseText);
+					typePOSView = POS.id;
+					namePOSTitle.textContent = POS.name;
+	                //fill ids			
+	                document.getElementsByName('id-POS')[0].value = POS.id;
+	                document.getElementsByName('id-contact')[0].value = POS.contact.id;
+	                document.getElementsByName('id-phone-pos')[0].value = POS.location.phone.id;
+	                document.getElementsByName('id-address-pos')[0].value = POS.location.address.id;
+	                document.getElementsByName('id-location-pos')[0].value = POS.location.id;
+	                document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;
+	                document.getElementById('associate-gift-btn').disabled = false;
+	                notification.success('El punto de venta se guardo exitosamente!');
+	                initGifts();
+	            } catch (e) {
+	            	console.log(e);
+	            	notification.danger(xhr.responseText);
+	            }
+	        });
+POSxHR.send(POSForm.serialize());
 }
-//form POS
-POSForm.onsubmit(function(){
-	if(POSForm.isValid()){
-		var POSxHR = new XHR('POST','/savePOS');
-		POSxHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
-		POSxHR.onBeforeSend(function(){
-			POSBtn.disabled = true;
-			document.getElementById('POS-btn-ico').className = 'fa fa-spinner fa-spin';
-		});
-		POSxHR.onReady(function (xhr) {   
-			POSBtn.disabled = false;
-			document.getElementById('POS-btn-ico').className = '';	
-			try {
-				var POS = JSON.parse(xhr.responseText);
-				typePOSView = POS.id;	;
-				namePOSTitle.textContent = POS.name;
-					    //fill ids			
-					    document.getElementsByName('id-POS')[0].value = POS.id;					
-					    document.getElementsByName('id-contact')[0].value = POS.contact.id;					
-					    document.getElementsByName('id-phone-pos')[0].value = POS.location.phone.id;					
-					    document.getElementsByName('id-address-pos')[0].value = POS.location.address.id;					
-					    document.getElementsByName('id-location-pos')[0].value = POS.location.id;					
-					    document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;	
-					    document.getElementById('associate-gift-btn').disabled = false;
-					    notification.success('El punto de venta se guardo exitosamente!');	
-					    initGifts();			
-					} catch (e) {		
-					     console.log(e);
-						notification.danger(xhr.responseText);
-					}
-				});
-		POSxHR.send(POSForm.serialize());
-	}
 });
-//load POS
-function loadPOS(){
-    //load data
-    var loadPOSxHR = new XHR('GET','/loadPOS?id='+typePOSView);
-    loadPOSxHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
-    loadPOSxHR.onBeforeSend(function(){
-    	namePOSTitle.textContent = 'Cargando datos del Punto de Venta';
-    });
-    loadPOSxHR.onReady(function (xhr) {       	
-    	var POS = JSON.parse(xhr.responseText);
-    	namePOSTitle.textContent = POS.name;         
-    	document.getElementsByName('name-POS')[0].value =  POS.name;
-    	document.getElementsByName('name-contact')[0].value = POS.contact.name;
-    	document.getElementsByName('phone-pos')[0].value =  POS.location.phone.number;
-    	document.getElementsByName('extension-phone-pos')[0].value = POS.location.phone.extension;
-    	document.getElementsByName('mobile-phone-pos')[0].value = POS.location.phone.mobile;
-    	document.getElementsByName('address-pos')[0].value = POS.location.address.address;
-    	document.getElementsByName('longitude-address-pos')[0].value = POS.location.address.geolocation.longitude;
-    	document.getElementsByName('latitude-address-pos')[0].value = POS.location.address.geolocation.latitude;
-    	document.getElementsByName('id-POS')[0].value = POS.id;
-    	document.getElementsByName('id-contact')[0].value = POS.contact.id;
-    	document.getElementsByName('id-phone-pos')[0].value = POS.location.phone.id;
-    	document.getElementsByName('id-address-pos')[0].value = POS.location.address.id;
-    	document.getElementsByName('id-location-pos')[0].value = POS.location.id;
-    	document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;
-    	document.getElementById('associate-gift-btn').disabled = false;
-    	initGifts();
-    });
+	//load POS
+	function loadPOS() {
+	    //load data
+	    var loadPOSxHR = new XHR('GET', '/loadPOS?id=' + typePOSView);
+	    loadPOSxHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+	    loadPOSxHR.onBeforeSend(function() {
+	    	namePOSTitle.textContent = 'Cargando datos del Punto de Venta';
+	    });
+	    loadPOSxHR.onReady(function(xhr) {
+	    	var POS = JSON.parse(xhr.responseText);
+	    	namePOSTitle.textContent = POS.name;
+	    	document.getElementsByName('name-POS')[0].value = POS.name;
+	    	document.getElementsByName('name-contact')[0].value = POS.contact.name;
+	    	document.getElementsByName('phone-pos')[0].value = POS.location.phone.number;
+	    	document.getElementsByName('extension-phone-pos')[0].value = POS.location.phone.extension;
+	    	document.getElementsByName('mobile-phone-pos')[0].value = POS.location.phone.mobile;
+	    	document.getElementsByName('address-pos')[0].value = POS.location.address.address;
+	    	document.getElementsByName('longitude-address-pos')[0].value = POS.location.address.geolocation.longitude;
+	    	document.getElementsByName('latitude-address-pos')[0].value = POS.location.address.geolocation.latitude;
+	    	document.getElementsByName('id-POS')[0].value = POS.id;
+	    	document.getElementsByName('id-contact')[0].value = POS.contact.id;
+	    	document.getElementsByName('id-phone-pos')[0].value = POS.location.phone.id;
+	    	document.getElementsByName('id-address-pos')[0].value = POS.location.address.id;
+	    	document.getElementsByName('id-location-pos')[0].value = POS.location.id;
+	    	document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;
+	    	document.getElementById('associate-gift-btn').disabled = false;
+	    	initGifts();
+	    });
 loadPOSxHR.send();
 }
 
-function initGifts(){
+function initGifts() {
 	var associateGiftPopup = new Popup(document.getElementById('associate-gift-popup'));
-	
-	document.getElementById('associate-gift-btn').onclick = function(){
+
+	document.getElementById('associate-gift-btn').onclick = function() {
 		var coverCheckGift = document.getElementById('associate-gift-cover');
 		var associateGiftBtn = document.getElementById('associate-gift-btn');
 		var associateGiftBtnIcon = document.getElementById('associate-gift-btn-icon');
-		var loadGiftXHR = new XHR('GET','/loadGiftsByPOS?id='+typePOSView);
+		var loadGiftXHR = new XHR('GET', '/loadGiftsByPOS?id=' + typePOSView);
 		loadGiftXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
-		loadGiftXHR.onBeforeSend(function(){
+		loadGiftXHR.onBeforeSend(function() {
 			associateGiftBtn.disabled = true;
-			associateGiftBtnIcon.className = 'fa fa-spinner fa-spin';		    		
+			associateGiftBtnIcon.className = 'fa fa-spinner fa-spin';
 		});
-		loadGiftXHR.onReady(function (xhr) {   
+		loadGiftXHR.onReady(function(xhr) {
 			associateGiftBtn.disabled = false;
-			associateGiftBtnIcon.className = 'fa fa-gift fa-fw';		
+			associateGiftBtnIcon.className = 'fa fa-gift fa-fw';
 			try {
-				var gift = JSON.parse(xhr.responseText);		  
-				coverCheckGift.innerHTML = '';    		
-				fillCoverCheckGift(coverCheckGift,'associate-gift',gift);		    			
+				var gift = JSON.parse(xhr.responseText);
+				coverCheckGift.innerHTML = '';
+				fillCoverCheckGift(coverCheckGift, 'associate-gift', gift);
 				associateGiftPopup.show();
-			} catch (ex) {		
+			} catch (ex) {
 				console.log(ex);
 				associateGiftNotification.danger(xhr.responseText);
 			}
 		});
 		loadGiftXHR.send();
-	}   
+	}
 }
-function fillCoverCheckGift(element,name,gifts){
-	var n = gifts.length;		
+
+function fillCoverCheckGift(element, name, gifts) {
+	var n = gifts.length;
 	for (var i = 0; i < n; i++) {
 		var g = gifts[i];
-		var idElelement = 'cover-check-pos-'+g.id;
-				//ul
-				var ul = document.createElement('ul');				
-				//icon
-				var icon = document.createElement('i');
-				icon.className = 'fa fa-price';
-			    //li
-			    var li = document.createElement('li');
-			    li.appendChild(icon);
-			    li.appendChild(document.createTextNode(g.price));        
-			    ul.appendChild(li);
-			    //icon
-			    icon = document.createElement('i');
-			    icon.className = 'fa fa-clock-o';
-			    //li
-			    li = document.createElement('li');    
-			    li.appendChild(icon);
-			    li.appendChild(document.createTextNode(g.expirationTime));        
-			    ul.appendChild(li);
-			    //icon 
-			    icon = document.createElement('i');
-			    icon.className = 'fa fa-paperclip';
-			    //li
-			    li = document.createElement('li');    
-			    li.appendChild(icon);
-			    li.appendChild(document.createTextNode(g.status.value1));        
-			    ul.appendChild(li);				            
-				//cover check body
-				var coverCheckBody = document.createElement('div');
-				coverCheckBody.classList.add('cover-check-body');
-				coverCheckBody.appendChild(ul); 
-				//cover check header
-				var coverCheckHeader = document.createElement('div');
-				coverCheckHeader.classList.add('cover-check-header');
-			    //img  
-			    var img = document.createElement('img');  
-			    var src = null;
-			    if(g.pictures!=null){
-			    	var m = g.pictures.length;
-			    	if(m>0){          
-			    		var j = 0;
-			    		var found = false;
-			    		do{
-			    			var pic = g.pictures[j];
-			    			if(pic.main){
-			    				src = pic.dataURI;
-			    				found = true;
-			    			}
-			    			j++;
-			    		}while(!found && j<m);
-			    	}      
-			    }
-			    if(src==null){
-			    	src = '@routes.Assets.at("images/gift/gift.png")';
-			    }
-			    img.src = src;
-		        //li img		      
-		        coverCheckHeader.appendChild(img);			
-				coverCheckHeader.appendChild(document.createTextNode(g.name));
-		       //label
-		       var label = document.createElement('label');
-		       label.setAttribute('for',idElelement);
-		       label.appendChild(coverCheckHeader);
-		       label.appendChild(coverCheckBody);
-		       //input
-		       var input = document.createElement('input');
-		       input.type = 'checkbox';
-		       input.id = idElelement;
-		       input.dataset.id = g.id;		       
-		       input.checked = g.pos!=null;
-		       input.onclick = function(){						
-		       		var idPOS = typePOSView;
-		       		var idGift = this.dataset.id;
-		       		var actionXHR = null;
-		       		var msg = null;						
-		       		if(this.checked){			       	  	    
-		       			actionXHR = new XHR('GET','/associateGifToPOS?idPos='+idPOS+'&idGift='+idGift);
-		       			msg = "Se Asocio el regalo al punto de venta";
-		       		}else{
-		       			actionXHR = new XHR('GET','/removeGiftOfPOS?idPos='+idPOS+'&idGift='+idGift);
-		       			msg = "Se elimino el regalo del punto de venta";
-		       		}
-		       		actionXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
-		       		actionXHR.onReady(function (xhr) {   					    		
-		       			if(xhr.responseText== SUCCESS_RESPONSE){
-		       				associateGiftNotification.success(msg);
-		       			}else{
-		       				associateGiftNotification.danger(xhr.responseText);
-		       			}			    			
-		       		});
-		       		actionXHR.send();
-		       	}
-		     
-		       //span
-		       var span = document.createElement('span');
-		       span.classList.add('i-checkbox');
-		       span.classList.add('i-checkbox-toolbar');
-		       span.classList.add('i-checkbox-right');
-		       span.classList.add('i-checkbox');
-		       span.classList.add('i-checkbox-toolbar-default');
-		       span.appendChild(input);
-		       span.appendChild(label);
-		       //group
-		       var group = document.createElement('div');
-		       group.classList.add('form-group');
-		       group.classList.add('i-checkbox-horizontal');
-		       group.classList.add('cover-check');
-		       group.classList.add('cover-check-gift');
-		       group.appendChild(span);
-		       //colunm
-		       var col = document.createElement('div');
-		       col.classList.add('col-lg-2');
-		       col.classList.add('col-md-2');
-		       col.classList.add('col-sm-4')
-		       col.appendChild(group);		      
-		       //element
-		       element.appendChild(col);
-		   } 
+		var idElelement = 'cover-check-pos-' + g.id;
+	            //ul
+	            var ul = document.createElement('ul');
+	            //icon
+	            var icon = document.createElement('i');
+	            icon.className = 'fa fa-price';
+	            //li
+	            var li = document.createElement('li');
+	            li.appendChild(icon);
+	            li.appendChild(document.createTextNode(g.price));
+	            ul.appendChild(li);
+	            //icon
+	            icon = document.createElement('i');
+	            icon.className = 'fa fa-clock-o';
+	            //li
+	            li = document.createElement('li');
+	            li.appendChild(icon);
+	            li.appendChild(document.createTextNode(g.expirationTime));
+	            ul.appendChild(li);
+	            //icon 
+	            icon = document.createElement('i');
+	            icon.className = 'fa fa-paperclip';
+	            //li
+	            li = document.createElement('li');
+	            li.appendChild(icon);
+	            li.appendChild(document.createTextNode(g.status.value1));
+	            ul.appendChild(li);
+	            //cover check body
+	            var coverCheckBody = document.createElement('div');
+	            coverCheckBody.classList.add('cover-check-body');
+	            coverCheckBody.appendChild(ul);
+	            //cover check header
+	            var coverCheckHeader = document.createElement('div');
+	            coverCheckHeader.classList.add('cover-check-header');
+	            //img  
+	            var img = document.createElement('img');
+	            var src = null;
+	            if (g.pictures !== null) {
+	            	var m = g.pictures.length;
+	            	if (m > 0) {
+	            		var j = 0;
+	            		var found = false;
+	            		do {
+	            			var pic = g.pictures[j];
+	            			if (pic.main) {
+	            				src = pic.dataURI;
+	            				found = true;
+	            			}
+	            			j++;
+	            		} while (!found && j < m);
+	            	}
+	            }
+	            if (src === null) {
+	            	src = '@routes.Assets.at("images/gift/gift.png")';
+	            }
+	            img.src = src;
+	            //li img		      
+	            coverCheckHeader.appendChild(img);
+	            coverCheckHeader.appendChild(document.createTextNode(g.name));
+	            //label
+	            var label = document.createElement('label');
+	            label.setAttribute('for', idElelement);
+	            label.appendChild(coverCheckHeader);
+	            label.appendChild(coverCheckBody);
+	            //input
+	            var input = document.createElement('input');
+	            input.type = 'checkbox';
+	            input.id = idElelement;
+	            input.dataset.id = g.id;
+	            input.checked = g.pos !== null;
+	            input.onclick = function() {
+	            	var idPOS = typePOSView;
+	            	var idGift = this.dataset.id;
+	            	var actionXHR = null;
+	            	var msg = null;
+	            	if (this.checked) {
+	            		actionXHR = new XHR('GET', '/associateGifToPOS?idPos=' + idPOS + '&idGift=' + idGift);
+	            		msg = "Se Asocio el regalo al punto de venta";
+	            	} else {
+	            		actionXHR = new XHR('GET', '/removeGiftOfPOS?idPos=' + idPOS + '&idGift=' + idGift);
+	            		msg = "Se elimino el regalo del punto de venta";
+	            	}
+	            	actionXHR.setContentType('application/x-www-form-urlencoded;charset=UTF-8');
+	            	actionXHR.onReady(function(xhr) {
+	            		if (xhr.responseText == SUCCESS_RESPONSE) {
+	            			associateGiftNotification.success(msg);
+	            		} else {
+	            			associateGiftNotification.danger(xhr.responseText);
+	            		}
+	            	});
+	            	actionXHR.send();
+	            }
 
-		}
+	                //span
+	                var span = document.createElement('span');
+	                span.classList.add('i-checkbox');
+	                span.classList.add('i-checkbox-toolbar');
+	                span.classList.add('i-checkbox-right');
+	                span.classList.add('i-checkbox');
+	                span.classList.add('i-checkbox-toolbar-default');
+	                span.appendChild(input);
+	                span.appendChild(label);
+	                //group
+	                var group = document.createElement('div');
+	                group.classList.add('form-group');
+	                group.classList.add('i-checkbox-horizontal');
+	                group.classList.add('cover-check');
+	                group.classList.add('cover-check-gift');
+	                group.appendChild(span);
+	                //colunm
+	                var col = document.createElement('div');
+	                col.classList.add('col-lg-2');
+	                col.classList.add('col-md-2');
+	                col.classList.add('col-sm-4')
+	                col.appendChild(group);
+	                //element
+	                element.appendChild(col);
+	            }
+	        }
 
-		</script>
+	        </script>
+	    }

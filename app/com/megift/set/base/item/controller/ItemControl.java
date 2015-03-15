@@ -29,7 +29,7 @@ public class ItemControl extends Controller {
 	public static Result documentTypeList() {
 		List<Item> list = ItemLogic.listItemValue1(Master.DOCUMENT_TYPE);
 		if (list != null)
-			list.add(0, new Item(0, "--TIPO DE DOCUMENTO--"));
+			list.add(0, new Item(0, "--TIPO DE DOCUMENTO REP. LEGAL--"));
 		return ok(Json.toJson(list).toString());
 	}
 

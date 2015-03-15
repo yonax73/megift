@@ -160,7 +160,7 @@ public class POSDao extends Dao {
 				address.setAddress(rs.getString(8));
 				Geolocation geolocation = new Geolocation(rs.getInt(9));
 				geolocation.setLongitude(rs.getDouble(10));
-				geolocation.setLatitude(rs.getInt(11));
+				geolocation.setLatitude(rs.getDouble(11));
 				address.setGeolocation(geolocation);
 				location.setAddress(address);
 				location.setPhone(phone);

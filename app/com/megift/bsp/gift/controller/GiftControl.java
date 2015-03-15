@@ -122,6 +122,7 @@ public class GiftControl extends Controller {
 				gift.setExpirationDate((LocalDate.parse(data.get("end-date-gift")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy"))).atStartOfDay());
 				gift.setStatus(new MasterValue(Integer.parseInt(data.get("gift-status")[0])));
 				gift.setDescription(data.get("description-gift")[0]);
+				gift.setTermsConditions(data.get("termsConditions-gift")[0]);
 				gift.setAction(action);
 				if (GiftLogic.update(gift)) {
 					result = Json.toJson(gift).toString();
