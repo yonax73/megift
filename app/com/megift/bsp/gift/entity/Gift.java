@@ -74,15 +74,17 @@ public class Gift extends Entity {
 
 	public String getElapseTime() {
 		String elapseTime = "0 Horas";
-		Long h = ChronoUnit.HOURS.between(startDate, expirationDate);
-		if (h > 24) {
-			Long d = ChronoUnit.DAYS.between(startDate, expirationDate);
-			elapseTime = String.valueOf(d.intValue()).concat(" Dias");
-		} else if (h < 1) {
-			Long m = ChronoUnit.MINUTES.between(startDate, expirationDate);
-			elapseTime = String.valueOf(m.intValue()).concat(" Minutos");
-		} else {
-			elapseTime = String.valueOf(h.intValue()).concat(" Horas");
+		if (expirationDate != null) {
+			Long h = ChronoUnit.HOURS.between(LocalDateTime.now(), expirationDate);
+			if (h > 24) {
+				Long d = ChronoUnit.DAYS.between(LocalDateTime.now(), expirationDate);
+				elapseTime = String.valueOf(d.intValue()).concat(" Dias");
+			} else if (h < 1) {
+				Long m = ChronoUnit.MINUTES.between(LocalDateTime.now(), expirationDate);
+				elapseTime = String.valueOf(m.intValue()).concat(" Minutos");
+			} else {
+				elapseTime = String.valueOf(h.intValue()).concat(" Horas");
+			}
 		}
 		return elapseTime;
 	}
@@ -217,9 +219,11 @@ public class Gift extends Entity {
 	}
 
 	public MasterValue getStatus() {
-		if (ChronoUnit.MINUTES.between(startDate, expirationDate) <= 0) {
-			if (status != null) {
-				status.setId(INACTIVE);
+		if (expirationDate != null) {
+			if (ChronoUnit.MINUTES.between(LocalDateTime.now(), expirationDate) <= 0) {
+				if (status != null) {
+					status.setId(INACTIVE);
+				}
 			}
 		}
 		return status;

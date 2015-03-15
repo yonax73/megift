@@ -189,8 +189,8 @@ public class GiftDao extends Dao {
 				pos.distanceInMetersBetweenUser();
 				business.setTradeName(rs.getString(18));
 				business.setContact(new Partner(new Login(rs.getString(19))));
-				gift.setStartDate(rs.getTimestamp(20) == null ? LocalDateTime.now() : rs.getTimestamp(11).toLocalDateTime());
-				gift.setExpirationDate(rs.getTimestamp(21) == null ? LocalDateTime.now().plusDays(30) : rs.getTimestamp(12).toLocalDateTime());
+				gift.setStartDate(rs.getTimestamp(20) == null ? LocalDateTime.now() : rs.getTimestamp(20).toLocalDateTime());
+				gift.setExpirationDate(rs.getTimestamp(21) == null ? LocalDateTime.now().plusDays(30) : rs.getTimestamp(21).toLocalDateTime());
 				result = true;
 			}
 		} catch (Exception e) {
@@ -224,8 +224,8 @@ public class GiftDao extends Dao {
 					Gift gift = new Gift(rs.getInt(1));
 					gift.setStatus(new MasterValue(rs.getString(2)));
 					gift.setPrice(rs.getDouble(3));
-					gift.setStartDate(rs.getTimestamp(4) == null ? LocalDateTime.now() : rs.getTimestamp(11).toLocalDateTime());
-					gift.setExpirationDate(rs.getTimestamp(5) == null ? LocalDateTime.now().plusDays(30) : rs.getTimestamp(12).toLocalDateTime());
+					gift.setStartDate(rs.getTimestamp(4) == null ? LocalDateTime.now() : rs.getTimestamp(4).toLocalDateTime());
+					gift.setExpirationDate(rs.getTimestamp(5) == null ? LocalDateTime.now().plusDays(30) : rs.getTimestamp(5).toLocalDateTime());
 					gift.setName(rs.getString(6));
 					giftList.add(gift);
 				} while (rs.next());
