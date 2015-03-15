@@ -344,6 +344,7 @@ public class GiftDao extends Dao {
 				int POSIdCurrent = 0;
 				POS pos = null;
 				List<Gift> giftList = null;
+				int posCount = 0;
 				do {
 					POSIdCurrent = rs.getInt(1);
 					/*
@@ -356,7 +357,7 @@ public class GiftDao extends Dao {
 						 * Cuando se va a crear el segundo punto de venta en
 						 * adelante se agrega el anterior a la lista
 						 */
-						if (POSIdCurrent > 1) {
+						if (posCount > 1) {
 							pos.setGiftList(giftList);
 							POSList.add(pos);
 						}
@@ -372,6 +373,7 @@ public class GiftDao extends Dao {
 						 */
 						pos.distanceInMetersBetweenUser();
 						giftList = new ArrayList<>();
+						posCount++;
 					}
 					Gift gift = new Gift(rs.getInt(5));
 					gift.setPrice(rs.getDouble(6));
