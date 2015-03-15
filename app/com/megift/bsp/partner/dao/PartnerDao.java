@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.Base64;
 
 import play.Logger;
@@ -88,7 +89,7 @@ public class PartnerDao extends Dao {
 				partner.setName(rs.getString(8));
 				partner.setLastName(rs.getString(9));
 				if (rs.getTimestamp(10) != null)
-					partner.setBirthday(rs.getTimestamp(10).toLocalDateTime().toLocalDate());
+					partner.setBirthday(rs.getTimestamp(10) == null ? LocalDate.now().minusYears(14) : rs.getTimestamp(10).toLocalDateTime().toLocalDate());
 				partner.setLocation(new Location(rs.getInt(11)));
 				if (partner.getLocation().exists())
 					partner.getLocation().setAddress(new Address(new City(rs.getInt(12), rs.getString(13))));
