@@ -600,7 +600,7 @@ function loadGift(){
 				document.getElementsByName('id-action')[0].value = gift.action.id;
 				document.getElementsByName('termsConditions-gift')[0].value = gift.termsConditions;
 			}catch (ex) {	         
-				console.error(ex)   	    					;
+				console.log(ex);
 				notification.danger(xhr.responseText);
 			}
 		});
