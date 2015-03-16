@@ -55,9 +55,7 @@ public class POSDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}
@@ -85,9 +83,7 @@ public class POSDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}
@@ -129,9 +125,7 @@ public class POSDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred trying to load the POS List.\n" + e.getMessage(), e);
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return result;
 	}
@@ -171,9 +165,7 @@ public class POSDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the POS.\n" + e.getMessage(), e);
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return pos;
 	}
@@ -204,9 +196,7 @@ public class POSDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred trying to load the POS List by Gift.\n" + e.getMessage(), e);
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return result;
 	}
@@ -230,9 +220,7 @@ public class POSDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been ocurred trying to associate the gift to pos.\n" + e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}
@@ -255,9 +243,7 @@ public class POSDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning remove gift from pos.\n" + e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}

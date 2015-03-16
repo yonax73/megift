@@ -42,9 +42,7 @@ public class AddressDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}
@@ -71,9 +69,7 @@ public class AddressDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}

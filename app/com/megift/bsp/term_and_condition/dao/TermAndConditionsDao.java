@@ -56,9 +56,7 @@ public class TermAndConditionsDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the Terms and conditions.\n" + e.getMessage(), e);
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return result;
 	}
@@ -99,9 +97,7 @@ public class TermAndConditionsDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning save the Terms and conditions.\n" + e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return count == termAndConditions.size();
 	}
@@ -123,9 +119,7 @@ public class TermAndConditionsDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning delete the Terms and conditions.\n" + e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}

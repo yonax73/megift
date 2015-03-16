@@ -56,9 +56,7 @@ public class BusinessDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}
@@ -89,9 +87,7 @@ public class BusinessDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}
@@ -144,9 +140,7 @@ public class BusinessDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the business.\n" + e.getMessage(), e);
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return business;
 	}

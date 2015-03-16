@@ -1,4 +1,4 @@
-package com.megift.set.picture.logic;
+package com.megift.set.picture.dao;
 
 import java.io.FileInputStream;
 import java.sql.Blob;
@@ -50,9 +50,7 @@ public class PictureDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 
@@ -78,9 +76,7 @@ public class PictureDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}
@@ -107,9 +103,7 @@ public class PictureDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 
@@ -137,9 +131,7 @@ public class PictureDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 
@@ -177,9 +169,7 @@ public class PictureDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the Pictures by Gift.\n" + e.getMessage(), e);
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return result;
 	}
@@ -218,9 +208,7 @@ public class PictureDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the Pictures by Gift.\n" + e.getMessage(), e);
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return result;
 	}
@@ -257,9 +245,7 @@ public class PictureDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the Pictures by Gift.\n" + e.getMessage(), e);
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return result;
 	}
@@ -294,9 +280,7 @@ public class PictureDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the Pictures by Gift.\n" + e.getMessage(), e);
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return result;
 	}

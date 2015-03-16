@@ -45,9 +45,7 @@ public class LoginDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}
@@ -78,9 +76,7 @@ public class LoginDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return result;
 	}
@@ -102,9 +98,7 @@ public class LoginDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return result;
 	}
@@ -142,9 +136,7 @@ public class LoginDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}
@@ -170,9 +162,7 @@ public class LoginDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return result;
 	}
@@ -190,9 +180,7 @@ public class LoginDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}
@@ -210,9 +198,7 @@ public class LoginDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}

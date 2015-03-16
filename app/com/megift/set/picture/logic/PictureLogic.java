@@ -6,6 +6,7 @@ import com.megift.bsp.action.entity.Action;
 import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.partner.dao.PartnerDao;
 import com.megift.bsp.partner.entity.Partner;
+import com.megift.set.picture.dao.PictureDao;
 import com.megift.set.picture.entity.Picture;
 
 /**

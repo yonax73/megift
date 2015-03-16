@@ -61,9 +61,7 @@ public class GiftDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}
@@ -94,9 +92,7 @@ public class GiftDao extends Dao {
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}
@@ -141,9 +137,7 @@ public class GiftDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the Gift.\n" + e.getMessage(), e);
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return result;
 	}
@@ -196,9 +190,7 @@ public class GiftDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the Gift by Mobile.\n" + e.getMessage(), e);
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return result;
 	}
@@ -235,9 +227,7 @@ public class GiftDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred trying to load the Gift List.\n" + e.getMessage(), e);
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return result;
 	}
@@ -268,9 +258,7 @@ public class GiftDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred trying to load the gift List by Pos.\n" + e.getMessage(), e);
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return result;
 	}
@@ -294,9 +282,7 @@ public class GiftDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been ocurred trying to associate the gift to pos.\n" + e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}
@@ -319,9 +305,7 @@ public class GiftDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning remove gift from pos.\n" + e.getMessage());
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(cst, conn);
 		}
 		return result;
 	}
@@ -394,9 +378,7 @@ public class GiftDao extends Dao {
 		} catch (Exception e) {
 			Logger.error("An error has been occurred trying to search the Gifts .\n" + e.getMessage(), e);
 		} finally {
-			if (cst != null)
-				cst = null;
-			close(conn);
+			close(rs, cst, conn);
 		}
 		return result;
 	}
