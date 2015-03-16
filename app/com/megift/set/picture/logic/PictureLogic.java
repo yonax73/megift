@@ -103,7 +103,9 @@ public class PictureLogic {
 	public static boolean loadPicturesByGiftList(List<Gift> giftList) {
 		boolean result = false;
 		if (giftList != null && !giftList.isEmpty()) {
-			result = PictureDao.loadPicturesByGiftList(giftList);
+			for (Gift gift : giftList) {
+				result = PictureDao.loadPicturesByGift(gift);
+			}
 		}
 		return result;
 	}
