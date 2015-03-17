@@ -213,7 +213,7 @@ public class PictureDao extends Dao {
 
 			result = true;
 		} catch (Exception e) {
-			Logger.error("An error has been occurred tryning loading the Pictures by Gift.\n" + e.getMessage(), e);
+			Logger.error("An error has been occurred tryning loading the main Pictures by Gift list.\n" + e.getMessage(), e);
 		} finally {
 			close(rs, cst, conn);
 		}
@@ -250,7 +250,7 @@ public class PictureDao extends Dao {
 			}
 			result = true;
 		} catch (Exception e) {
-			Logger.error("An error has been occurred tryning loading the Pictures by Gift.\n" + e.getMessage(), e);
+			Logger.error("An error has been occurred tryning loading the Pictures by action.\n" + e.getMessage(), e);
 		} finally {
 			close(rs, cst, conn);
 		}
