@@ -298,4 +298,8 @@ public class Gift extends Entity {
 		this.mainPicture = mainPicture;
 	}
 
+	public boolean hasMainPicture() {
+		return mainPicture != null;
+	}
+
 }

@@ -173,7 +173,7 @@ public class GiftLogic {
 				 * Traer solo la imagen principal
 				 */
 				for (POS pos : user.getPOSList()) {
-					result = PictureLogic.loadMainPicturesByGiftList(pos.getGiftList());
+					result = PictureLogic.loadMainPictureByGiftList(pos.getGiftList());
 					if (!result) {
 						break;
 					}
