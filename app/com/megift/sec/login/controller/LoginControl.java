@@ -6,6 +6,7 @@ import static com.megift.resources.utils.Constants.SUCCESS_RESPONSE;
 
 import java.util.Map;
 
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -30,88 +31,103 @@ import com.megift.set.master.entity.MasterValue;
 public class LoginControl extends Controller {
 
 	public static Result createAccount() {
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		Partner partner = null;
-		String result = null;
-		Login login = null;
-		final Map<String, String[]> data = request().body().asFormUrlEncoded();
-		if (data != null) {
-			login = new Login(data.get("email-partner")[0], data.get("password-partner")[0]);
-			login.setType(new MasterValue(Login.USER_TYPE));
-			if (LoginLogic.exists(login)) {
-				result = "Este usuario ya se encuentra registrado!";
-			} else {
-				if (LoginLogic.create(login)) {
-					partner = new Partner(data.get("name-partner")[0]);
-					partner.setLogin(login);
-					if (PartnerLogic.create(partner)) {
-						result = String.valueOf(partner.getLogin().getId());
-					} else {
-						result = "Error tryning create Partner";
-					}
+		try {
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			Partner partner = null;
+			String result = null;
+			Login login = null;
+			final Map<String, String[]> data = request().body().asFormUrlEncoded();
+			if (data != null) {
+				login = new Login(data.get("email-partner")[0], data.get("password-partner")[0]);
+				login.setType(new MasterValue(Login.USER_TYPE));
+				if (LoginLogic.exists(login)) {
+					result = "Este usuario ya se encuentra registrado!";
 				} else {
-					result = "Error tryning create login!";
+					if (LoginLogic.create(login)) {
+						partner = new Partner(data.get("name-partner")[0]);
+						partner.setLogin(login);
+						if (PartnerLogic.create(partner)) {
+							result = String.valueOf(partner.getLogin().getId());
+						} else {
+							result = "Error tryning create Partner";
+						}
+					} else {
+						result = "Error tryning create login!";
+					}
 				}
-			}
 
-		} else {
-			result = "request without data";
+			} else {
+				result = "request without data";
+			}
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentado crear el usuario \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentado crear el usuario ( " + e.getMessage() + " )");
 		}
-		return ok(result);
 	}
 
 	public static Result signIn() {
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		Login login = null;
-		String result = null;
-		final Map<String, String[]> data = request().body().asFormUrlEncoded();
-		if (data != null) {
-			login = new Login(data.get("email-login")[0], data.get("password-login")[0]);
-			login.setType(new MasterValue(Integer.parseInt(data.get("business-type")[0])));
-			if (LoginLogic.signIn(login)) {
-				if (login.isBusinessType()) {
-					session(SESSION_LOGIN_ID, String.valueOf(login.getId()));
-					result = SUCCESS_RESPONSE;
-				} else {
-					result = String.valueOf(login.getId());
-				}
+		try {
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			Login login = null;
+			String result = null;
+			final Map<String, String[]> data = request().body().asFormUrlEncoded();
+			if (data != null) {
+				login = new Login(data.get("email-login")[0], data.get("password-login")[0]);
+				login.setType(new MasterValue(Integer.parseInt(data.get("business-type")[0])));
+				if (LoginLogic.signIn(login)) {
+					if (login.isBusinessType()) {
+						session(SESSION_LOGIN_ID, String.valueOf(login.getId()));
+						result = SUCCESS_RESPONSE;
+					} else {
+						result = String.valueOf(login.getId());
+					}
 
+				} else {
+					result = "El email o la contraseña es incorrecta!";
+				}
 			} else {
-				result = "El email o la contraseña es incorrecta!";
+				result = "request without data";
 			}
-		} else {
-			result = "request without data";
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentado validar el usuario \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentado validar el usuario ( " + e.getMessage() + " )");
 		}
-		return ok(result);
 	}
 
 	public static Result passwordChangeRequest() {
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		String result = "No se ha podido completar la solicitud";
-		final Map<String, String[]> data = request().body().asFormUrlEncoded();
-		if (data != null) {
-			Login login = new Login(data.get("email-login")[0], null);
-			if (data.get("is-business")[0] != null && data.get("is-business")[0].equals(CHECKED)) {
-				login.setType(new MasterValue(Login.BUSINESS_TYPE));
-			} else {
-				login.setType(new MasterValue(Login.USER_TYPE));
-			}
-			if (LoginLogic.exists(login)) {
-				if (LoginLogic.createPasswordChangeRequest(login)) {
-					if (SocialLogic.sendPasswordChangeRequest(login)) {
-						result = SUCCESS_RESPONSE;
+		try {
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			String result = "No se ha podido completar la solicitud";
+			final Map<String, String[]> data = request().body().asFormUrlEncoded();
+			if (data != null) {
+				Login login = new Login(data.get("email-login")[0], null);
+				if (data.get("is-business")[0] != null && data.get("is-business")[0].equals(CHECKED)) {
+					login.setType(new MasterValue(Login.BUSINESS_TYPE));
+				} else {
+					login.setType(new MasterValue(Login.USER_TYPE));
+				}
+				if (LoginLogic.exists(login)) {
+					if (LoginLogic.createPasswordChangeRequest(login)) {
+						if (SocialLogic.sendPasswordChangeRequest(login)) {
+							result = SUCCESS_RESPONSE;
+						} else {
+							result = "Error al enviar la peteción al correo";
+						}
 					} else {
-						result = "Error al enviar la peteción al correo";
+						result = "Error al crear la petición para cambio de contraseña";
 					}
 				} else {
-					result = "Error al crear la petición para cambio de contraseña";
+					result = "Este usuario no esta registrado!";
 				}
-			} else {
-				result = "Este usuario no esta registrado!";
 			}
-		}
 
-		return ok(result);
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentado enviar petición de cambio de contraseña \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentado enviar petición de cambio de contraseña ( " + e.getMessage() + " )");
+		}
 	}
 
 	public static Result passwordChange(int idLogin, int codeRequest) {

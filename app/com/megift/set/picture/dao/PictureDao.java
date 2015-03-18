@@ -147,7 +147,7 @@ public class PictureDao extends Dao {
 		boolean result = false;
 		CallableStatement cst = null;
 		ResultSet rs = null;
-		Connection conn = DB.getConnection();
+		Connection conn = null;
 		List<Picture> pictures = null;
 		try {
 			conn = DB.getConnection();
@@ -185,7 +185,7 @@ public class PictureDao extends Dao {
 		boolean result = false;
 		CallableStatement cst = null;
 		ResultSet rs = null;
-		Connection conn = DB.getConnection();
+		Connection conn = null;
 		try {
 			conn = DB.getConnection();
 
@@ -228,7 +228,7 @@ public class PictureDao extends Dao {
 		boolean result = false;
 		CallableStatement cst = null;
 		ResultSet rs = null;
-		Connection conn = DB.getConnection();
+		Connection conn = null;
 		List<Picture> pictures = null;
 		try {
 			conn = DB.getConnection();

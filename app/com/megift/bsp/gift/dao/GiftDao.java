@@ -105,7 +105,7 @@ public class GiftDao extends Dao {
 		boolean result = false;
 		CallableStatement cst = null;
 		ResultSet rs = null;
-		Connection conn = DB.getConnection();
+		Connection conn = null;
 		try {
 			conn = DB.getConnection();
 			cst = conn.prepareCall("{CALL sp_bsp_gifts_LOAD(?)}");
@@ -150,7 +150,7 @@ public class GiftDao extends Dao {
 		boolean result = false;
 		CallableStatement cst = null;
 		ResultSet rs = null;
-		Connection conn = DB.getConnection();
+		Connection conn = null;
 		POS pos = business.getPos();
 		Gift gift = pos.getGift();
 		try {
