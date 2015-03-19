@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -35,54 +36,64 @@ import com.megift.set.master.entity.MasterValue;
 public class PartnerControl extends Controller {
 
 	public static Result loadPartner() {
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		final Map<String, String[]> data = request().body().asFormUrlEncoded();
-		int idLogin = Integer.parseInt(data.get("id-login")[0]);
-		String result = null;
-		if (idLogin > 0) {
-			Partner partner = new Partner(new Login(idLogin));
-			if (PartnerLogic.loadPartner(partner)) {
-				result = Json.toJson(partner).toString();
-			} else {
-				result = "Error cargando perfil de usuario";
+		try {
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			final Map<String, String[]> data = request().body().asFormUrlEncoded();
+			int idLogin = Integer.parseInt(data.get("id-login")[0]);
+			String result = null;
+			if (idLogin > 0) {
+				Partner partner = new Partner(new Login(idLogin));
+				if (PartnerLogic.loadPartner(partner)) {
+					result = Json.toJson(partner).toString();
+				} else {
+					result = "Error cargando perfil de usuario";
+				}
 			}
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentado cargar la información del usuario \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentado cargar la información del usuario ( " + e.getMessage() + " )");
 		}
-		return ok(result);
 	}
 
 	public static Result updatePartner() {
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		final Map<String, String[]> data = request().body().asFormUrlEncoded();
-		String result = "Error al recibir la petición";
-		if (data != null) {
-			City city = new City(Integer.parseInt(data.get("id-city")[0]), data.get("city-partner")[0]);
-			if (CityLogic.save(city)) {
-				Address address = new Address(city);
-				if (AddressLogic.save(address)) {
-					Location location = new Location(Integer.parseInt(data.get("id-location")[0]));
-					location.setAddress(address);
-					if (LocationLogic.save(location)) {
-						Partner partner = new Partner(Integer.parseInt(data.get("id-partner")[0]));
-						partner.setName(data.get("name-partner")[0]);
-						partner.setBirthday(LocalDate.parse(data.get("birthday-partner")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-						partner.setGender(new MasterValue(Integer.parseInt(data.get("gender-partner")[0])));
-						partner.setLocation(location);
-						if (PartnerLogic.update(partner)) {
-							result = SUCCESS_RESPONSE;
+		try {
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			final Map<String, String[]> data = request().body().asFormUrlEncoded();
+			String result = "Error al recibir la petición";
+			if (data != null) {
+				City city = new City(Integer.parseInt(data.get("id-city")[0]), data.get("city-partner")[0]);
+				if (CityLogic.save(city)) {
+					Address address = new Address(city);
+					if (AddressLogic.save(address)) {
+						Location location = new Location(Integer.parseInt(data.get("id-location")[0]));
+						location.setAddress(address);
+						if (LocationLogic.save(location)) {
+							Partner partner = new Partner(Integer.parseInt(data.get("id-partner")[0]));
+							partner.setName(data.get("name-partner")[0]);
+							partner.setBirthday(LocalDate.parse(data.get("birthday-partner")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+							partner.setGender(new MasterValue(Integer.parseInt(data.get("gender-partner")[0])));
+							partner.setLocation(location);
+							if (PartnerLogic.update(partner)) {
+								result = SUCCESS_RESPONSE;
+							} else {
+								result = "Error actualizando el usuario";
+							}
 						} else {
-							result = "Error actualizando el usuario";
+							result = "Error guardando la localización";
 						}
 					} else {
-						result = "Error guardando la localización";
+						result = "Error guardando la dirección";
 					}
 				} else {
-					result = "Error guardando la dirección";
+					result = "Error guardando la ciudad";
 				}
-			} else {
-				result = "Error guardando la ciudad";
 			}
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentado actualizar la información del usuario \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentado actualizar la información del usuario ( " + e.getMessage() + " )");
 		}
-		return ok(result);
 	}
 
 }

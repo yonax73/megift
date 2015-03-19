@@ -5,6 +5,7 @@ import static com.megift.set.picture.entity.Picture.BASE64_CODING;
 
 import java.util.ArrayList;
 
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
@@ -29,24 +30,29 @@ import com.megift.set.picture.logic.PictureLogic;
 public class PictureControl extends Controller {
 
 	public static Result uploadpicturePartner() {
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		String result = null;
-		FilePart file = request().body().asMultipartFormData().getFile("picture");
-		if (file != null) {
-			Partner partner = new Partner(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-partner")[0]));
-			Picture picture = new Picture(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-picture")[0]), file.getFile());
-			picture.setMime(file.getContentType());
-			picture.setCoding(BASE64_CODING);
-			partner.setPicture(picture);
-			if (PictureLogic.savePicturePartner(partner)) {
-				result = SUCCESS_RESPONSE;
+		try {
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			String result = null;
+			FilePart file = request().body().asMultipartFormData().getFile("picture");
+			if (file != null) {
+				Partner partner = new Partner(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-partner")[0]));
+				Picture picture = new Picture(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-picture")[0]), file.getFile());
+				picture.setMime(file.getContentType());
+				picture.setCoding(BASE64_CODING);
+				partner.setPicture(picture);
+				if (PictureLogic.savePicturePartner(partner)) {
+					result = SUCCESS_RESPONSE;
+				} else {
+					result = "Error intentando subir la imagen";
+				}
 			} else {
-				result = "Error intentando subir la imagen";
+				result = "No hay ningun archivo para subir";
 			}
-		} else {
-			result = "No hay ningun archivo para subir";
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentado subir la foto del usuario \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentado subir la foto del usuario ( " + e.getMessage() + " )");
 		}
-		return ok(result);
 	}
 
 	public static Result uploadpictureGift() {
