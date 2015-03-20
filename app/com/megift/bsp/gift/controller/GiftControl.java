@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -179,19 +180,24 @@ public class GiftControl extends Controller {
 	}
 
 	public static Result searchGift() {
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		String result = "No se ha podido completar la solicitud";
-		final Map<String, String[]> data = request().body().asFormUrlEncoded();
-		if (data != null) {
-			Partner user = new Partner(Integer.parseInt(data.get("id-login")[0]));
-			user.setLocation(new Location(new Address(new Geolocation(Double.parseDouble(data.get("latitude")[0]), Double.parseDouble(data.get("longitude")[0])))));
-			if (GiftLogic.searchGift(user)) {
-				result = Json.toJson(user.getPOSList()).toString();
-			} else {
-				result = "No hay regalos disponibles cerca a tu ubicación";
+		try {
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			String result = "No se ha podido completar la solicitud";
+			final Map<String, String[]> data = request().body().asFormUrlEncoded();
+			if (data != null) {
+				Partner user = new Partner(Integer.parseInt(data.get("id-login")[0]));
+				user.setLocation(new Location(new Address(new Geolocation(Double.parseDouble(data.get("latitude")[0]), Double.parseDouble(data.get("longitude")[0])))));
+				if (GiftLogic.searchGift(user)) {
+					result = Json.toJson(user.getPOSList()).toString();
+				} else {
+					result = "Aun no tenemos cobertura cerca de esta ubicación. Escríbenos a soporte@megift.co para ponernos a Trabajar en ello";
+				}
 			}
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentando buscar regalos \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentando buscar regalos ( " + e.getMessage() + " )");
 		}
-		return ok(result);
 	}
 
 	public static Result loadGiftForMobile(int idPOS, int idGift, double lat, double lng) {
