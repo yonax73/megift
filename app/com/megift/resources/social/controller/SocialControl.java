@@ -26,9 +26,11 @@ public class SocialControl extends Controller {
 				String emailPartner = data.get("email-partner")[0];
 				String emails[] = new String[2];
 				if (emailFriend1 != null)
-					emails[0] = emailFriend1;
+					if (!emailFriend1.isEmpty())
+						emails[0] = emailFriend1;
 				if (emailFriend2 != null)
-					emails[1] = emailFriend2;
+					if (!emailFriend2.isEmpty())
+						emails[1] = emailFriend2;
 				if (emails.length > 0) {
 					Partner partner = new Partner(namePartner);
 					partner.setLogin(new Login(emailPartner, null));

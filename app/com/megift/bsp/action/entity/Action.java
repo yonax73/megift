@@ -32,6 +32,7 @@ public class Action extends Entity {
 	private String description;
 	private double price;
 	private List<Picture> pictures;
+	private Picture mainPicture;
 
 	/**
 	 * @param id
@@ -120,5 +121,24 @@ public class Action extends Entity {
 
 	public String getPriceFormatted() {
 		return priceWithoutDecimal(price, "$");
+	}
+
+	/**
+	 * @return the mainPicture
+	 */
+	public Picture getMainPicture() {
+		return mainPicture;
+	}
+
+	/**
+	 * @param mainPicture
+	 *            the mainPicture to set
+	 */
+	public void setMainPicture(Picture mainPicture) {
+		this.mainPicture = mainPicture;
+	}
+
+	public boolean hasMainPicture() {
+		return mainPicture != null;
 	}
 }

@@ -7,6 +7,8 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 import play.Logger;
 import play.db.DB;
@@ -14,6 +16,7 @@ import play.db.DB;
 import com.megift.bsp.business.entity.Business;
 import com.megift.bsp.partner.entity.Partner;
 import com.megift.resources.base.Dao;
+import com.megift.sec.login.entity.Login;
 import com.megift.set.document.entity.Document;
 import com.megift.set.location.address.entity.Address;
 import com.megift.set.location.entity.Location;
@@ -99,7 +102,7 @@ public class BusinessDao extends Dao {
 	public static Business load(Business business) {
 		CallableStatement cst = null;
 		ResultSet rs = null;
-		Connection conn = DB.getConnection();
+		Connection conn = null;
 		try {
 			conn = DB.getConnection();
 			cst = conn.prepareCall("{CALL sp_bsp_businesses_LOAD(?)}");
@@ -143,5 +146,87 @@ public class BusinessDao extends Dao {
 			close(rs, cst, conn);
 		}
 		return business;
+	}
+
+	/**
+	 * @param business
+	 * @return
+	 */
+	public static Business loadById(Business business) {
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("{CALL sp_bsp_businesses_LOAD_BY_ID(?)}");
+			cst.setInt(1, business.getId());
+			rs = cst.executeQuery();
+			if (rs.next()) {
+				Partner legalRep = new Partner(rs.getInt(1));
+				Document doc = new Document(rs.getInt(2));
+				doc.setDocument(rs.getString(3));
+				doc.setType(new MasterValue(rs.getInt(4)));
+				doc.setPlaceOfIssue(rs.getString(5));
+				legalRep.setName(rs.getString(6));
+				legalRep.setDocument(doc);
+				business.setLegalRepresentative(legalRep);
+				Partner contact = business.getContact() == null ? new Partner(0) : business.getContact();
+				contact.setId(rs.getInt(7));
+				if (contact.getLogin() == null) {
+					contact.setLogin(new Login(0));
+				}
+				contact.getLogin().setEmail(rs.getString(8));
+				Location loc = new Location(rs.getInt(9));
+				Phone phone = new Phone(rs.getInt(10));
+				phone.setNumber(rs.getString(11));
+				phone.setExtension(rs.getString(12));
+				phone.setMobile(rs.getString(13));
+				Address address = new Address(rs.getInt(14));
+				address.setAddress(rs.getString(15));
+				loc.setAddress(address);
+				loc.setPhone(phone);
+				contact.setName(rs.getString(16));
+				contact.setLocation(loc);
+				business.setContact(contact);
+				business.setType(new MasterValue(rs.getInt(17)));
+				if (business.isOtherType())
+					business.setOtherType(rs.getString(18));
+				business.setNIT(rs.getString(19));
+				business.setLegalName(rs.getString(20));
+				business.setTradeName(rs.getString(21));
+			}
+		} catch (Exception e) {
+			Logger.error("An error has been occurred tryning loading the business.\n" + e.getMessage(), e);
+		} finally {
+			close(rs, cst, conn);
+		}
+		return business;
+	}
+
+	public static List<Business> search(Business business) {
+		List<Business> businesses = null;
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("{CALL sp_bsp_businesses_SEARCH(?)}");
+			cst.setInt(1, business.getType() == null ? 0 : business.getType().getId());
+			rs = cst.executeQuery();
+			if (rs.next()) {
+				businesses = new ArrayList<Business>();
+				do {
+					Business b = new Business(rs.getInt(1));
+					b.setTradeName(rs.getString(2));
+					b.setGiftCount(rs.getInt(3));
+					businesses.add(b);
+				} while (rs.next());
+			}
+		} catch (Exception e) {
+			Logger.error("An error has been occurred trying to search the business .\n" + e.getMessage(), e);
+		} finally {
+			close(rs, cst, conn);
+		}
+		return businesses;
 	}
 }

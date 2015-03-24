@@ -3,6 +3,8 @@
  */
 package com.megift.bsp.business.logic;
 
+import java.util.List;
+
 import com.megift.bsp.business.dao.BusinessDao;
 import com.megift.bsp.business.entity.Business;
 
@@ -41,6 +43,21 @@ public class BusinessLogic {
 	 */
 	public static Business load(Business business) {
 		return BusinessDao.load(business);
+	}
+
+	public static List<Business> search(Business business) {
+		if (business != null) {
+			return BusinessDao.search(business);
+		}
+		return null;
+	}
+
+	/**
+	 * @param business
+	 * @return
+	 */
+	public static Business loadById(Business business) {
+		return BusinessDao.loadById(business);
 	}
 
 }

@@ -185,6 +185,7 @@ public class GiftDao extends Dao {
 				business.setContact(new Partner(new Login(rs.getString(19))));
 				gift.setStartDate(rs.getTimestamp(20) == null ? LocalDateTime.now() : rs.getTimestamp(20).toLocalDateTime());
 				gift.setExpirationDate(rs.getTimestamp(21) == null ? LocalDateTime.now().plusDays(30) : rs.getTimestamp(21).toLocalDateTime());
+				business.setId(rs.getInt(22));
 				result = true;
 			}
 		} catch (Exception e) {
@@ -319,7 +320,7 @@ public class GiftDao extends Dao {
 		try {
 			conn = DB.getConnection();
 			cst = conn.prepareCall("{CALL sp_bsp_gifts_SEARCH(?,?)}");
-			cst.setInt(1, user.getPos() == null ? 0 : user.getPos().getId());
+			cst.setInt(1, user.getPos() == null ? 0 : user.getPos().getBussinesId());
 			cst.setInt(2, user.getGift() == null ? 0 : user.getGift().getType().getId());
 			rs = cst.executeQuery();
 			if (rs.next()) {
@@ -341,7 +342,7 @@ public class GiftDao extends Dao {
 						 * Cuando se va a crear el segundo punto de venta en
 						 * adelante se agrega el anterior a la lista
 						 */
-						if (posCount > 1) {
+						if (posCount > 0) {
 							pos.setGiftList(giftList);
 							POSList.add(pos);
 						}

@@ -9,14 +9,17 @@ import static com.megift.resources.utils.Constants.SUCCESS_RESPONSE;
 
 import java.util.Map;
 
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.megift.bsp.business.entity.Business;
 import com.megift.bsp.business.logic.BusinessLogic;
+import com.megift.bsp.gift.logic.GiftLogic;
 import com.megift.bsp.partner.entity.Partner;
 import com.megift.bsp.partner.logic.PartnerLogic;
+import com.megift.bsp.pos.entity.POS;
 import com.megift.sec.login.entity.Login;
 import com.megift.sec.login.logic.LoginLogic;
 import com.megift.set.document.entity.Document;
@@ -24,6 +27,7 @@ import com.megift.set.document.logic.DocumentLogic;
 import com.megift.set.location.address.entity.Address;
 import com.megift.set.location.address.logic.AddressLogic;
 import com.megift.set.location.entity.Location;
+import com.megift.set.location.geolocation.entity.Geolocation;
 import com.megift.set.location.logic.LocationLogic;
 import com.megift.set.location.phone.entity.Phone;
 import com.megift.set.location.phone.logic.PhoneLogic;
@@ -43,9 +47,7 @@ import com.megift.set.master.entity.MasterValue;
 public class BusinessControl extends Controller {
 
 	public static Result business() {
-
 		return ok(views.html.bsp.business.business.render());
-
 	}
 
 	public static Result saveBusiness() {
@@ -147,6 +149,31 @@ public class BusinessControl extends Controller {
 		business = BusinessLogic.load(business);
 		session(SESSION_BUSINESS_ID, String.valueOf(business.getId()));
 		return ok(Json.toJson(business));
+	}
 
+	public static Result loadBusinessForMobile(int id, double lat, double lng) {
+		try {
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			String result = "No se ha podido completar la solicitud";
+			Business business = new Business(id);
+			if (BusinessLogic.loadById(business) != null) {
+				Partner user = new Partner(0);
+				user.setLocation(new Location(new Address(new Geolocation(lat, lng))));
+				user.setPos(new POS());
+				user.getPos().setBussinesId(id);
+				if (GiftLogic.searchGift(user)) {
+					business.setPosList(user.getPOSList());
+					result = Json.toJson(business).toString();
+				} else {
+					result = "Error cargando los regalos de la empresa ";
+				}
+			} else {
+				result = "Error cargando la empresa ";
+			}
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentando cargar la empresa \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentando cargar la empresa ( " + e.getMessage() + " )");
+		}
 	}
 }

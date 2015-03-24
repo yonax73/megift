@@ -5,6 +5,9 @@ package com.megift.bsp.gift.controller;
 
 import static com.megift.resources.utils.Constants.SESSION_BUSINESS_ID;
 import static com.megift.resources.utils.Constants.SESSION_LOGIN_ID;
+import static com.megift.set.setting.entity.Setting.RESULTS_BY_ACTIONS;
+import static com.megift.set.setting.entity.Setting.RESULTS_BY_GIFTS;
+import static com.megift.set.setting.entity.Setting.RESULTS_BY_POS;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +23,7 @@ import play.mvc.Result;
 import com.megift.bsp.action.entity.Action;
 import com.megift.bsp.action.logic.ActionLogic;
 import com.megift.bsp.business.entity.Business;
+import com.megift.bsp.business.logic.BusinessLogic;
 import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.gift.logic.GiftLogic;
 import com.megift.bsp.partner.entity.Partner;
@@ -187,11 +191,40 @@ public class GiftControl extends Controller {
 			if (data != null) {
 				Partner user = new Partner(Integer.parseInt(data.get("id-login")[0]));
 				user.setLocation(new Location(new Address(new Geolocation(Double.parseDouble(data.get("latitude")[0]), Double.parseDouble(data.get("longitude")[0])))));
-				if (GiftLogic.searchGift(user)) {
-					result = Json.toJson(user.getPOSList()).toString();
-				} else {
-					result = "Aun no tenemos cobertura cerca de esta ubicación. Escríbenos a soporte@megift.co para ponernos a Trabajar en ello";
+				int typeSearch = Integer.parseInt(data.get("type-view")[0]);
+				switch (typeSearch) {
+				case RESULTS_BY_GIFTS:
+					user.setGift(new Gift(0));
+					user.getGift().setType(new MasterValue(Integer.parseInt(data.get("gift-type-id")[0])));
+					if (GiftLogic.searchGift(user)) {
+						result = Json.toJson(user.getPOSList()).toString();
+					} else {
+						result = "Aun no tenemos cobertura cerca de esta ubicación. Escríbenos a soporte@megift.co para ponernos a Trabajar en ello";
+					}
+					break;
+				case RESULTS_BY_ACTIONS:
+					user.setGift(new Gift(0));
+					user.getGift().setAction(new Action(0));
+					user.getGift().getAction().setType(new MasterValue(Integer.parseInt(data.get("action-type-id")[0])));
+					if (ActionLogic.searchAction(user)) {
+						result = Json.toJson(user.getPOSList()).toString();
+					} else {
+						result = "Aun no tenemos cobertura cerca de esta ubicación. Escríbenos a soporte@megift.co para ponernos a Trabajar en ello";
+					}
+					break;
+				case RESULTS_BY_POS:
+					Business b = new Business(0);
+					b.setType(new MasterValue(Integer.parseInt(data.get("business-type-id")[0])));
+					List<Business> businesses = BusinessLogic.search(b);
+					if (businesses != null && !businesses.isEmpty()) {
+						result = Json.toJson(businesses).toString();
+					} else {
+						result = "Aun no tenemos cobertura cerca de esta ubicación. Escríbenos a soporte@megift.co para ponernos a Trabajar en ello";
+					}
+
+					break;
 				}
+
 			}
 			return ok(result);
 		} catch (Exception e) {
@@ -201,19 +234,24 @@ public class GiftControl extends Controller {
 	}
 
 	public static Result loadGiftForMobile(int idPOS, int idGift, double lat, double lng) {
-		response().setHeader("Access-Control-Allow-Origin", "*");
-		String result = "No se ha podido completar la solicitud";
-		POS pos = new POS(idPOS, new Gift(idGift));
-		Partner user = new Partner(0);
-		user.setLocation(new Location(new Address(new Geolocation(lat, lng))));
-		pos.setUser(user);
-		Business business = new Business(pos);
-		if (GiftLogic.load(business)) {
-			result = Json.toJson(business).toString();
-		} else {
-			result = "Error cargando el regalo ";
+		try {
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			String result = "No se ha podido completar la solicitud";
+			POS pos = new POS(idPOS, new Gift(idGift));
+			Partner user = new Partner(0);
+			user.setLocation(new Location(new Address(new Geolocation(lat, lng))));
+			pos.setUser(user);
+			Business business = new Business(pos);
+			if (GiftLogic.load(business)) {
+				result = Json.toJson(business).toString();
+			} else {
+				result = "Error cargando el regalo ";
+			}
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentando cargar el regalo \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentando cargar el regalo ( " + e.getMessage() + " )");
 		}
-		return ok(result);
 	}
 
 }

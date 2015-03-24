@@ -1,6 +1,7 @@
 package com.megift.set.picture.dao;
 
-import static com.megift.resources.utils.Utils.concatIds;
+import static com.megift.resources.utils.Utils.concatActionIds;
+import static com.megift.resources.utils.Utils.concatGiftIds;
 
 import java.io.FileInputStream;
 import java.sql.Blob;
@@ -190,7 +191,7 @@ public class PictureDao extends Dao {
 			conn = DB.getConnection();
 
 			cst = conn.prepareCall("{CALL sp_set_pictures_LOAD_MAIN_PICTURE_BY_GIFT_LIST(?)}");
-			cst.setString(1, concatIds(giftList));
+			cst.setString(1, concatGiftIds(giftList));
 			rs = cst.executeQuery();
 			if (rs.next()) {
 				do {
@@ -257,6 +258,81 @@ public class PictureDao extends Dao {
 		return result;
 	}
 
+	public static boolean loadMainPictureByActionList(List<Action> actionList) {
+		boolean result = false;
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("{CALL sp_set_pictures_LOAD_ACTION_MAIN_PICTURE_BY_GIFT_LIST(?)}");
+			cst.setString(1, concatActionIds(actionList));
+			rs = cst.executeQuery();
+			if (rs.next()) {
+				do {
+					Picture p = new Picture(rs.getInt(1));
+					p.setMime(rs.getString(2));
+					p.setCoding(rs.getString(3));
+					Blob blob = rs.getBlob(4);
+					p.setSrc(Base64.getEncoder().encodeToString(blob.getBytes(1, (int) blob.length())));
+					p.setMain(true);
+					/*
+					 * Asociar imagen con acciones por el id
+					 */
+					for (Action action : actionList) {
+						if (!action.hasMainPicture() && action.getId() == rs.getInt(5))
+							action.setMainPicture(p);
+					}
+
+				} while (rs.next());
+			}
+
+			result = true;
+		} catch (Exception e) {
+			Logger.error("An error has been occurred tryning loading the main Pictures by Action list.\n" + e.getMessage(), e);
+		} finally {
+			close(rs, cst, conn);
+		}
+		return result;
+	}
+
+	public static boolean loadActionMainPictureByGiftList(List<Gift> giftList) {
+		boolean result = false;
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("{CALL sp_set_pictures_LOAD_ACTION_MAIN_PICTURE_BY_GIFT_LIST(?)}");
+			cst.setString(1, concatGiftIds(giftList));
+			rs = cst.executeQuery();
+			if (rs.next()) {
+				do {
+					Picture p = new Picture(rs.getInt(1));
+					p.setMime(rs.getString(2));
+					p.setCoding(rs.getString(3));
+					Blob blob = rs.getBlob(4);
+					p.setSrc(Base64.getEncoder().encodeToString(blob.getBytes(1, (int) blob.length())));
+					p.setMain(true);
+					/*
+					 * Asociar imagen con regalos por el id
+					 */
+					for (Gift gift : giftList) {
+						if (!gift.getAction().hasMainPicture() && gift.getId() == rs.getInt(5))
+							gift.getAction().setMainPicture(p);
+					}
+
+				} while (rs.next());
+			}
+
+			result = true;
+		} catch (Exception e) {
+			Logger.error("An error has been occurred tryning loading the main Pictures by Action list.\n" + e.getMessage(), e);
+		} finally {
+			close(rs, cst, conn);
+		}
+		return result;
+	}
 	/**
 	 * @param giftList
 	 * @return

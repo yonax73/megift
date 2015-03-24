@@ -129,4 +129,19 @@ public class PictureLogic {
 		return result;
 	}
 
+	public static boolean loadMainPictureByActionList(List<Action> actionList) {
+		boolean result = false;
+		if (actionList != null && !actionList.isEmpty()) {
+			result = PictureDao.loadMainPictureByActionList(actionList);
+		}
+		return result;
+	}
+
+	public static boolean loadActionMainPictureByGiftList(List<Gift> giftList) {
+		boolean result = false;
+		if (giftList != null && !giftList.isEmpty()) {
+			result = PictureDao.loadActionMainPictureByGiftList(giftList);
+		}
+		return result;
+	}
 }

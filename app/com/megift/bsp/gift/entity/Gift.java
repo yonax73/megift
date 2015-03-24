@@ -31,6 +31,9 @@ public class Gift extends Entity {
 
 	public static final int OTHER_TYPE = 24;
 	public static final int INACTIVE = 28;
+	public static final int RESULTS_BY_GIFTS = 0;
+	public static final int RESULTS_BY_ACTIONS = 1;
+	public static final int RESULTS_BY_POS = 2;
 	/**
      * 
      */

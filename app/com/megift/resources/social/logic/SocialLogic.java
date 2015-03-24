@@ -30,10 +30,10 @@ public class SocialLogic {
 			        RESOURCE_HEADER_EMAIL_IMAGE, "Megift"));
 			result = true;
 		} catch (EmailException e) {
-			Logger.error("Error tryning send register email \n" + e.getMessage());
+			Logger.error("Error tryning send register email \n" + e.getMessage(), e);
 
 		} catch (MalformedURLException e) {
-			Logger.error("Error tryning create the resources for send register email \n" + e.getMessage());
+			Logger.error("Error tryning create the resources for send register email \n" + e.getMessage(), e);
 		}
 		return result;
 	}

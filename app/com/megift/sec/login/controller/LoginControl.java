@@ -3,6 +3,7 @@ package com.megift.sec.login.controller;
 import static com.megift.resources.utils.Constants.CHECKED;
 import static com.megift.resources.utils.Constants.SESSION_LOGIN_ID;
 import static com.megift.resources.utils.Constants.SUCCESS_RESPONSE;
+import static com.megift.set.setting.entity.Setting.RESULTS_BY_GIFTS;
 
 import java.util.Map;
 
@@ -16,6 +17,8 @@ import com.megift.resources.social.logic.SocialLogic;
 import com.megift.sec.login.entity.Login;
 import com.megift.sec.login.logic.LoginLogic;
 import com.megift.set.master.entity.MasterValue;
+import com.megift.set.setting.entity.Setting;
+import com.megift.set.setting.logic.SettingLogic;
 
 /**
  * company : Megift S.A<br/>
@@ -46,11 +49,18 @@ public class LoginControl extends Controller {
 					if (LoginLogic.create(login)) {
 						partner = new Partner(data.get("name-partner")[0]);
 						partner.setLogin(login);
-						if (PartnerLogic.create(partner)) {
-							result = String.valueOf(partner.getLogin().getId());
+						partner.setSettings(new Setting(0));
+						partner.getSettings().setSearchSetting(new MasterValue(RESULTS_BY_GIFTS));
+						if (SettingLogic.saveSearchSetting(partner)) {
+							if (PartnerLogic.create(partner)) {
+								result = String.valueOf(partner.getLogin().getId());
+							} else {
+								result = "Error tryning create Partner";
+							}
 						} else {
-							result = "Error tryning create Partner";
+							result = "Error creando la configuración de busqueda";
 						}
+
 					} else {
 						result = "Error tryning create login!";
 					}

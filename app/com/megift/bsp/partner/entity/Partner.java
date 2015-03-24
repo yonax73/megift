@@ -11,6 +11,7 @@ import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.pos.entity.POS;
 import com.megift.resources.base.Person;
 import com.megift.sec.login.entity.Login;
+import com.megift.set.setting.entity.Setting;
 
 /**
  * company : Megift S.A<br/>
@@ -33,6 +34,7 @@ public class Partner extends Person {
 	private List<POS> POSList;
 	private POS pos;
 	private Gift gift;
+	private Setting settings;
 
 	/**
 	 * @param id
@@ -109,6 +111,14 @@ public class Partner extends Person {
 
 	public void setGift(Gift gift) {
 		this.gift = gift;
+	}
+
+	public Setting getSettings() {
+		return settings;
+	}
+
+	public void setSettings(Setting settings) {
+		this.settings = settings;
 	}
 
 }

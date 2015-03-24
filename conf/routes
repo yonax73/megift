@@ -36,6 +36,7 @@ POST /inviteFriends            com.megift.resources.social.controller.SocialCont
 GET /business        com.megift.bsp.business.controller.BusinessControl.business()
 POST /saveBusiness        com.megift.bsp.business.controller.BusinessControl.saveBusiness()
 GET /loadBusiness         com.megift.bsp.business.controller.BusinessControl.loadBusiness()
+GET /loadBusinessForMobile         com.megift.bsp.business.controller.BusinessControl.loadBusinessForMobile(id: Integer,lat:Double,lng:Double)
 #item
 GET /documentTypeList   com.megift.set.base.item.controller.ItemControl.documentTypeList()
 GET /businessTypeList   com.megift.set.base.item.controller.ItemControl.businessTypeList()
@@ -65,6 +66,9 @@ GET /loadGiftForMobile                 com.megift.bsp.gift.controller.GiftContro
 GET /loadTermsAndConditionGift      com.megift.bsp.term_and_condition.controller.TermAndConditionControl.loadTermsAndConditionGift(id:Integer)
 POST /saveTermnsAndConditions      com.megift.bsp.term_and_condition.controller.TermAndConditionControl.saveTermnsAndConditions()
 GET /deleteTermAndCondition      com.megift.bsp.term_and_condition.controller.TermAndConditionControl.deleteTermAndCondition(id:Integer)
+# settings
+POST /saveSearchSetting         com.megift.set.setting.controller.SettingControl.saveSearchSetting()
+GET /loadSettings               com.megift.set.setting.controller.SettingControl.loadSettings(id:Integer)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET /robots.txt controllers.Assets.at(path="/public",file="robots.txt")
