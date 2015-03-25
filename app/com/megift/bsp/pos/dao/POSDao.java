@@ -137,7 +137,7 @@ public class POSDao extends Dao {
 	public static POS load(POS pos) {
 		CallableStatement cst = null;
 		ResultSet rs = null;
-		Connection conn = DB.getConnection();
+		Connection conn = null;
 		try {
 			conn = DB.getConnection();
 			cst = conn.prepareCall("{CALL sp_bsp_POS_LOAD(?)}");

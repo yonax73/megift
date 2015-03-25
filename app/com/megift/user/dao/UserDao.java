@@ -85,7 +85,7 @@ public class UserDao extends Dao {
 		boolean exists = false;
 		CallableStatement cst = null;
 		ResultSet rs = null;
-		Connection conn = DB.getConnection();
+		Connection conn = null;
 		try {
 			conn = DB.getConnection();
 			cst = conn.prepareCall("{CALL sp_users_EXISTS_USER(?)}");

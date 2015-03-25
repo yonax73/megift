@@ -38,7 +38,7 @@ public class TermAndConditionsDao extends Dao {
 		boolean result = false;
 		CallableStatement cst = null;
 		ResultSet rs = null;
-		Connection conn = DB.getConnection();
+		Connection conn = null;
 		List<TermAndCondition> termAndConditions = null;
 		try {
 			conn = DB.getConnection();
