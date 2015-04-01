@@ -1,7 +1,6 @@
 package com.megift.resources.utils;
 
 import java.text.DecimalFormat;
-import java.util.Date;
 
 public class Constants {
 	public final static String DATA_TEMP_PATH = "public/tmp/data/";
@@ -72,35 +71,4 @@ public class Constants {
 		}
 	}
 
-	/*
-	 * elapsed time in days, hours, minutes and seconds format
-	 */
-	public String getElapsaTime(Date startDate, Date endDate) {
-
-		// milliseconds
-		long different = endDate.getTime() - startDate.getTime();
-
-		System.out.println("startDate : " + startDate);
-		System.out.println("endDate : " + endDate);
-		System.out.println("different : " + different);
-
-		long secondsInMilli = 1000;
-		long minutesInMilli = secondsInMilli * 60;
-		long hoursInMilli = minutesInMilli * 60;
-		long daysInMilli = hoursInMilli * 24;
-
-		long elapsedDays = different / daysInMilli;
-		different = different % daysInMilli;
-
-		long elapsedHours = different / hoursInMilli;
-		different = different % hoursInMilli;
-
-		long elapsedMinutes = different / minutesInMilli;
-		different = different % minutesInMilli;
-
-		long elapsedSeconds = different / secondsInMilli;
-
-		return String.format("%d days, %d hours, %d minutes, %d seconds%n", elapsedDays, elapsedHours, elapsedMinutes, elapsedSeconds);
-
-	}
 }
