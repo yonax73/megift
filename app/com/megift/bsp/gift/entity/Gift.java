@@ -2,6 +2,7 @@ package com.megift.bsp.gift.entity;
 
 import static com.megift.resources.utils.Constants.DATE_FORMATTER;
 import static com.megift.resources.utils.Constants.priceWithoutDecimal;
+import static com.megift.resources.utils.Utils.getElapsaTime;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -75,7 +76,7 @@ public class Gift extends Entity {
 		// Date(expirationDate.toLocalDate().getM));
 	}
 
-	public String getElapseTime() {
+	public String getElapseTimeDays() {
 		String elapseTime = "0 Horas";
 		if (expirationDate != null) {
 			Long h = ChronoUnit.HOURS.between(LocalDateTime.now(), expirationDate);
@@ -90,6 +91,10 @@ public class Gift extends Entity {
 			}
 		}
 		return elapseTime;
+	}
+
+	public String getElapseTime() {
+		return getElapsaTime(LocalDateTime.now(), expirationDate);
 	}
 
 	public String getFormatStartDate() {

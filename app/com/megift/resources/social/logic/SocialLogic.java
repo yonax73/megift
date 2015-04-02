@@ -26,8 +26,7 @@ public class SocialLogic {
 		boolean result = false;
 		Email email = new Email(SERVER_NAME, INFO_EMAIL, INFO_EMAIL_PASSWORD, SERVER_SECURITY_TYPE_SSL);
 		try {
-			email.sendHTMLMail(INFO_EMAIL, partner.getName(), to, to, "Invitación a Megift Colombia", inviteEmailContacts(partner.getName()), new Resource(
-			        RESOURCE_HEADER_EMAIL_IMAGE, "Megift"));
+			email.sendHTMLMail(INFO_EMAIL, partner.getName(), to, to, "Tengo algo que contarte", inviteEmailContacts(partner.getName()), new Resource(RESOURCE_HEADER_EMAIL_IMAGE, "Megift"));
 			result = true;
 		} catch (EmailException e) {
 			Logger.error("Error tryning send register email \n" + e.getMessage(), e);
@@ -52,8 +51,7 @@ public class SocialLogic {
 			bufferLink.append(login.getId());
 			bufferLink.append("&codeRequest=");
 			bufferLink.append(login.getCodeRequest());
-			email.sendHTMLMail(SUPPORT_EMAIL, "Soporte megift", strEmail, strEmail, "Solicitud cambio de contraseña", changePassword(bufferLink.toString()), new Resource(
-			        RESOURCE_HEADER_EMAIL_IMAGE, "Megift"));
+			email.sendHTMLMail(SUPPORT_EMAIL, "Soporte megift", strEmail, strEmail, "Solicitud cambio de contraseña", changePassword(bufferLink.toString()), new Resource(RESOURCE_HEADER_EMAIL_IMAGE, "Megift"));
 			result = true;
 		} catch (EmailException e) {
 			Logger.error("Error tryning send register email \n" + e.getMessage());
