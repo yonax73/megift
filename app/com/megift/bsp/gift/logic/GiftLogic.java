@@ -159,7 +159,7 @@ public class GiftLogic {
 		boolean result = false;
 		if (user.getLocation() != null) {
 			result = GiftDao.searchGift(user);
-			if (result) {
+			if (result && user.getPOSList() != null && !user.getPOSList().isEmpty()) {
 				/*
 				 * Ordenar los puntos de ventas por distancia de menor a mayor
 				 */
