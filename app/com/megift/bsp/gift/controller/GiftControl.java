@@ -197,7 +197,12 @@ public class GiftControl extends Controller {
 					user.setGift(new Gift(0));
 					user.getGift().setType(new MasterValue(Integer.parseInt(data.get("gift-type-id")[0])));
 					if (GiftLogic.searchGift(user)) {
-						result = Json.toJson(user.getPOSList()).toString();
+						if (user.getPOSList() != null && !user.getPOSList().isEmpty()) {
+							result = Json.toJson(user.getPOSList()).toString();
+						} else {
+							result = "No hay Regalos cerca a tu ubicación con este filtro";
+						}
+
 					} else {
 						result = "Aun no tenemos cobertura cerca de esta ubicación. Escríbenos a soporte@megift.co para ponernos a Trabajar en ello";
 					}
@@ -207,7 +212,12 @@ public class GiftControl extends Controller {
 					user.getGift().setAction(new Action(0));
 					user.getGift().getAction().setType(new MasterValue(Integer.parseInt(data.get("action-type-id")[0])));
 					if (ActionLogic.searchAction(user)) {
-						result = Json.toJson(user.getPOSList()).toString();
+						if (user.getPOSList() != null && !user.getPOSList().isEmpty()) {
+							result = Json.toJson(user.getPOSList()).toString();
+						} else {
+							result = "No hay acciones cerca a tu ubicación con este filtro";
+						}
+
 					} else {
 						result = "Aun no tenemos cobertura cerca de esta ubicación. Escríbenos a soporte@megift.co para ponernos a Trabajar en ello";
 					}
@@ -216,8 +226,13 @@ public class GiftControl extends Controller {
 					Business b = new Business(0);
 					b.setType(new MasterValue(Integer.parseInt(data.get("business-type-id")[0])));
 					List<Business> businesses = BusinessLogic.search(b);
-					if (businesses != null && !businesses.isEmpty()) {
-						result = Json.toJson(businesses).toString();
+					if (businesses != null) {
+						if (!businesses.isEmpty()) {
+							result = Json.toJson(businesses).toString();
+						} else {
+							result = "No hay Empresas cerca a tu ubicación con este filtro";
+						}
+
 					} else {
 						result = "Aun no tenemos cobertura cerca de esta ubicación. Escríbenos a soporte@megift.co para ponernos a Trabajar en ello";
 					}

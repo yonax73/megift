@@ -425,7 +425,7 @@ function initPictureAction(){
 function handlePictureActionSelect(e) {
 	var picture = e.target.files[0];
 	if (picture.type.match('image.*')) {
-		if (picture.size <= 65535) {
+		if (picture.size <= 16777216) {
 			var formData = new FormData();
 			formData.append('picture', picture);
 			formData.append('id-picture-action', document.getElementsByName('id-picture-action')[0].value);
@@ -475,7 +475,7 @@ function initPictureGift(){
 	    function handlePictureGiftSelect(e) {
 	    	var picture = e.target.files[0];
 	    	if (picture.type.match('image.*')) {
-	    		if (picture.size <= 65535) {
+	    		if (picture.size <= 16777216) {
 	    			var formData = new FormData();
 	    			formData.append('picture', picture);
 	    			formData.append('id-picture-gift', document.getElementsByName('id-picture-gift')[0].value);
