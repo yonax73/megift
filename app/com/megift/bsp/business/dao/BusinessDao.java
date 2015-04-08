@@ -15,11 +15,13 @@ import play.db.DB;
 
 import com.megift.bsp.business.entity.Business;
 import com.megift.bsp.partner.entity.Partner;
+import com.megift.bsp.pos.entity.POS;
 import com.megift.resources.base.Dao;
 import com.megift.sec.login.entity.Login;
 import com.megift.set.document.entity.Document;
 import com.megift.set.location.address.entity.Address;
 import com.megift.set.location.entity.Location;
+import com.megift.set.location.geolocation.entity.Geolocation;
 import com.megift.set.location.phone.entity.Phone;
 import com.megift.set.master.entity.MasterValue;
 
@@ -46,7 +48,7 @@ public class BusinessDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			cst = conn.prepareCall("CALL sp_bsp_businesses_UPDATE(?,?,?,?,?,?,?,?)");
+			cst = conn.prepareCall("CALL sp_bsp_businesses_UPDATE(?,?,?,?,?,?,?,?,?)");
 			cst.setInt(1, business.getId());
 			cst.setInt(2, business.getLegalRepresentative().getId());
 			cst.setInt(3, business.getContact().getId());
@@ -55,6 +57,7 @@ public class BusinessDao extends Dao {
 			cst.setString(6, business.getNIT());
 			cst.setString(7, business.getLegalName());
 			cst.setString(8, business.getTradeName());
+			cst.setString(9, business.getWebSite());
 			result = cst.executeUpdate() > 0;
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
@@ -74,7 +77,7 @@ public class BusinessDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "CALL sp_bsp_businesses_CREATE(?,?,?,?,?,?,?,?);";
+			String sql = "CALL sp_bsp_businesses_CREATE(?,?,?,?,?,?,?,?,?);";
 			cst = conn.prepareCall(sql);
 			cst.registerOutParameter(1, Types.INTEGER);
 			cst.setInt(2, business.getLegalRepresentative().getId());
@@ -84,6 +87,7 @@ public class BusinessDao extends Dao {
 			cst.setString(6, business.getNIT());
 			cst.setString(7, business.getLegalName());
 			cst.setString(8, business.getTradeName());
+			cst.setString(9, business.getWebSite());
 			result = cst.executeUpdate() > 0;
 			if (result)
 				business.setId(cst.getInt(1));
@@ -139,6 +143,7 @@ public class BusinessDao extends Dao {
 				business.setNIT(rs.getString(20));
 				business.setLegalName(rs.getString(21));
 				business.setTradeName(rs.getString(22));
+				business.setWebSite(rs.getString(23));
 			}
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the business.\n" + e.getMessage(), e);
@@ -194,6 +199,7 @@ public class BusinessDao extends Dao {
 				business.setNIT(rs.getString(19));
 				business.setLegalName(rs.getString(20));
 				business.setTradeName(rs.getString(21));
+				business.setWebSite(rs.getString(22));
 			}
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the business.\n" + e.getMessage(), e);
@@ -219,6 +225,12 @@ public class BusinessDao extends Dao {
 					Business b = new Business(rs.getInt(1));
 					b.setTradeName(rs.getString(2));
 					b.setGiftCount(rs.getInt(3));
+					POS pos = new POS(0);
+					pos.setUser(business.getPos().getUser());
+					pos.setLocation(new Location(new Address(new Geolocation(rs.getDouble(4), rs.getDouble(5)))));
+					pos.distanceInMetersBetweenUser();
+					b.setWebSite(rs.getString(6));
+					b.setPos(pos);
 					businesses.add(b);
 				} while (rs.next());
 			}
