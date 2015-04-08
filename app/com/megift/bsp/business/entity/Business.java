@@ -39,6 +39,7 @@ public class Business extends Entity {
 	private POS pos;
 	private List<Gift> giftList;
 	private int giftCount;
+	private String webSite;
 
 	/**
 	 * @param id
@@ -197,6 +198,21 @@ public class Business extends Entity {
 
 	public void setGiftCount(int giftCount) {
 		this.giftCount = giftCount;
+	}
+
+	/**
+	 * @return the webSite
+	 */
+	public String getWebSite() {
+		return webSite;
+	}
+
+	/**
+	 * @param webSite
+	 *            the webSite to set
+	 */
+	public void setWebSite(String webSite) {
+		this.webSite = webSite;
 	}
 
 }

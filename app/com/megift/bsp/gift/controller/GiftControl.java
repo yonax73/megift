@@ -225,6 +225,8 @@ public class GiftControl extends Controller {
 				case RESULTS_BY_POS:
 					Business b = new Business(0);
 					b.setType(new MasterValue(Integer.parseInt(data.get("business-type-id")[0])));
+					b.setPos(new POS());
+					b.getPos().setUser(user);
 					List<Business> businesses = BusinessLogic.search(b);
 					if (businesses != null) {
 						if (!businesses.isEmpty()) {
