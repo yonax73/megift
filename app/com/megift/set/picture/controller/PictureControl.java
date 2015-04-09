@@ -33,17 +33,17 @@ public class PictureControl extends Controller {
 		try {
 			response().setHeader("Access-Control-Allow-Origin", "*");
 			String result = null;
-			FilePart file = request().body().asMultipartFormData().getFile("picture");
+			FilePart file = request().body().asMultipartFormData().getFile("file");
 			if (file != null) {
-				Partner partner = new Partner(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-partner")[0]));
-				Picture picture = new Picture(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-picture")[0]), file.getFile());
+				Partner partner = new Partner(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("idPartner")[0]));
+				Picture picture = new Picture(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("idPicture")[0]), file.getFile());
 				picture.setMime(file.getContentType());
 				picture.setCoding(BASE64_CODING);
 				partner.setPicture(picture);
 				if (PictureLogic.savePicturePartner(partner)) {
 					result = SUCCESS_RESPONSE;
 				} else {
-					result = "Error intentando subir la imagen";
+					result = "Error, intente subir un archivo mas pequeño!";
 				}
 			} else {
 				result = "No hay ningun archivo para subir";
@@ -70,7 +70,7 @@ public class PictureControl extends Controller {
 				if (PictureLogic.savePictureCollection(gift)) {
 					result = SUCCESS_RESPONSE;
 				} else {
-					result = "Error intentando subir la imagen";
+					result = "Error, intente subir un archivo mas pequeño!";
 				}
 			} else {
 				result = "No hay ningun archivo para subir";
@@ -97,7 +97,7 @@ public class PictureControl extends Controller {
 				if (PictureLogic.savePictureCollection(action)) {
 					result = SUCCESS_RESPONSE;
 				} else {
-					result = "Error intentando subir la imagen";
+					result = "Error, intente subir un archivo mas pequeño!";
 				}
 			} else {
 				result = "No hay ningun archivo para subir";
