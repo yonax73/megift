@@ -35,16 +35,21 @@ public class PictureControl extends Controller {
 			String result = null;
 			FilePart file = request().body().asMultipartFormData().getFile("file");
 			if (file != null) {
-				Partner partner = new Partner(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("idPartner")[0]));
-				Picture picture = new Picture(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("idPicture")[0]), file.getFile());
-				picture.setMime(file.getContentType());
-				picture.setCoding(BASE64_CODING);
-				partner.setPicture(picture);
-				if (PictureLogic.savePicturePartner(partner)) {
-					result = SUCCESS_RESPONSE;
+				if (file.getFile().length() <= 65535) {
+					Partner partner = new Partner(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("idPartner")[0]));
+					Picture picture = new Picture(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("idPicture")[0]), file.getFile());
+					picture.setMime(file.getContentType());
+					picture.setCoding(BASE64_CODING);
+					partner.setPicture(picture);
+					if (PictureLogic.savePicturePartner(partner)) {
+						result = SUCCESS_RESPONSE;
+					} else {
+						result = "Error intentado subir la imagen";
+					}
 				} else {
-					result = "Error, intente subir un archivo mas pequeño!";
+					result = "La imagen no puede ser mayor que 64KB, intente con una imagen mas pequeña";
 				}
+
 			} else {
 				result = "No hay ningun archivo para subir";
 			}
@@ -70,7 +75,7 @@ public class PictureControl extends Controller {
 				if (PictureLogic.savePictureCollection(gift)) {
 					result = SUCCESS_RESPONSE;
 				} else {
-					result = "Error, intente subir un archivo mas pequeño!";
+					result = "Error intentado subir la imagen";
 				}
 			} else {
 				result = "No hay ningun archivo para subir";
@@ -97,7 +102,7 @@ public class PictureControl extends Controller {
 				if (PictureLogic.savePictureCollection(action)) {
 					result = SUCCESS_RESPONSE;
 				} else {
-					result = "Error, intente subir un archivo mas pequeño!";
+					result = "Error intentado subir la imagen";
 				}
 			} else {
 				result = "No hay ningun archivo para subir";

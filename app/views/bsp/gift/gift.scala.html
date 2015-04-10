@@ -18,7 +18,7 @@
         <div class="row">
         	<div class="col-md-12 text-center">        		
         		<small> Los campos con <span class="text-danger">*</span> son obligatorios</small> <br/>
-        		<small> La imagen debe ser menor de 400px de ancho y alto</small> <br/>
+        		<small> Recomendamos imagenes de 380px de ancho X 190px de alto</small> <br/>
         	</div>
         </div>
 		<div class="row">			
@@ -425,7 +425,7 @@ function initPictureAction(){
 function handlePictureActionSelect(e) {
 	var picture = e.target.files[0];
 	if (picture.type.match('image.*')) {
-		if (picture.size <= 16777216) {
+		if (picture.size <= 65535) {
 			var formData = new FormData();
 			formData.append('picture', picture);
 			formData.append('id-picture-action', document.getElementsByName('id-picture-action')[0].value);
@@ -456,7 +456,7 @@ function handlePictureActionSelect(e) {
 			});
 			uploadPictureActionXHR.send(formData);
 		} else {
-			notification.danger('La imagen no puede ser mayor que 64KB');    			
+			notification.danger('La imagen no puede ser mayor que 64KB, intente con una imagen mas pequeña');    			
 		}
 	} else {    		
 		notification.danger('Seleccione una imagen vÃ¡lida');
@@ -475,7 +475,7 @@ function initPictureGift(){
 	    function handlePictureGiftSelect(e) {
 	    	var picture = e.target.files[0];
 	    	if (picture.type.match('image.*')) {
-	    		if (picture.size <= 16777216) {
+	    		if (picture.size <= 65535) {
 	    			var formData = new FormData();
 	    			formData.append('picture', picture);
 	    			formData.append('id-picture-gift', document.getElementsByName('id-picture-gift')[0].value);
@@ -506,7 +506,7 @@ function initPictureGift(){
 	    			});
 	    			uploadPictureGiftXHR.send(formData);
 	    		} else {
-	    			notification.danger('La imagen no puede ser mayor que 64KB');    			
+	    			notification.danger('La imagen no puede ser mayor que 64KB, intente con una imagen mas pequeña');    			
 	    		}
 	    	} else {    		
 	    		notification.danger('Seleccione una imagen vÃ¡lida');
