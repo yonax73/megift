@@ -51,7 +51,7 @@ public class PictureDao extends Dao {
 			if (result)
 				picture.setId(cst.getInt(1));
 		} catch (Exception e) {
-			Logger.error(e.getMessage());
+			Logger.error("An error has been occurred tryning create the picture.\n" + e.getMessage(), e);
 		} finally {
 			close(cst, conn);
 		}
@@ -77,7 +77,7 @@ public class PictureDao extends Dao {
 			cst.setBoolean(5, picture.isMain());
 			result = cst.executeUpdate() > 0;
 		} catch (Exception e) {
-			Logger.error(e.getMessage());
+			Logger.error("An error has been occurred tryning update the picture.\n" + e.getMessage(), e);
 		} finally {
 			close(cst, conn);
 		}
@@ -104,7 +104,7 @@ public class PictureDao extends Dao {
 			result = cst.executeUpdate() > 0 && cst.getInt(1) > 0;
 
 		} catch (Exception e) {
-			Logger.error(e.getMessage());
+			Logger.error("An error has been occurred tryning create the picture collection by gift.\n" + e.getMessage(), e);
 		} finally {
 			close(cst, conn);
 		}
@@ -132,7 +132,7 @@ public class PictureDao extends Dao {
 			result = cst.executeUpdate() > 0 && cst.getInt(1) > 0;
 
 		} catch (Exception e) {
-			Logger.error(e.getMessage());
+			Logger.error("An error has been occurred tryning create the picture collection by action.\n" + e.getMessage(), e);
 		} finally {
 			close(cst, conn);
 		}

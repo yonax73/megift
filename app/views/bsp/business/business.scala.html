@@ -53,6 +53,14 @@
             <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
         </div>
     </div>
+        <div class="col-md-12">
+        <span class="text-danger">*</span>
+        <div class="form-group has-feedback">
+            <input type="text" class="form-control input-lg" name="web-site-business" data-required="true" placeholder="p&aacute;gina Web">
+            <span class="form-control-feedback"></span>
+            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+        </div>
+    </div>
     <div class="col-md-12">
         <span class="text-danger">*</span>
         <div class="form-group has-feedback">
@@ -277,7 +285,7 @@ function loadBusiness(){
         document.getElementsByName('trade-name-business')[0].value = business.tradeName;
         document.getElementsByName('legal-name-business')[0].value = business.legalName;
         document.getElementsByName('nit-business')[0].value = business.nit;
-        //document.getElementsByName('business-type')[0].value = business.type.id;        
+        document.getElementsByName('web-site-business')[0].value = business.webSite;          
         businessType.selectItem(business.type.id);
         if(business.type.id === OTHER_TYPE_BUSINESS){
           document.getElementsByName('other-business-type')[0].value = business.otherType; 
@@ -307,6 +315,7 @@ function loadBusiness(){
     document.getElementsByName('id-location-contact')[0].value = business.contact.location.id;
     document.getElementsByName('id-legal-representative')[0].value = business.legalRepresentative.id;
     document.getElementsByName('id-document-legal-representative')[0].value = business.legalRepresentative.document.id;
+    
 
 });
 loadBusinessxHR.send();

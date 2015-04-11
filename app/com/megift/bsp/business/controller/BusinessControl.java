@@ -102,6 +102,7 @@ public class BusinessControl extends Controller {
 									if (PartnerLogic.save(contact)) {
 										business.setTradeName(data.get("trade-name-business")[0]);
 										business.setLegalName(data.get("legal-name-business")[0]);
+										business.setWebSite(data.get("web-site-business")[0]);
 										business.setNIT(data.get("nit-business")[0]);
 										business.setType(new MasterValue(Integer.parseInt(data.get("business-type")[0])));
 										if (business.isOtherType()) {

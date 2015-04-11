@@ -33,18 +33,23 @@ public class PictureControl extends Controller {
 		try {
 			response().setHeader("Access-Control-Allow-Origin", "*");
 			String result = null;
-			FilePart file = request().body().asMultipartFormData().getFile("picture");
+			FilePart file = request().body().asMultipartFormData().getFile("file");
 			if (file != null) {
-				Partner partner = new Partner(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-partner")[0]));
-				Picture picture = new Picture(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-picture")[0]), file.getFile());
-				picture.setMime(file.getContentType());
-				picture.setCoding(BASE64_CODING);
-				partner.setPicture(picture);
-				if (PictureLogic.savePicturePartner(partner)) {
-					result = SUCCESS_RESPONSE;
+				if (file.getFile().length() <= 65535) {
+					Partner partner = new Partner(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("idPartner")[0]));
+					Picture picture = new Picture(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("idPicture")[0]), file.getFile());
+					picture.setMime(file.getContentType());
+					picture.setCoding(BASE64_CODING);
+					partner.setPicture(picture);
+					if (PictureLogic.savePicturePartner(partner)) {
+						result = SUCCESS_RESPONSE;
+					} else {
+						result = "Error intentado subir la imagen";
+					}
 				} else {
-					result = "Error intentando subir la imagen";
+					result = "La imagen no puede ser mayor que 64KB, intente con una imagen mas pequeña";
 				}
+
 			} else {
 				result = "No hay ningun archivo para subir";
 			}
@@ -56,47 +61,57 @@ public class PictureControl extends Controller {
 	}
 
 	public static Result uploadpictureGift() {
-		String result = null;
-		FilePart file = request().body().asMultipartFormData().getFile("picture");
-		if (file != null) {
-			Gift gift = new Gift(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-gift")[0]));
-			Picture picture = new Picture(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-picture-gift")[0]), file.getFile());
-			picture.setMain(true);
-			picture.setMime(file.getContentType());
-			picture.setCoding(BASE64_CODING);
-			gift.setPictures(new ArrayList<Picture>());
-			gift.getPictures().add(picture);
-			if (PictureLogic.savePictureCollection(gift)) {
-				result = SUCCESS_RESPONSE;
+		try {
+			String result = null;
+			FilePart file = request().body().asMultipartFormData().getFile("picture");
+			if (file != null) {
+				Gift gift = new Gift(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-gift")[0]));
+				Picture picture = new Picture(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-picture-gift")[0]), file.getFile());
+				picture.setMain(true);
+				picture.setMime(file.getContentType());
+				picture.setCoding(BASE64_CODING);
+				gift.setPictures(new ArrayList<Picture>());
+				gift.getPictures().add(picture);
+				if (PictureLogic.savePictureCollection(gift)) {
+					result = SUCCESS_RESPONSE;
+				} else {
+					result = "Error intentado subir la imagen";
+				}
 			} else {
-				result = "Error intentando subir la imagen";
+				result = "No hay ningun archivo para subir";
 			}
-		} else {
-			result = "No hay ningun archivo para subir";
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentado subir la foto del regalo \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentado subir la foto del regalo ( " + e.getMessage() + " )");
 		}
-		return ok(result);
 	}
 
 	public static Result uploadpictureAction() {
-		String result = null;
-		FilePart file = request().body().asMultipartFormData().getFile("picture");
-		if (file != null) {
-			Action action = new Action(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-action")[0]));
-			Picture picture = new Picture(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-picture-action")[0]), file.getFile());
-			picture.setMain(true);
-			picture.setMime(file.getContentType());
-			picture.setCoding(BASE64_CODING);
-			action.setPictures(new ArrayList<Picture>());
-			action.getPictures().add(picture);
-			if (PictureLogic.savePictureCollection(action)) {
-				result = SUCCESS_RESPONSE;
+		try {
+			String result = null;
+			FilePart file = request().body().asMultipartFormData().getFile("picture");
+			if (file != null) {
+				Action action = new Action(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-action")[0]));
+				Picture picture = new Picture(Integer.parseInt(request().body().asMultipartFormData().asFormUrlEncoded().get("id-picture-action")[0]), file.getFile());
+				picture.setMain(true);
+				picture.setMime(file.getContentType());
+				picture.setCoding(BASE64_CODING);
+				action.setPictures(new ArrayList<Picture>());
+				action.getPictures().add(picture);
+				if (PictureLogic.savePictureCollection(action)) {
+					result = SUCCESS_RESPONSE;
+				} else {
+					result = "Error intentado subir la imagen";
+				}
 			} else {
-				result = "Error intentando subir la imagen";
+				result = "No hay ningun archivo para subir";
 			}
-		} else {
-			result = "No hay ningun archivo para subir";
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentado subir la foto de la acción \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentado subir la foto de la acción ( " + e.getMessage() + " )");
 		}
-		return ok(result);
 	}
 
 }

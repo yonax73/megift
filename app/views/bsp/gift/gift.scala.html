@@ -16,9 +16,9 @@
 	<div class="col-md-9 col-centered">
         
         <div class="row">
-        	<div class="col-md-12 text-center">
-        		<small class="text-info ">Recomendamos usar una imagen de 180px X 160px</small><br/> 
+        	<div class="col-md-12 text-center">        		
         		<small> Los campos con <span class="text-danger">*</span> son obligatorios</small> <br/>
+        		<small> Recomendamos imagenes de 380px de ancho X 190px de alto</small> <br/>
         	</div>
         </div>
 		<div class="row">			
@@ -456,7 +456,7 @@ function handlePictureActionSelect(e) {
 			});
 			uploadPictureActionXHR.send(formData);
 		} else {
-			notification.danger('La imagen no puede ser mayor que 64KB');    			
+			notification.danger('La imagen no puede ser mayor que 64KB, intente con una imagen mas pequeña');    			
 		}
 	} else {    		
 		notification.danger('Seleccione una imagen vÃ¡lida');
@@ -506,7 +506,7 @@ function initPictureGift(){
 	    			});
 	    			uploadPictureGiftXHR.send(formData);
 	    		} else {
-	    			notification.danger('La imagen no puede ser mayor que 64KB');    			
+	    			notification.danger('La imagen no puede ser mayor que 64KB, intente con una imagen mas pequeña');    			
 	    		}
 	    	} else {    		
 	    		notification.danger('Seleccione una imagen vÃ¡lida');
