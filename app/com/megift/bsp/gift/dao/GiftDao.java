@@ -3,6 +3,8 @@
  */
 package com.megift.bsp.gift.dao;
 
+import static com.megift.resources.utils.Constants.ITEMS_PER_GROUP;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -320,9 +322,13 @@ public class GiftDao extends Dao {
 		boolean result = false;
 		try {
 			conn = DB.getConnection();
-			cst = conn.prepareCall("{CALL sp_bsp_gifts_SEARCH(?,?)}");
+			cst = conn.prepareCall("{CALL sp_bsp_gifts_SEARCH(?,?,?,?,?,?)}");
 			cst.setInt(1, user.getPos() == null ? 0 : user.getPos().getBussinesId());
 			cst.setInt(2, user.getGift() == null ? 0 : user.getGift().getType().getId());
+			cst.setFloat(3, (float) user.getLocation().getAddress().getGeolocation().getLatitude());
+			cst.setFloat(4, (float) user.getLocation().getAddress().getGeolocation().getLongitude());
+			cst.setInt(5, user.getGift() == null ? 0 : user.getGift().getPosition());
+			cst.setInt(6, ITEMS_PER_GROUP);
 			rs = cst.executeQuery();
 			if (rs.next()) {
 				POSList = new ArrayList<POS>();
@@ -352,20 +358,15 @@ public class GiftDao extends Dao {
 						tmpuser.setLocation(user.getLocation());
 						pos.setUser(tmpuser);// impl clon
 						pos.setName(rs.getString(2));
-						pos.setLocation(new Location(new Address(new Geolocation(rs.getDouble(3), rs.getDouble(4)))));
-						/*
-						 * Calcula la distancia en metros del usuario al punto
-						 * de venta
-						 */
-						pos.distanceInMetersBetweenUser();
+						pos.setDistanceInKiloMeters(rs.getFloat(8));
 						giftList = new ArrayList<>();
 						posCount++;
 					}
-					Gift gift = new Gift(rs.getInt(5));
-					gift.setPrice(rs.getDouble(6));
-					gift.setStartDate(rs.getTimestamp(7).toLocalDateTime());
-					gift.setExpirationDate(rs.getTimestamp(8).toLocalDateTime());
-					gift.setName(rs.getString(9));
+					Gift gift = new Gift(rs.getInt(3));
+					gift.setPrice(rs.getDouble(4));
+					gift.setStartDate(rs.getTimestamp(5).toLocalDateTime());
+					gift.setExpirationDate(rs.getTimestamp(6).toLocalDateTime());
+					gift.setName(rs.getString(7));
 					giftList.add(gift);
 
 				} while (rs.next());
@@ -383,5 +384,26 @@ public class GiftDao extends Dao {
 			close(rs, cst, conn);
 		}
 		return result;
+	}
+
+	public static int searchCount(Partner user) {
+		int searchCount = 0;
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("CALL sp_bsp_gifts_SEARCH_COUNT(?,?);");
+			cst.setInt(1, user.getPos() == null ? 0 : user.getPos().getBussinesId());
+			cst.setInt(2, user.getGift() == null ? 0 : user.getGift().getType().getId());
+			rs = cst.executeQuery();
+			if (rs.next())
+				searchCount = rs.getInt(1);
+		} catch (Exception e) {
+			Logger.error("An error has been occurred trying to search count the Gifts .\n" + e.getMessage(), e);
+		} finally {
+			close(rs, cst, conn);
+		}
+		return searchCount;
 	}
 }

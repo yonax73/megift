@@ -3,6 +3,8 @@
  */
 package com.megift.bsp.action.dao;
 
+import static com.megift.resources.utils.Constants.ITEMS_PER_GROUP;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,9 +20,6 @@ import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.partner.entity.Partner;
 import com.megift.bsp.pos.entity.POS;
 import com.megift.resources.base.Dao;
-import com.megift.set.location.address.entity.Address;
-import com.megift.set.location.entity.Location;
-import com.megift.set.location.geolocation.entity.Geolocation;
 
 /**
  * company : Megift S.A<br/>
@@ -85,6 +84,87 @@ public class ActionDao extends Dao {
 		return result;
 	}
 
+	// public static boolean searchAction(Partner user) {
+	// List<POS> POSList = null;
+	// CallableStatement cst = null;
+	// ResultSet rs = null;
+	// Connection conn = null;
+	// boolean result = false;
+	// try {
+	// conn = DB.getConnection();
+	// cst = conn.prepareCall("{CALL sp_bsp_actions_SEARCH(?,?,?,?)}");
+	// cst.setInt(1, user.getPos() == null ? 0 : user.getPos().getId());
+	// cst.setInt(2, user.getGift().getAction() == null ? 0 :
+	// user.getGift().getAction().getType().getId());
+	// cst.setInt(3, user.getGift().getAction() == null ? 0 :
+	// user.getGift().getAction().getPosition());
+	// cst.setInt(4, ITEMS_PER_GROUP);
+	// rs = cst.executeQuery();
+	// if (rs.next()) {
+	// POSList = new ArrayList<POS>();
+	// int POSIdOld = 0;
+	// int POSIdCurrent = 0;
+	// POS pos = null;
+	// List<Gift> giftList = null;
+	// int posCount = 0;
+	// do {
+	// POSIdCurrent = rs.getInt(1);
+	// /*
+	// * Si el id del pos es diferente al anterior entonces
+	// * creamos otro punto de venta
+	// */
+	// if (POSIdCurrent != POSIdOld) {
+	// POSIdOld = POSIdCurrent;
+	// /*
+	// * Cuando se va a crear el segundo punto de venta en
+	// * adelante se agrega el anterior a la lista
+	// */
+	// if (posCount > 0) {
+	// pos.setGiftList(giftList);
+	// POSList.add(pos);
+	// }
+	// pos = new POS(POSIdCurrent);
+	// Partner tmpuser = new Partner(user.getLogin());
+	// tmpuser.setLocation(user.getLocation());
+	// pos.setUser(tmpuser);// impl clon
+	// pos.setName(rs.getString(2));
+	// pos.setLocation(new Location(new Address(new Geolocation(rs.getDouble(3),
+	// rs.getDouble(4)))));
+	// /*
+	// * Calcula la distancia en metros del usuario al punto
+	// * de venta
+	// */
+	// pos.distanceInMetersBetweenUser();
+	// giftList = new ArrayList<>();
+	// posCount++;
+	// }
+	// Gift gift = new Gift(rs.getInt(5));
+	// gift.setStartDate(rs.getTimestamp(6).toLocalDateTime());
+	// gift.setExpirationDate(rs.getTimestamp(7).toLocalDateTime());
+	// Action action = new Action(rs.getInt(8));
+	// action.setPrice(rs.getDouble(9));
+	// action.setName(rs.getString(10));
+	// gift.setAction(action);
+	// giftList.add(gift);
+	//
+	// } while (rs.next());
+	// // agregar el ultimo punto de venta
+	// if (POSIdCurrent == POSIdOld && !giftList.isEmpty()) {
+	// pos.setGiftList(giftList);
+	// POSList.add(pos);
+	// }
+	// }
+	// user.setPOSList(POSList);
+	// result = true;
+	// } catch (Exception e) {
+	// Logger.error("An error has been occurred trying to search the Actions .\n"
+	// + e.getMessage(), e);
+	// } finally {
+	// close(rs, cst, conn);
+	// }
+	// return result;
+	// }
+
 	public static boolean searchAction(Partner user) {
 		List<POS> POSList = null;
 		CallableStatement cst = null;
@@ -93,9 +173,13 @@ public class ActionDao extends Dao {
 		boolean result = false;
 		try {
 			conn = DB.getConnection();
-			cst = conn.prepareCall("{CALL sp_bsp_actions_SEARCH(?,?)}");
+			cst = conn.prepareCall("{CALL sp_bsp_actions_SEARCH(?,?,?,?,?,?)}");
 			cst.setInt(1, user.getPos() == null ? 0 : user.getPos().getId());
 			cst.setInt(2, user.getGift().getAction() == null ? 0 : user.getGift().getAction().getType().getId());
+			cst.setFloat(3, (float) user.getLocation().getAddress().getGeolocation().getLatitude());
+			cst.setFloat(4, (float) user.getLocation().getAddress().getGeolocation().getLongitude());
+			cst.setInt(5, user.getGift().getAction() == null ? 0 : user.getGift().getAction().getPosition());
+			cst.setInt(6, ITEMS_PER_GROUP);
 			rs = cst.executeQuery();
 			if (rs.next()) {
 				POSList = new ArrayList<POS>();
@@ -125,21 +209,16 @@ public class ActionDao extends Dao {
 						tmpuser.setLocation(user.getLocation());
 						pos.setUser(tmpuser);// impl clon
 						pos.setName(rs.getString(2));
-						pos.setLocation(new Location(new Address(new Geolocation(rs.getDouble(3), rs.getDouble(4)))));
-						/*
-						 * Calcula la distancia en metros del usuario al punto
-						 * de venta
-						 */
-						pos.distanceInMetersBetweenUser();
+						pos.setDistanceInKiloMeters(rs.getFloat(9));
 						giftList = new ArrayList<>();
 						posCount++;
 					}
-					Gift gift = new Gift(rs.getInt(5));
-					gift.setStartDate(rs.getTimestamp(6).toLocalDateTime());
-					gift.setExpirationDate(rs.getTimestamp(7).toLocalDateTime());
-					Action action = new Action(rs.getInt(8));
-					action.setPrice(rs.getDouble(9));
-					action.setName(rs.getString(10));
+					Gift gift = new Gift(rs.getInt(3));
+					gift.setStartDate(rs.getTimestamp(4).toLocalDateTime());
+					gift.setExpirationDate(rs.getTimestamp(5).toLocalDateTime());
+					Action action = new Action(rs.getInt(6));
+					action.setPrice(rs.getDouble(7));
+					action.setName(rs.getString(8));
 					gift.setAction(action);
 					giftList.add(gift);
 
@@ -160,4 +239,24 @@ public class ActionDao extends Dao {
 		return result;
 	}
 
+	public static int searchCount(Partner user) {
+		int searchCount = 0;
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("CALL sp_bsp_actions_SEARCH_COUNT(?,?);");
+			cst.setInt(1, user.getPos() == null ? 0 : user.getPos().getId());
+			cst.setInt(2, user.getGift().getAction() == null ? 0 : user.getGift().getAction().getType().getId());
+			rs = cst.executeQuery();
+			if (rs.next())
+				searchCount = rs.getInt(1);
+		} catch (Exception e) {
+			Logger.error("An error has been occurred trying to search count the Actions .\n" + e.getMessage(), e);
+		} finally {
+			close(rs, cst, conn);
+		}
+		return searchCount;
+	}
 }

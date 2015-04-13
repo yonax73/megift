@@ -3,9 +3,6 @@
  */
 package com.megift.bsp.action.logic;
 
-import java.util.Collections;
-import java.util.Comparator;
-
 import com.megift.bsp.action.dao.ActionDao;
 import com.megift.bsp.action.entity.Action;
 import com.megift.bsp.partner.entity.Partner;
@@ -62,20 +59,39 @@ public class ActionLogic {
 		return saved;
 	}
 
+	// public static boolean searchAction(Partner user) {
+	// boolean result = false;
+	// if (user.getLocation() != null) {
+	// result = ActionDao.searchAction(user);
+	// if (result && user.getPOSList() != null && !user.getPOSList().isEmpty())
+	// {
+	// /*
+	// * Ordenar los puntos de ventas por distancia de menor a mayor
+	// */
+	// Collections.sort(user.getPOSList(), new Comparator<POS>() {
+	// @Override
+	// public int compare(POS pos1, POS pos2) {
+	// return pos1.compareTo(pos2);
+	// }
+	// });
+	// /*
+	// * Traer solo la imagen principal
+	// */
+	// for (POS pos : user.getPOSList()) {
+	// result = PictureLogic.loadActionMainPictureByGiftList(pos.getGiftList());
+	// if (!result) {
+	// break;
+	// }
+	// }
+	// }
+	// }
+	// return result;
+	// }
 	public static boolean searchAction(Partner user) {
 		boolean result = false;
 		if (user.getLocation() != null) {
 			result = ActionDao.searchAction(user);
 			if (result && user.getPOSList() != null && !user.getPOSList().isEmpty()) {
-				/*
-				 * Ordenar los puntos de ventas por distancia de menor a mayor
-				 */
-				Collections.sort(user.getPOSList(), new Comparator<POS>() {
-					@Override
-					public int compare(POS pos1, POS pos2) {
-						return pos1.compareTo(pos2);
-					}
-				});
 				/*
 				 * Traer solo la imagen principal
 				 */
@@ -88,6 +104,14 @@ public class ActionLogic {
 			}
 		}
 		return result;
+	}
+
+	public static int searchCount(Partner user) {
+		int searchCount = 0;
+		if (user != null) {
+			searchCount = ActionDao.searchCount(user);
+		}
+		return searchCount;
 	}
 
 }

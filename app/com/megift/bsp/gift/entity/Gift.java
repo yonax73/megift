@@ -56,6 +56,7 @@ public class Gift extends Entity {
 	private POS pos;
 	private List<RelationGiftPOS> giftPOSList;
 	private String termsConditions;
+	private int position;
 
 	/**
 	 * @param id
@@ -308,6 +309,14 @@ public class Gift extends Entity {
 
 	public boolean hasMainPicture() {
 		return mainPicture != null;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
 }

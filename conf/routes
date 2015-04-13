@@ -62,10 +62,12 @@ GET /loadGiftByBusiness                    com.megift.bsp.gift.controller.GiftCo
 GET /loadGiftsByPOS                    com.megift.bsp.gift.controller.GiftControl.loadGiftsByPOS(id:Integer)
 POST /searchGift                       com.megift.bsp.gift.controller.GiftControl.searchGift()
 GET /loadGiftForMobile                 com.megift.bsp.gift.controller.GiftControl.loadGiftForMobile(idPOS:Integer,idGift:Integer,lat:Double,lng:Double) 
+POST /groupsCountPerSearchGift      com.megift.bsp.gift.controller.GiftControl.groupsCountPerSearchGift()
 #Terms and condition
 GET /loadTermsAndConditionGift      com.megift.bsp.term_and_condition.controller.TermAndConditionControl.loadTermsAndConditionGift(id:Integer)
 POST /saveTermnsAndConditions      com.megift.bsp.term_and_condition.controller.TermAndConditionControl.saveTermnsAndConditions()
 GET /deleteTermAndCondition      com.megift.bsp.term_and_condition.controller.TermAndConditionControl.deleteTermAndCondition(id:Integer)
+
 # settings
 POST /saveSearchSetting         com.megift.set.setting.controller.SettingControl.saveSearchSetting()
 GET /loadSettings               com.megift.set.setting.controller.SettingControl.loadSettings(id:Integer)
