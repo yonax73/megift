@@ -3,6 +3,8 @@
  */
 package com.megift.bsp.business.dao;
 
+import static com.megift.resources.utils.Constants.ITEMS_PER_GROUP;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -21,7 +23,6 @@ import com.megift.sec.login.entity.Login;
 import com.megift.set.document.entity.Document;
 import com.megift.set.location.address.entity.Address;
 import com.megift.set.location.entity.Location;
-import com.megift.set.location.geolocation.entity.Geolocation;
 import com.megift.set.location.phone.entity.Phone;
 import com.megift.set.master.entity.MasterValue;
 
@@ -216,8 +217,12 @@ public class BusinessDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			cst = conn.prepareCall("{CALL sp_bsp_businesses_SEARCH(?)}");
+			cst = conn.prepareCall("{CALL sp_bsp_businesses_SEARCH(?,?,?,?,?)}");
 			cst.setInt(1, business.getType() == null ? 0 : business.getType().getId());
+			cst.setFloat(2, (float) business.getPos().getUser().getLocation().getAddress().getGeolocation().getLatitude());
+			cst.setFloat(3, (float) business.getPos().getUser().getLocation().getAddress().getGeolocation().getLongitude());
+			cst.setInt(4, business.getPosition());
+			cst.setInt(5, ITEMS_PER_GROUP);
 			rs = cst.executeQuery();
 			if (rs.next()) {
 				businesses = new ArrayList<Business>();
@@ -227,9 +232,8 @@ public class BusinessDao extends Dao {
 					b.setGiftCount(rs.getInt(3));
 					POS pos = new POS(0);
 					pos.setUser(business.getPos().getUser());
-					pos.setLocation(new Location(new Address(new Geolocation(rs.getDouble(4), rs.getDouble(5)))));
-					pos.distanceInMetersBetweenUser();
-					b.setWebSite(rs.getString(6));
+					b.setWebSite(rs.getString(4));
+					pos.setDistanceInKiloMeters(rs.getFloat(5));
 					b.setPos(pos);
 					businesses.add(b);
 				} while (rs.next());
@@ -241,4 +245,25 @@ public class BusinessDao extends Dao {
 		}
 		return businesses;
 	}
+
+	public static int searchCount(Business business) {
+		int searchCount = 0;
+		CallableStatement cst = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("CALL sp_bsp_businesses_SEARCH_COUNT(?);");
+			cst.setInt(1, business.getType() == null ? 0 : business.getType().getId());
+			rs = cst.executeQuery();
+			if (rs.next())
+				searchCount = rs.getInt(1);
+		} catch (Exception e) {
+			Logger.error("An error has been occurred trying to search count the business .\n" + e.getMessage(), e);
+		} finally {
+			close(rs, cst, conn);
+		}
+		return searchCount;
+	}
+
 }

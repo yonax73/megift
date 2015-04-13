@@ -60,4 +60,12 @@ public class BusinessLogic {
 		return BusinessDao.loadById(business);
 	}
 
+	public static int searchCount(Business business) {
+		int searchCount = 0;
+		if (business != null) {
+			searchCount = BusinessDao.searchCount(business);
+		}
+		return searchCount;
+	}
+
 }

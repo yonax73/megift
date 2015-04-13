@@ -33,6 +33,7 @@ public class Action extends Entity {
 	private double price;
 	private List<Picture> pictures;
 	private Picture mainPicture;
+	private int position;
 
 	/**
 	 * @param id
@@ -140,5 +141,13 @@ public class Action extends Entity {
 
 	public boolean hasMainPicture() {
 		return mainPicture != null;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 }

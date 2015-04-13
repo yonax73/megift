@@ -75,7 +75,7 @@ public class POS extends Entity {
 		if (user != null && user.getLocation() != null) {
 			// TODO: quitar in meters
 			distanceInMeters = Geolocation.distanceInMetersBetween(user.getLocation().getAddress().getGeolocation(), location.getAddress().getGeolocation());
-			distanceInKiloMeters = Geolocation.distanceInKiloMetersBetween(user.getLocation().getAddress().getGeolocation(), location.getAddress().getGeolocation());
+			setDistanceInKiloMeters(Geolocation.distanceInKiloMetersBetween(user.getLocation().getAddress().getGeolocation(), location.getAddress().getGeolocation()));
 		}
 
 	}
@@ -213,11 +213,15 @@ public class POS extends Entity {
 	}
 
 	public String getDistanceFormatted() {
-		if (distanceInKiloMeters >= 1) {
-			return String.valueOf(roundTo2Decimals(distanceInKiloMeters)).concat(" km");
+		if (getDistanceInKiloMeters() >= 1) {
+			return String.valueOf(roundTo2Decimals(getDistanceInKiloMeters())).concat(" km");
 		} else {
-			return String.valueOf(roundTo2Decimals(convertKilometersToMeteres(distanceInKiloMeters))).concat(" m");
+			return String.valueOf(roundTo2Decimals(convertKilometersToMeteres(getDistanceInKiloMeters()))).concat(" m");
 		}
 
+	}
+
+	public void setDistanceInKiloMeters(double distanceInKiloMeters) {
+		this.distanceInKiloMeters = distanceInKiloMeters;
 	}
 }

@@ -3,9 +3,11 @@
  */
 package com.megift.bsp.gift.controller;
 
+import static com.megift.resources.utils.Constants.ITEMS_PER_GROUP;
 import static com.megift.resources.utils.Constants.SESSION_BUSINESS_ID;
 import static com.megift.resources.utils.Constants.SESSION_LOGIN_ID;
 import static com.megift.set.setting.entity.Setting.RESULTS_BY_ACTIONS;
+import static com.megift.set.setting.entity.Setting.RESULTS_BY_BUSINESS;
 import static com.megift.set.setting.entity.Setting.RESULTS_BY_GIFTS;
 import static com.megift.set.setting.entity.Setting.RESULTS_BY_POS;
 
@@ -189,12 +191,14 @@ public class GiftControl extends Controller {
 			String result = "No se ha podido completar la solicitud";
 			final Map<String, String[]> data = request().body().asFormUrlEncoded();
 			if (data != null) {
+				int position = Integer.parseInt(data.get("position")[0]);
 				Partner user = new Partner(Integer.parseInt(data.get("id-login")[0]));
 				user.setLocation(new Location(new Address(new Geolocation(Double.parseDouble(data.get("latitude")[0]), Double.parseDouble(data.get("longitude")[0])))));
 				int typeSearch = Integer.parseInt(data.get("type-view")[0]);
 				switch (typeSearch) {
 				case RESULTS_BY_GIFTS:
 					user.setGift(new Gift(0));
+					user.getGift().setPosition(position);
 					user.getGift().setType(new MasterValue(Integer.parseInt(data.get("gift-type-id")[0])));
 					if (GiftLogic.searchGift(user)) {
 						if (user.getPOSList() != null && !user.getPOSList().isEmpty()) {
@@ -211,6 +215,7 @@ public class GiftControl extends Controller {
 					user.setGift(new Gift(0));
 					user.getGift().setAction(new Action(0));
 					user.getGift().getAction().setType(new MasterValue(Integer.parseInt(data.get("action-type-id")[0])));
+					user.getGift().getAction().setPosition(position);
 					if (ActionLogic.searchAction(user)) {
 						if (user.getPOSList() != null && !user.getPOSList().isEmpty()) {
 							result = Json.toJson(user.getPOSList()).toString();
@@ -224,6 +229,7 @@ public class GiftControl extends Controller {
 					break;
 				case RESULTS_BY_POS:
 					Business b = new Business(0);
+					b.setPosition(position);
 					b.setType(new MasterValue(Integer.parseInt(data.get("business-type-id")[0])));
 					b.setPos(new POS());
 					b.getPos().setUser(user);
@@ -239,6 +245,23 @@ public class GiftControl extends Controller {
 						result = "Aun no tenemos cobertura cerca de esta ubicación. Escríbenos a soporte@megift.co para ponernos a Trabajar en ello";
 					}
 
+					break;
+				case RESULTS_BY_BUSINESS:
+					user.setGift(new Gift(0));
+					user.getGift().setPosition(position);
+					user.getGift().setType(new MasterValue(Integer.parseInt(data.get("gift-type-id")[0])));
+					user.setPos(new POS());
+					user.getPos().setBussinesId(Integer.parseInt(data.get("id-business")[0]));
+					if (GiftLogic.searchGift(user)) {
+						if (user.getPOSList() != null && !user.getPOSList().isEmpty()) {
+							result = Json.toJson(user.getPOSList()).toString();
+						} else {
+							result = "No hay Regalos cerca a tu ubicación con este filtro";
+						}
+
+					} else {
+						result = "Aun no tenemos cobertura cerca de esta ubicación. Escríbenos a soporte@megift.co para ponernos a Trabajar en ello";
+					}
 					break;
 				}
 
@@ -268,6 +291,49 @@ public class GiftControl extends Controller {
 		} catch (Exception e) {
 			Logger.error("Ha ocurrido un error intentando cargar el regalo \n" + e.getMessage(), e);
 			return badRequest("Ha ocurrido un error intentando cargar el regalo ( " + e.getMessage() + " )");
+		}
+	}
+
+	public static Result groupsCountPerSearchGift() {
+		try {
+			response().setHeader("Access-Control-Allow-Origin", "*");
+			int groupsCount = -1;
+			final Map<String, String[]> data = request().body().asFormUrlEncoded();
+			if (data != null) {
+				Partner user = new Partner(Integer.parseInt(data.get("id-login")[0]));
+				int typeSearch = Integer.parseInt(data.get("type-view")[0]);
+				switch (typeSearch) {
+				case RESULTS_BY_GIFTS:
+					user.setGift(new Gift(0));
+					user.getGift().setType(new MasterValue(Integer.parseInt(data.get("gift-type-id")[0])));
+					groupsCount = (int) Math.ceil(GiftLogic.searchCount(user)) / ITEMS_PER_GROUP;
+					break;
+				case RESULTS_BY_ACTIONS:
+					user.setGift(new Gift(0));
+					user.getGift().setAction(new Action(0));
+					user.getGift().getAction().setType(new MasterValue(Integer.parseInt(data.get("action-type-id")[0])));
+					groupsCount = (int) Math.ceil(ActionLogic.searchCount(user)) / ITEMS_PER_GROUP;
+					break;
+				case RESULTS_BY_POS:
+					Business b = new Business(0);
+					b.setType(new MasterValue(Integer.parseInt(data.get("business-type-id")[0])));
+					b.setPos(new POS());
+					b.getPos().setUser(user);
+					groupsCount = (int) Math.ceil(BusinessLogic.searchCount(b)) / ITEMS_PER_GROUP;
+					break;
+				case RESULTS_BY_BUSINESS:
+					user.setGift(new Gift(0));
+					user.getGift().setType(new MasterValue(Integer.parseInt(data.get("gift-type-id")[0])));
+					user.setPos(new POS());
+					user.getPos().setBussinesId(Integer.parseInt(data.get("id-business")[0]));
+					groupsCount = (int) Math.ceil(GiftLogic.searchCount(user)) / ITEMS_PER_GROUP;
+					break;
+				}
+			}
+			return ok(String.valueOf(groupsCount));
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentando contar la cantidad de regalos en la busqueda \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentando contar la cantidad de regalos en la busqueda ( " + e.getMessage() + " )");
 		}
 	}
 

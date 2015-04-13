@@ -27,6 +27,7 @@ public class Setting extends Entity {
 	public static final int RESULTS_BY_GIFTS = 29;
 	public static final int RESULTS_BY_ACTIONS = 30;
 	public static final int RESULTS_BY_POS = 31;
+	public static final int RESULTS_BY_BUSINESS = 32;
 
 	private MasterValue searchSetting;
 

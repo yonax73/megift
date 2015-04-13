@@ -40,6 +40,7 @@ public class Business extends Entity {
 	private List<Gift> giftList;
 	private int giftCount;
 	private String webSite;
+	private int position;
 
 	/**
 	 * @param id
@@ -213,6 +214,14 @@ public class Business extends Entity {
 	 */
 	public void setWebSite(String webSite) {
 		this.webSite = webSite;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
 }
