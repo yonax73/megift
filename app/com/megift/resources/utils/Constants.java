@@ -19,8 +19,8 @@ public class Constants {
 
 	public static final double KILOMETER_TO_METERS = 1000;// 1 KM IS EQUAL TO
 	                                                      // 1000 METERS
-	public static final int ITEMS_PER_GROUP = 10; // CANTIDAD DE ITEMS QUE SE
-	                                              // CARGAN PARA MOSTRAR REGALOS
+	public static final int ITEMS_PER_GROUP = 5; // CANTIDAD DE ITEMS QUE SE
+	                                             // CARGAN PARA MOSTRAR REGALOS
 
 	/*
 	 * This function converts decimal degrees to radians

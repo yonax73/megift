@@ -297,7 +297,7 @@ public class GiftControl extends Controller {
 	public static Result groupsCountPerSearchGift() {
 		try {
 			response().setHeader("Access-Control-Allow-Origin", "*");
-			int groupsCount = -1;
+			double groupsCount = -1.0;
 			final Map<String, String[]> data = request().body().asFormUrlEncoded();
 			if (data != null) {
 				Partner user = new Partner(Integer.parseInt(data.get("id-login")[0]));
@@ -306,35 +306,34 @@ public class GiftControl extends Controller {
 				case RESULTS_BY_GIFTS:
 					user.setGift(new Gift(0));
 					user.getGift().setType(new MasterValue(Integer.parseInt(data.get("gift-type-id")[0])));
-					groupsCount = (int) Math.ceil(GiftLogic.searchCount(user)) / ITEMS_PER_GROUP;
+					groupsCount = GiftLogic.searchCount(user) / ITEMS_PER_GROUP;
 					break;
 				case RESULTS_BY_ACTIONS:
 					user.setGift(new Gift(0));
 					user.getGift().setAction(new Action(0));
 					user.getGift().getAction().setType(new MasterValue(Integer.parseInt(data.get("action-type-id")[0])));
-					groupsCount = (int) Math.ceil(ActionLogic.searchCount(user)) / ITEMS_PER_GROUP;
+					groupsCount = ActionLogic.searchCount(user) / ITEMS_PER_GROUP;
 					break;
 				case RESULTS_BY_POS:
 					Business b = new Business(0);
 					b.setType(new MasterValue(Integer.parseInt(data.get("business-type-id")[0])));
 					b.setPos(new POS());
 					b.getPos().setUser(user);
-					groupsCount = (int) Math.ceil(BusinessLogic.searchCount(b)) / ITEMS_PER_GROUP;
+					groupsCount = BusinessLogic.searchCount(b) / ITEMS_PER_GROUP;
 					break;
 				case RESULTS_BY_BUSINESS:
 					user.setGift(new Gift(0));
 					user.getGift().setType(new MasterValue(Integer.parseInt(data.get("gift-type-id")[0])));
 					user.setPos(new POS());
 					user.getPos().setBussinesId(Integer.parseInt(data.get("id-business")[0]));
-					groupsCount = (int) Math.ceil(GiftLogic.searchCount(user)) / ITEMS_PER_GROUP;
+					groupsCount = GiftLogic.searchCount(user) / ITEMS_PER_GROUP;
 					break;
 				}
 			}
-			return ok(String.valueOf(groupsCount));
+			return ok(String.valueOf((int) (groupsCount)));
 		} catch (Exception e) {
 			Logger.error("Ha ocurrido un error intentando contar la cantidad de regalos en la busqueda \n" + e.getMessage(), e);
 			return badRequest("Ha ocurrido un error intentando contar la cantidad de regalos en la busqueda ( " + e.getMessage() + " )");
 		}
 	}
-
 }
