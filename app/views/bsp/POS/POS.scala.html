@@ -287,11 +287,17 @@
 	                document.getElementById('associate-gift-btn').disabled = false;
 	                notification.success('El punto de venta se guardo exitosamente!');
 	                initGifts();
-	            } catch (e) {
+	            } catch (e) {	            	
 	            	console.log(e);
-	            	notification.danger(xhr.responseText);
+	            	alert(xhr.responseText);
 	            }
 	        });
+			POSxHR.onError(function(xhr){
+				POSBtn.disabled = false;
+				document.getElementById('POS-btn-ico').className = '';
+		          	 alert(xhr.responseText);
+		          	 console.log(xhr); 
+		       });
 POSxHR.send(POSForm.serialize());
 }
 });
@@ -323,6 +329,11 @@ POSxHR.send(POSForm.serialize());
 	    	document.getElementById('associate-gift-btn').disabled = false;
 	    	initGifts();
 	    });
+	    loadPOSxHR.onError(function(xhr){
+	    	     namePOSTitle.textContent = '';
+	          	 alert(xhr.responseText);
+	          	 console.log(xhr); 
+	       });
 loadPOSxHR.send();
 }
 
@@ -349,9 +360,15 @@ function initGifts() {
 				associateGiftPopup.show();
 			} catch (ex) {
 				console.log(ex);
-				associateGiftNotification.danger(xhr.responseText);
+				alert(xhr.responseText);
 			}
 		});
+		loadGiftXHR.onError(function(xhr){
+				associateGiftBtn.disabled = false;
+				associateGiftBtnIcon.className = 'fa fa-gift fa-fw';
+	          	 alert(xhr.responseText);
+	          	 console.log(xhr); 
+	       });
 		loadGiftXHR.send();
 	}
 }
@@ -450,6 +467,10 @@ function fillCoverCheckGift(element, name, gifts) {
 	            			associateGiftNotification.danger(xhr.responseText);
 	            		}
 	            	});
+	            	actionXHR.onError(function(xhr){	               	 
+	                 	 alert(xhr.responseText);
+	                 	 console.log(xhr); 
+	              });
 	            	actionXHR.send();
 	            }
 

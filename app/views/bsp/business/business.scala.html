@@ -184,9 +184,10 @@
     <input type="hidden" id="id-legal-representative" name="id-legal-representative" value="0">
     <input type="hidden" id="id-document-legal-representative" name="id-document-legal-representative" value="0">    
 </form>
+</div>
 <div id="success-popup" class="i-popup-panel i-popup-success hidden text-justify">
     <h3>Bienvenido</h3>
-    <h4>Tu cuenta ha sido creada con éxito</h4>
+    <h4>Tu cuenta ha sido creada con &eacute;xito</h4>
     <a href="/login" class="btn btn-success btn-lg btn-block">Aceptar</a>
 </div>
 
@@ -253,16 +254,21 @@ businessForm.onsubmit(function(){
             successPopup.show();
         }        
     }else{
+    	 businessBtn.disabled = false;
         notification.danger(xhr.responseText);
-    }
+    }         
 });
+       businessxHR.onError(function(xhr){
+        	 businessBtn.disabled = false;
+          	 alert(xhr.responseText);
+          	 console.log(xhr); 
+       });
        businessxHR.send(businessForm.serialize());
    }
 });
 //load business
 function loadBusiness(){
-    document.getElementsByName('id-business')[0].value = 'algo';     
-    //businessBtn.textContent='Guardar';
+    document.getElementsByName('id-business')[0].value = '0';      
     //hidden controls
     var ps = document.getElementById('password');
     ps.classList.add('hidden');   
@@ -278,10 +284,8 @@ function loadBusiness(){
         nameBusinessTitle.textContent = 'Cargando datos de la empresa';
     });
     loadBusinessxHR.onReady(function (xhr) {  
-
         var business = JSON.parse(xhr.responseText);
         nameBusinessTitle.textContent = business.tradeName;
-
         document.getElementsByName('trade-name-business')[0].value = business.tradeName;
         document.getElementsByName('legal-name-business')[0].value = business.legalName;
         document.getElementsByName('nit-business')[0].value = business.nit;
@@ -296,8 +300,7 @@ function loadBusiness(){
         }   
     } 
     document.getElementsByName('name-legal-representative-business')[0].value = business.legalRepresentative.name;
-    document.getElementsByName('document-legal-representative-business')[0].value = business.legalRepresentative.document.document;
-    //document.getElementsByName('document-type')[0].value = business.legalRepresentative.document.type.id;
+    document.getElementsByName('document-legal-representative-business')[0].value = business.legalRepresentative.document.document; 
     documentType.selectItem(business.legalRepresentative.document.type.id);
     document.getElementsByName('place-of-issue-legal-representative-business')[0].value = business.legalRepresentative.document.placeOfIssue;
     document.getElementsByName('name-contact')[0].value = business.contact.name;
@@ -315,9 +318,11 @@ function loadBusiness(){
     document.getElementsByName('id-location-contact')[0].value = business.contact.location.id;
     document.getElementsByName('id-legal-representative')[0].value = business.legalRepresentative.id;
     document.getElementsByName('id-document-legal-representative')[0].value = business.legalRepresentative.document.id;
-    
-
 });
+loadBusinessxHR.onError(function(xhr){   	
+     	 alert(xhr.responseText);
+     	 console.log(xhr); 
+  });
 loadBusinessxHR.send();
 }
 

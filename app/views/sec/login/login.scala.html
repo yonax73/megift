@@ -67,6 +67,12 @@
 
                 }
               });
+               loginXHR.onError(function(xhr){
+                   loginBtn.disabled = false;
+                   document.getElementById('login-btn-ico').className = '';
+                	 alert(xhr.responseText);
+                	 console.log(xhr); 
+             });
                loginXHR.send(loginForm.serialize());
              }
            });

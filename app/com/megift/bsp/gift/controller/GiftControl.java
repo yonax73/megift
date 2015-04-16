@@ -65,107 +65,127 @@ public class GiftControl extends Controller {
 	}
 
 	public static Result createGift() {
-		if (session(SESSION_LOGIN_ID) == null) {
-			return redirect("/login");
-		}
-		String result = "No se ha podido completar la solicitud";
-		final Map<String, String[]> data = request().body().asFormUrlEncoded();
-		if (data != null) {
-			Gift gift = new Gift(0);
-			String pos[] = data.get("id-pos");
-			int n = pos.length;
-			if (n > 0) {
-				List<POS> posList = new ArrayList<POS>();
-				for (int i = 0; i < n; i++) {
-					POS p = new POS(Integer.parseInt(pos[i]));
-					if (p.exists()) {
-						posList.add(p);
-					}
-				}
-				gift.setPosList(posList);
-				Action action = new Action(0);
-				if (ActionLogic.createAction(action)) {
-					gift.setAction(action);
-					if (GiftLogic.createGift(gift)) {
-						result = String.valueOf(gift.getId());
-					} else {
-						result = "Error creando el regalo";
-					}
-				} else {
-					result = "Error creando la acción";
-				}
-
-			} else {
-				result = "No hay Puntos de venta para guardar";
+		try {
+			if (session(SESSION_LOGIN_ID) == null) {
+				return redirect("/login");
 			}
+			String result = "No se ha podido completar la solicitud";
+			final Map<String, String[]> data = request().body().asFormUrlEncoded();
+			if (data != null) {
+				Gift gift = new Gift(0);
+				String pos[] = data.get("id-pos");
+				int n = pos.length;
+				if (n > 0) {
+					List<POS> posList = new ArrayList<POS>();
+					for (int i = 0; i < n; i++) {
+						POS p = new POS(Integer.parseInt(pos[i]));
+						if (p.exists()) {
+							posList.add(p);
+						}
+					}
+					gift.setPosList(posList);
+					Action action = new Action(0);
+					if (ActionLogic.createAction(action)) {
+						gift.setAction(action);
+						if (GiftLogic.createGift(gift)) {
+							result = String.valueOf(gift.getId());
+						} else {
+							result = "Error creando el regalo";
+						}
+					} else {
+						result = "Error creando la acción";
+					}
+
+				} else {
+					result = "No hay Puntos de venta para guardar";
+				}
+			}
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentando crear el regalo \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentando crear el regalo ( " + e.getMessage() + " )");
 		}
-		return ok(result);
 	}
 
 	public static Result updateGift() {
-		if (session(SESSION_LOGIN_ID) == null) {
-			return redirect("/login");
-		}
-		String result = "No se ha podido completar la solicitud";
-		final Map<String, String[]> data = request().body().asFormUrlEncoded();
-		if (data != null) {
-			Gift gift = new Gift(Integer.parseInt(data.get("id-gift")[0]));
-			Action action = new Action(Integer.parseInt(data.get("id-action")[0]));
-			action.setName(data.get("name-action")[0]);
-			action.setType(new MasterValue(Integer.parseInt(data.get("action-type")[0])));
-			action.setDescription(data.get("description-action")[0]);
-			if (action.isOtherType()) {
-				action.setOtherType(data.get("other-action-type")[0]);
+		try {
+			if (session(SESSION_LOGIN_ID) == null) {
+				return redirect("/login");
 			}
-			action.setPrice(Double.parseDouble(data.get("price-action")[0]));
-			if (ActionLogic.update(action)) {
-				gift.setName(data.get("name-gift")[0]);
-				gift.setType(new MasterValue(Integer.parseInt(data.get("gift-type")[0])));
-				if (gift.isOtherType()) {
-					gift.setOtherType(data.get("other-gift-type")[0]);
+			String result = "No se ha podido completar la solicitud";
+			final Map<String, String[]> data = request().body().asFormUrlEncoded();
+			if (data != null) {
+				Gift gift = new Gift(Integer.parseInt(data.get("id-gift")[0]));
+				Action action = new Action(Integer.parseInt(data.get("id-action")[0]));
+				action.setName(data.get("name-action")[0]);
+				action.setType(new MasterValue(Integer.parseInt(data.get("action-type")[0])));
+				action.setDescription(data.get("description-action")[0]);
+				if (action.isOtherType()) {
+					action.setOtherType(data.get("other-action-type")[0]);
 				}
-				gift.setPrice(Double.parseDouble(data.get("price-gift")[0]));
-				gift.setStartDate((LocalDate.parse(data.get("start-date-gift")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy"))).atStartOfDay());
-				gift.setExpirationDate((LocalDate.parse(data.get("end-date-gift")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy"))).atStartOfDay());
-				gift.setStatus(new MasterValue(Integer.parseInt(data.get("gift-status")[0])));
-				gift.setDescription(data.get("description-gift")[0]);
-				gift.setTermsConditions(data.get("termsConditions-gift")[0]);
-				gift.setAction(action);
-				if (GiftLogic.update(gift)) {
-					result = Json.toJson(gift).toString();
+				action.setPrice(Double.parseDouble(data.get("price-action")[0]));
+				if (ActionLogic.update(action)) {
+					gift.setName(data.get("name-gift")[0]);
+					gift.setType(new MasterValue(Integer.parseInt(data.get("gift-type")[0])));
+					if (gift.isOtherType()) {
+						gift.setOtherType(data.get("other-gift-type")[0]);
+					}
+					gift.setPrice(Double.parseDouble(data.get("price-gift")[0]));
+					gift.setStartDate((LocalDate.parse(data.get("start-date-gift")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy"))).atStartOfDay());
+					gift.setExpirationDate((LocalDate.parse(data.get("end-date-gift")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy"))).atStartOfDay());
+					gift.setStatus(new MasterValue(Integer.parseInt(data.get("gift-status")[0])));
+					gift.setDescription(data.get("description-gift")[0]);
+					gift.setTermsConditions(data.get("termsConditions-gift")[0]);
+					gift.setAction(action);
+					if (GiftLogic.update(gift)) {
+						result = Json.toJson(gift).toString();
+
+					} else {
+						result = "Error guardando el regalo!";
+					}
 
 				} else {
-					result = "Error guardando el regalo!";
+					result = "Error guardando la acción!";
 				}
-
-			} else {
-				result = "Error guardando la acción!";
 			}
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentando guardar el regalo \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error guardar el regalo ( " + e.getMessage() + " )");
 		}
-		return ok(result);
 	}
 
 	public static Result loadGift(int id) {
-		if (session(SESSION_LOGIN_ID) == null) {
-			return redirect("/login");
-		}
-		Gift gift = new Gift(id);
-		if (GiftLogic.load(gift)) {
-			return ok(Json.toJson(gift));
-		} else {
-			return ok("Error cargando los datos del regalo");
+		try {
+			if (session(SESSION_LOGIN_ID) == null) {
+				return redirect("/login");
+			}
+			Gift gift = new Gift(id);
+			if (GiftLogic.load(gift)) {
+				return ok(Json.toJson(gift));
+			} else {
+				return ok("Error cargando los datos del regalo");
+			}
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentando cargar el regalo \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error cargar el regalo ( " + e.getMessage() + " )");
 		}
 	}
 
 	public static Result loadGiftByBusiness() {
-		if (session(SESSION_LOGIN_ID) == null) {
-			return redirect("/login");
+		try {
+			if (session(SESSION_LOGIN_ID) == null) {
+				return redirect("/login");
+			}
+			Business business = new Business(Integer.parseInt(session(SESSION_BUSINESS_ID)));
+			if (GiftLogic.loadGiftByBusiness(business)) {
+				return ok(Json.toJson(business.getGiftList()));
+			}
+			return ok("No hay regalos para mostrar");
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentando cargar los regalos \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error asociar cargar los regalos ( " + e.getMessage() + " )");
 		}
-		Business business = new Business(Integer.parseInt(session(SESSION_BUSINESS_ID)));
-		if (GiftLogic.loadGiftByBusiness(business)) {
-			return ok(Json.toJson(business.getGiftList()));
-		}
-		return ok("No hay regalos para mostrar");
 	}
 
 	/*
@@ -174,15 +194,20 @@ public class GiftControl extends Controller {
 	 * asociados desde el cliente
 	 */
 	public static Result loadGiftsByPOS(int id) {
-		if (session(SESSION_LOGIN_ID) == null) {
-			return redirect("/login");
+		try {
+			if (session(SESSION_LOGIN_ID) == null) {
+				return redirect("/login");
+			}
+			Business business = new Business(Integer.parseInt(session(SESSION_BUSINESS_ID)));
+			POS pos = new POS(id);
+			if (GiftLogic.loadGiftsByPOS(business, pos)) {
+				return ok(Json.toJson(business.getGiftList()));
+			}
+			return ok("No hay regalos para mostrar");
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentando cargar los regalos \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentando cargar los regalos( " + e.getMessage() + " )");
 		}
-		Business business = new Business(Integer.parseInt(session(SESSION_BUSINESS_ID)));
-		POS pos = new POS(id);
-		if (GiftLogic.loadGiftsByPOS(business, pos)) {
-			return ok(Json.toJson(business.getGiftList()));
-		}
-		return ok("No hay regalos para mostrar");
 	}
 
 	public static Result searchGift() {

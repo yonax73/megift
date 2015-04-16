@@ -51,105 +51,115 @@ public class BusinessControl extends Controller {
 	}
 
 	public static Result saveBusiness() {
-		String result = "No se ha podido completar la solicitud";
-		final Map<String, String[]> data = request().body().asFormUrlEncoded();
-		if (data != null) {
-			Business business = new Business(Integer.parseInt(data.get("id-business")[0]));
-			Partner contact = new Partner(Integer.parseInt(data.get("id-contact")[0]));
-			boolean allowed = false;
-			if (business.exists()) {
-				allowed = true;
-			} else {
-				Login login = new Login(data.get("email-contact")[0], data.get("password-contact")[0]);
-				login.setType(new MasterValue(Login.BUSINESS_TYPE));
-				if (LoginLogic.exists(login)) {
-					result = "Este usuario usuario ya se encuentra registrado";
-					allowed = false;
+		try {
+			String result = "No se ha podido completar la solicitud";
+			final Map<String, String[]> data = request().body().asFormUrlEncoded();
+			if (data != null) {
+				Business business = new Business(Integer.parseInt(data.get("id-business")[0]));
+				Partner contact = new Partner(Integer.parseInt(data.get("id-contact")[0]));
+				boolean allowed = false;
+				if (business.exists()) {
+					allowed = true;
 				} else {
-					if (LoginLogic.create(login)) {
-						contact.setLogin(login);
-						allowed = true;
-					} else {
-						result = "Error creando el login!";
+					Login login = new Login(data.get("email-contact")[0], data.get("password-contact")[0]);
+					login.setType(new MasterValue(Login.BUSINESS_TYPE));
+					if (LoginLogic.exists(login)) {
+						result = "Este usuario usuario ya se encuentra registrado";
 						allowed = false;
+					} else {
+						if (LoginLogic.create(login)) {
+							contact.setLogin(login);
+							allowed = true;
+						} else {
+							result = "Error creando el login!";
+							allowed = false;
+						}
 					}
 				}
-			}
-			if (allowed) {
-				Document doc = new Document(Integer.parseInt(data.get("id-document-legal-representative")[0]));
-				doc.setDocument(data.get("document-legal-representative-business")[0]);
-				doc.setType(new MasterValue(Integer.parseInt(data.get("document-type")[0])));
-				doc.setPlaceOfIssue(data.get("place-of-issue-legal-representative-business")[0]);
-				if (DocumentLogic.save(doc)) {
-					Partner legalRepresentative = new Partner(Integer.parseInt(data.get("id-legal-representative")[0]));
-					legalRepresentative.setName(data.get("name-legal-representative-business")[0]);
-					legalRepresentative.setDocument(doc);
-					if (PartnerLogic.save(legalRepresentative)) {
-						Phone phone = new Phone(Integer.parseInt(data.get("id-phone-contact")[0]));
-						phone.setNumber(data.get("phone-contact")[0]);
-						phone.setExtension(data.get("extension-phone-contact")[0]);
-						phone.setMobile(data.get("mobile-phone-contact")[0]);
-						if (PhoneLogic.save(phone)) {
-							Address address = new Address(Integer.parseInt(data.get("id-address-contact")[0]));
-							address.setAddress(data.get("address-contact")[0]);
-							if (AddressLogic.save(address)) {
-								Location location = new Location(Integer.parseInt(data.get("id-location-contact")[0]));
-								location.setPhone(phone);
-								location.setAddress(address);
-								if (LocationLogic.save(location)) {
-									contact.setName(data.get("name-contact")[0]);
-									contact.setLocation(location);
-									if (PartnerLogic.save(contact)) {
-										business.setTradeName(data.get("trade-name-business")[0]);
-										business.setLegalName(data.get("legal-name-business")[0]);
-										business.setWebSite(data.get("web-site-business")[0]);
-										business.setNIT(data.get("nit-business")[0]);
-										business.setType(new MasterValue(Integer.parseInt(data.get("business-type")[0])));
-										if (business.isOtherType()) {
-											business.setOtherType(data.get("other-business-type")[0]);
-										}
-										business.setLegalRepresentative(legalRepresentative);
-										business.setContact(contact);
-										if (BusinessLogic.save(business)) {
-											result = SUCCESS_RESPONSE;
+				if (allowed) {
+					Document doc = new Document(Integer.parseInt(data.get("id-document-legal-representative")[0]));
+					doc.setDocument(data.get("document-legal-representative-business")[0]);
+					doc.setType(new MasterValue(Integer.parseInt(data.get("document-type")[0])));
+					doc.setPlaceOfIssue(data.get("place-of-issue-legal-representative-business")[0]);
+					if (DocumentLogic.save(doc)) {
+						Partner legalRepresentative = new Partner(Integer.parseInt(data.get("id-legal-representative")[0]));
+						legalRepresentative.setName(data.get("name-legal-representative-business")[0]);
+						legalRepresentative.setDocument(doc);
+						if (PartnerLogic.save(legalRepresentative)) {
+							Phone phone = new Phone(Integer.parseInt(data.get("id-phone-contact")[0]));
+							phone.setNumber(data.get("phone-contact")[0]);
+							phone.setExtension(data.get("extension-phone-contact")[0]);
+							phone.setMobile(data.get("mobile-phone-contact")[0]);
+							if (PhoneLogic.save(phone)) {
+								Address address = new Address(Integer.parseInt(data.get("id-address-contact")[0]));
+								address.setAddress(data.get("address-contact")[0]);
+								if (AddressLogic.save(address)) {
+									Location location = new Location(Integer.parseInt(data.get("id-location-contact")[0]));
+									location.setPhone(phone);
+									location.setAddress(address);
+									if (LocationLogic.save(location)) {
+										contact.setName(data.get("name-contact")[0]);
+										contact.setLocation(location);
+										if (PartnerLogic.save(contact)) {
+											business.setTradeName(data.get("trade-name-business")[0]);
+											business.setLegalName(data.get("legal-name-business")[0]);
+											business.setWebSite(data.get("web-site-business")[0]);
+											business.setNIT(data.get("nit-business")[0]);
+											business.setType(new MasterValue(Integer.parseInt(data.get("business-type")[0])));
+											if (business.isOtherType()) {
+												business.setOtherType(data.get("other-business-type")[0]);
+											}
+											business.setLegalRepresentative(legalRepresentative);
+											business.setContact(contact);
+											if (BusinessLogic.save(business)) {
+												result = SUCCESS_RESPONSE;
+											} else {
+												result = "Error guardando la empresa";
+											}
 										} else {
-											result = "Error guardando la empresa";
+											result = "Error guardando el contacto";
 										}
-									} else {
-										result = "Error guardando el contacto";
-									}
 
+									} else {
+										result = "Error guardando la localización";
+									}
 								} else {
-									result = "Error guardando la localización";
+									result = "Error guardando la dirección!";
 								}
 							} else {
-								result = "Error guardando la dirección!";
+								result = "Error guardando los teléfonos";
 							}
-						} else {
-							result = "Error guardando los teléfonos";
-						}
 
+						} else {
+							result = "Error guardando el representante legal";
+						}
 					} else {
-						result = "Error guardando el representante legal";
+						result = "Error guardando el documento";
 					}
-				} else {
-					result = "Error guardando el documento";
 				}
 			}
-		}
 
-		return ok(result);
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentando crear la empresa \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error crear crear la empresa ( " + e.getMessage() + " )");
+		}
 	}
 
 	public static Result loadBusiness() {
-		if (session(SESSION_LOGIN_ID) == null) {
-			return redirect("/login");
+		try {
+			if (session(SESSION_LOGIN_ID) == null) {
+				return redirect("/login");
+			}
+			Business business = new Business(0);
+			business.setContact(new Partner(new Login(Integer.parseInt(session(SESSION_LOGIN_ID)))));
+			business = BusinessLogic.load(business);
+			session(SESSION_BUSINESS_ID, String.valueOf(business.getId()));
+			return ok(Json.toJson(business));
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentando cargar la empresa \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error crear cargar la empresa ( " + e.getMessage() + " )");
 		}
-		Business business = new Business(0);
-		business.setContact(new Partner(new Login(Integer.parseInt(session(SESSION_LOGIN_ID)))));
-		business = BusinessLogic.load(business);
-		session(SESSION_BUSINESS_ID, String.valueOf(business.getId()));
-		return ok(Json.toJson(business));
 	}
 
 	public static Result loadBusinessForMobile(int id, double lat, double lng) {
