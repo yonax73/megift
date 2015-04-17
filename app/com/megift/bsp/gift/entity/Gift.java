@@ -95,7 +95,12 @@ public class Gift extends Entity {
 	}
 
 	public String getElapseTime() {
-		return getElapsaTime(LocalDateTime.now(), expirationDate);
+		if (expirationDate != null) {
+			return getElapsaTime(LocalDateTime.now(), expirationDate);
+		} else {
+			return "";
+		}
+
 	}
 
 	public String getFormatStartDate() {

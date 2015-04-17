@@ -197,11 +197,11 @@
 						<legend>Puntos de venta</legend>						
 						<div id="cover-check-pos" class="i-group-checkbox has-feedback" data-checkmin="1"></div>
 					</fieldset>
-					<div class="pull-right">				
-						 <button id="create-gift-btn" type="submit" class="btn btn-primary btn-lg">Continuar
+					<div class="pull-right">			
+						<a  class="btn btn-default btn-lg " href="/giftList">Cancelar</a>
+						<button id="create-gift-btn" type="submit" class="btn btn-primary btn-lg">Continuar
 							<i id="create-gift-btn-ico"></i>
 						</button>
-						<a  class="btn btn-default btn-lg " href="/giftList">Cancelar</a>
 					</div>				    
 				</form>
 			</div>
@@ -286,7 +286,6 @@
 		init();	
         //functions
         function init(){
-
 	  	 if(typeGiftView>0){//Adminstrar gift
 	  	 	loadGift();
 			 }else{//Crear gift 	
@@ -296,8 +295,7 @@
 
 
 			function initPOS(){
-				var associatePOSPopup = new Popup(document.getElementById('associate-pos-popup'));
-				
+				var associatePOSPopup = new Popup(document.getElementById('associate-pos-popup'));				
 				document.getElementById('associate-pos-btn').onclick = function(){
 					var coverCheckPos = document.getElementById('associate-pos-cover');
 					var associatePOSBtn = document.getElementById('associate-pos-btn');
@@ -318,9 +316,16 @@
 							associatePOSPopup.show();
 						} catch (ex) {		
 							console.log(ex);
-							associatePOSNotification.danger(xhr.responseText);
+							alert(xhr.responseText);
 						}
 					});
+					loadPOSXHR.onError(function(xhr){
+							associatePOSBtn.disabled = false;
+							associatePOSBtnIcon.className = 'fa fa-file-text-o fa-fw';		
+				          	 alert(xhr.responseText);
+				          	 console.log(xhr); 
+				       });
+
 					loadPOSXHR.send();
 				}   
 			}
@@ -351,9 +356,15 @@
 							termsAndConditionsPopup.show();
 						}catch (ex) {	      
 							console.log(ex);
-							notification.danger(xhr.responseText);
+							alert(xhr.responseText);
 						}
 					});
+					loadTermsAndConditionsXHR.onError(function(xhr){
+							termsAndConditionsBtn.disabled = false;
+							termsAndConditionsBtnIcon.className = 'fa fa-file-text-o fa-fw'; 
+				          	 alert(xhr.responseText);
+				          	 console.log(xhr); 
+				       });
 					loadTermsAndConditionsXHR.send();		
 				}
 				var termsAndConditionsForm = new Form(document.getElementById('terms-and-conditions-form'));
@@ -378,6 +389,12 @@
 							termsAndConditionsPopup.closeAll();
 						}
 					});
+					termsAndConditionsxHR.onError(function(xhr){
+							termsAndConditionsSaveBtn.disabled = false;
+							termsAndConditionsSaveBtnIcon.className = '';
+				          	 alert(xhr.responseText);
+				          	 console.log(xhr); 
+				       });
 					termsAndConditionsxHR.send(termsAndConditionsForm.serialize());
 				});
 }
@@ -414,9 +431,15 @@ function initPictureAction(){
 	    					notification.success('El regalo se guardo exitosamente!');				
 	    				} catch (ex) {	  
 	    					console.log(ex);          	    					
-	    					notification.danger(xhr.responseText);
+	    					alert(xhr.responseText);
 	    				}
 	    			});
+	    			giftXHR.onError(function(xhr){
+	    				giftBtn.disabled = false;
+	    				giftBtnIcon.className = '';		
+	    		          	 alert(xhr.responseText);
+	    		          	 console.log(xhr); 
+	    		       });
 	    			giftXHR.send(giftForm.serialize());
 	    		}
 	    	});
@@ -454,9 +477,15 @@ function handlePictureActionSelect(e) {
 					notification.danger(response);
 				}
 			});
+			uploadPictureActionXHR.onError(function(xhr){
+				btn.disabled = false;
+				icon.className = 'fa fa-upload fa-fw';
+		          	 alert(xhr.responseText);
+		          	 console.log(xhr); 
+		       });
 			uploadPictureActionXHR.send(formData);
 		} else {
-			notification.danger('La imagen no puede ser mayor que 64KB, intente con una imagen mas pequeña');    			
+			notification.danger('La imagen no puede ser mayor que 64KB, intente con una imagen más pequeña');    			
 		}
 	} else {    		
 		notification.danger('Seleccione una imagen vÃ¡lida');
@@ -504,6 +533,12 @@ function initPictureGift(){
 	    					notification.danger(response);
 	    				}
 	    			});
+	    			uploadPictureGiftXHR.onError(function(xhr){
+	    				btn.disabled = false;
+	    				icon.className = 'fa fa-upload fa-fw';
+	    		          	 alert(xhr.responseText);
+	    		          	 console.log(xhr); 
+	    		       });
 	    			uploadPictureGiftXHR.send(formData);
 	    		} else {
 	    			notification.danger('La imagen no puede ser mayor que 64KB, intente con una imagen mas pequeña');    			
@@ -534,6 +569,11 @@ function initPictureGift(){
 	    			coverCheckPos.innerHTML = '<a href="/POS" onclick="newPOS()">No hay puntos de ventas, clic para comenzar</a>';
 	    		}
 	    	});
+	    	createGiftFormXHR.onError(function(xhr){
+	        	coverCheckPos.innerHTML = '';
+	          	 alert(xhr.responseText);
+	          	 console.log(xhr); 
+	       });
 	    	createGiftFormXHR.send();	
 	    }
 	    function createGift(){
@@ -565,6 +605,12 @@ function initPictureGift(){
 						}
 					}
 				});
+	    			createGiftFormXHR.onError(function(xhr){
+						createGiftBtn.disabled = false;
+						createGiftBtnIcon.className = '';
+	    		          	 alert(xhr.responseText);
+	    		          	 console.log(xhr); 
+	    		       });
 	    			createGiftFormXHR.send(createGiftForm.serialize());				
 	    		}
 	    	});
@@ -601,7 +647,7 @@ function loadGift(){
 				document.getElementsByName('termsConditions-gift')[0].value = gift.termsConditions;
 			}catch (ex) {	         
 				console.log(ex);
-				notification.danger(xhr.responseText);
+				alert(xhr.responseText);
 			}
 		});
 loadGiftFormXHR.send();		
@@ -759,6 +805,10 @@ function initList(giftTypeId,otherTypeGiftStr,giftStatusId,actionTypeId,otherTyp
 		       				associatePOSNotification.danger(xhr.responseText);
 		       			}			    			
 		       		});
+		       		actionXHR.onError(function(xhr){	
+		             	 alert(xhr.responseText);
+		             	 console.log(xhr); 
+		          });
 		       		actionXHR.send();
 		       	}
 		       	break;
@@ -836,6 +886,11 @@ function initList(giftTypeId,otherTypeGiftStr,giftStatusId,actionTypeId,otherTyp
 							termsAndConditionsNotification.danger(xhr.responseText);
 						}			    			
 					});
+					deleteGiftFormXHR.onError(function(xhr){
+						icon.className = 'fa fa-trash-o fa-fw';
+				          	 alert(xhr.responseText);
+				          	 console.log(xhr); 
+				       });
 					deleteGiftFormXHR.send();	
 				}else{
 					document.getElementById('term-and-condition-panel-'+id).remove();

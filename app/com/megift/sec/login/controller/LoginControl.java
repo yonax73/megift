@@ -141,19 +141,24 @@ public class LoginControl extends Controller {
 	}
 
 	public static Result passwordChange(int idLogin, int codeRequest) {
-		String result = "No se ha podido completar la solicitud";
-		if (idLogin > 0 && codeRequest > 0) {
-			Login login = new Login(idLogin);
-			login.setCodeRequest(codeRequest);
-			if (LoginLogic.existsPasswordChangeRequest(login)) {
-				session("login", String.valueOf(idLogin));
-				session("codeRequest", String.valueOf(codeRequest));
-				return passwordChangeSafely();
-			} else {
-				result = "La solicitud ha expirado!";
+		try {
+			String result = "No se ha podido completar la solicitud";
+			if (idLogin > 0 && codeRequest > 0) {
+				Login login = new Login(idLogin);
+				login.setCodeRequest(codeRequest);
+				if (LoginLogic.existsPasswordChangeRequest(login)) {
+					session("login", String.valueOf(idLogin));
+					session("codeRequest", String.valueOf(codeRequest));
+					return passwordChangeSafely();
+				} else {
+					result = "La solicitud ha expirado!";
+				}
 			}
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentando cambiar la contraseña \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentando cambiar la contraseña ( " + e.getMessage() + " )");
 		}
-		return ok(result);
 	}
 
 	public static Result passwordChangeSafely() {
@@ -162,29 +167,34 @@ public class LoginControl extends Controller {
 	}
 
 	public static Result passwordReset() {
-		String result = "No se ha podido completar la solicitud";
-		final Map<String, String[]> data = request().body().asFormUrlEncoded();
-		if (data != null) {
-			String password = data.get("password-login")[0];
-			if (password != null) {
-				Login login = new Login(Integer.parseInt(session("login")));
-				login.setPassword(password);
-				login.setCodeRequest(Integer.parseInt(session("codeRequest")));
-				if (LoginLogic.deletePasswordChangeRequest(login)) {
-					session().clear();
-					if (LoginLogic.passwordReset(login)) {
-						result = SUCCESS_RESPONSE;
+		try {
+			String result = "No se ha podido completar la solicitud";
+			final Map<String, String[]> data = request().body().asFormUrlEncoded();
+			if (data != null) {
+				String password = data.get("password-login")[0];
+				if (password != null) {
+					Login login = new Login(Integer.parseInt(session("login")));
+					login.setPassword(password);
+					login.setCodeRequest(Integer.parseInt(session("codeRequest")));
+					if (LoginLogic.deletePasswordChangeRequest(login)) {
+						session().clear();
+						if (LoginLogic.passwordReset(login)) {
+							result = SUCCESS_RESPONSE;
+						} else {
+							result = "La contasña no se pudo cambiar";
+						}
 					} else {
-						result = "La contasña no se pudo cambiar";
+						result = "La solicitud de cambio de contraseña no se pudo completar";
 					}
 				} else {
-					result = "La solicitud de cambio de contraseña no se pudo completar";
+					result = "El password esta vacio, por favor verifique!";
 				}
-			} else {
-				result = "El password esta vacio, por favor verifique!";
 			}
+			return ok(result);
+		} catch (Exception e) {
+			Logger.error("Ha ocurrido un error intentando cambiar la contraseña desde password reset \n" + e.getMessage(), e);
+			return badRequest("Ha ocurrido un error intentando cambiar la contraseña desde password reset ( " + e.getMessage() + " )");
 		}
-		return ok(result);
 	}
 
 	public static Result login() {

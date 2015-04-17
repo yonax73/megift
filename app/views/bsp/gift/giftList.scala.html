@@ -39,6 +39,11 @@
       cover.innerHTML = '<a href="/gift" onclick="newGift()">No hay regalos, clic para comenzar</a>';
     }
   });
+    giftByBusinessXHR.onError(function(xhr){
+    	cover.innerHTML = '';  
+     	 alert(xhr.responseText);
+     	 console.log(xhr); 
+  });
     giftByBusinessXHR.send();
 
   }

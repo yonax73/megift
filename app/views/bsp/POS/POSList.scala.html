@@ -38,6 +38,11 @@
       cover.innerHTML = '<a href="/POS" onclick="newPOS()">No hay puntos de ventas, clic para comenzar</a>';
     }
   });
+    POSByBusinessXHR.onError(function(xhr){
+    	 cover.innerHTML = '';  
+     	 alert(xhr.responseText);
+     	 console.log(xhr); 
+  });
     POSByBusinessXHR.send();
 
   }
