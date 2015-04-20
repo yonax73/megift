@@ -189,6 +189,7 @@ public class GiftDao extends Dao {
 				gift.setExpirationDate(rs.getTimestamp(21) == null ? LocalDateTime.now().plusDays(30) : rs.getTimestamp(21).toLocalDateTime());
 				business.setId(rs.getInt(22));
 				business.setWebSite(rs.getString(23));
+				pos.setEmail(rs.getString(24));
 				result = true;
 			}
 		} catch (Exception e) {

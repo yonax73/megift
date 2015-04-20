@@ -37,6 +37,7 @@ public class POS extends Entity {
 	private Partner user;
 	private double distanceInMeters;// TDOD: quitar in meters
 	private double distanceInKiloMeters;
+	private String email;
 
 	/**
 	 * @param id
@@ -221,5 +222,20 @@ public class POS extends Entity {
 
 	public void setDistanceInKiloMeters(double distanceInKiloMeters) {
 		this.distanceInKiloMeters = distanceInKiloMeters;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email
+	 *            the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

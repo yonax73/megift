@@ -88,6 +88,7 @@ public class POSControl extends Controller {
 								if (PartnerLogic.save(contact)) {
 									POS pos = new POS(Integer.parseInt(data.get("id-POS")[0]));
 									pos.setName(data.get("name-POS")[0]);
+									pos.setEmail(data.get("email-POS")[0]);
 									pos.setBussinesId(Integer.parseInt(session(SESSION_BUSINESS_ID)));
 									pos.setContact(contact);
 									pos.setLocation(location);

@@ -46,11 +46,12 @@ public class POSDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			cst = conn.prepareCall("CALL sp_bsp_POS_UPDATE(?,?,?,?)");
+			cst = conn.prepareCall("CALL sp_bsp_POS_UPDATE(?,?,?,?,?)");
 			cst.setInt(1, pos.getId());
 			cst.setString(2, pos.getName());
 			cst.setInt(3, pos.getContact().getId());
 			cst.setInt(4, pos.getLocation().getId());
+			cst.setString(5, pos.getEmail());
 			result = cst.executeUpdate() > 0;
 		} catch (Exception e) {
 			Logger.error(e.getMessage());
@@ -70,13 +71,14 @@ public class POSDao extends Dao {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "CALL sp_bsp_POS_CREATE(?,?,?,?,?);";
+			String sql = "CALL sp_bsp_POS_CREATE(?,?,?,?,?,?);";
 			cst = conn.prepareCall(sql);
 			cst.registerOutParameter(1, Types.INTEGER);
 			cst.setInt(2, pos.getBussinesId());
 			cst.setString(3, pos.getName());
 			cst.setInt(4, pos.getContact().getId());
 			cst.setInt(5, pos.getLocation().getId());
+			cst.setString(6, pos.getEmail());
 			result = cst.executeUpdate() > 0;
 			if (result)
 				pos.setId(cst.getInt(1));
@@ -161,6 +163,7 @@ public class POSDao extends Dao {
 				pos.setLocation(location);
 				pos.setContact(new Partner(rs.getString(12)));
 				pos.getContact().setId(rs.getInt(13));
+				pos.setEmail(rs.getString(14));
 			}
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the POS.\n" + e.getMessage(), e);
