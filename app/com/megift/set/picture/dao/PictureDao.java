@@ -2,9 +2,8 @@ package com.megift.set.picture.dao;
 
 import static com.megift.resources.utils.Utils.concatActionIds;
 import static com.megift.resources.utils.Utils.concatGiftIds;
+import static com.megift.resources.utils.Utils.getFileBytes;
 
-import java.io.FileInputStream;
-import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -45,7 +44,7 @@ public class PictureDao extends Dao {
 			cst.registerOutParameter(1, Types.INTEGER);
 			cst.setString(2, picture.getMime());
 			cst.setString(3, picture.getCoding());
-			cst.setBlob(4, new FileInputStream(picture.getFile()));
+			cst.setString(4, picture.getPath());
 			cst.setBoolean(5, picture.isMain());
 			result = cst.executeUpdate() > 0;
 			if (result)
@@ -73,7 +72,7 @@ public class PictureDao extends Dao {
 			cst.setInt(1, picture.getId());
 			cst.setString(2, picture.getMime());
 			cst.setString(3, picture.getCoding());
-			cst.setBlob(4, new FileInputStream(picture.getFile()));
+			cst.setString(4, picture.getPath());
 			cst.setBoolean(5, picture.isMain());
 			result = cst.executeUpdate() > 0;
 		} catch (Exception e) {
@@ -161,8 +160,7 @@ public class PictureDao extends Dao {
 					Picture p = new Picture(rs.getInt(1));
 					p.setMime(rs.getString(2));
 					p.setCoding(rs.getString(3));
-					Blob blob = rs.getBlob(4);
-					p.setSrc(Base64.getEncoder().encodeToString(blob.getBytes(1, (int) blob.length())));
+					p.setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(4))));
 					p.setMain(rs.getBoolean(5));
 					pictures.add(p);
 				} while (rs.next());
@@ -198,8 +196,7 @@ public class PictureDao extends Dao {
 					Picture p = new Picture(rs.getInt(1));
 					p.setMime(rs.getString(2));
 					p.setCoding(rs.getString(3));
-					Blob blob = rs.getBlob(4);
-					p.setSrc(Base64.getEncoder().encodeToString(blob.getBytes(1, (int) blob.length())));
+					p.setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(4))));
 					p.setMain(true);
 					/*
 					 * Asociar imagen con regalos por el id
@@ -242,8 +239,7 @@ public class PictureDao extends Dao {
 					Picture p = new Picture(rs.getInt(1));
 					p.setMime(rs.getString(2));
 					p.setCoding(rs.getString(3));
-					Blob blob = rs.getBlob(4);
-					p.setSrc(Base64.getEncoder().encodeToString(blob.getBytes(1, (int) blob.length())));
+					p.setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(4))));
 					p.setMain(rs.getBoolean(5));
 					pictures.add(p);
 				} while (rs.next());
@@ -273,8 +269,7 @@ public class PictureDao extends Dao {
 					Picture p = new Picture(rs.getInt(1));
 					p.setMime(rs.getString(2));
 					p.setCoding(rs.getString(3));
-					Blob blob = rs.getBlob(4);
-					p.setSrc(Base64.getEncoder().encodeToString(blob.getBytes(1, (int) blob.length())));
+					p.setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(4))));
 					p.setMain(true);
 					/*
 					 * Asociar imagen con acciones por el id
@@ -311,8 +306,7 @@ public class PictureDao extends Dao {
 					Picture p = new Picture(rs.getInt(1));
 					p.setMime(rs.getString(2));
 					p.setCoding(rs.getString(3));
-					Blob blob = rs.getBlob(4);
-					p.setSrc(Base64.getEncoder().encodeToString(blob.getBytes(1, (int) blob.length())));
+					p.setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(4))));
 					p.setMain(true);
 					/*
 					 * Asociar imagen con regalos por el id

@@ -8,6 +8,7 @@ import com.megift.bsp.pos.entity.POS;
 import com.megift.resources.base.Entity;
 import com.megift.set.location.entity.Location;
 import com.megift.set.master.entity.MasterValue;
+import com.megift.set.picture.entity.Picture;
 
 /**
  * @class : Business.java<br/>
@@ -41,6 +42,7 @@ public class Business extends Entity {
 	private int giftCount;
 	private String webSite;
 	private int position;
+	private Picture picture;
 
 	/**
 	 * @param id
@@ -223,5 +225,13 @@ public class Business extends Entity {
 	public void setPosition(int position) {
 		this.position = position;
 	}
+
+	public Picture getPicture() {
+	    return picture;
+    }
+
+	public void setPicture(Picture picture) {
+	    this.picture = picture;
+    }
 
 }

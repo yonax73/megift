@@ -30,6 +30,7 @@ POST /updatePartner                          com.megift.bsp.partner.controller.P
 POST /uploadpicturePartner            com.megift.set.picture.controller.PictureControl.uploadpicturePartner()
 POST /uploadpictureAction            com.megift.set.picture.controller.PictureControl.uploadpictureAction()
 POST /uploadpictureGift        com.megift.set.picture.controller.PictureControl.uploadpictureGift()
+POST /uploadpictureBusiness        com.megift.set.picture.controller.PictureControl.uploadpictureBusiness()
 #Social
 POST /inviteFriends            com.megift.resources.social.controller.SocialControl.inviteFriends()   
 #business

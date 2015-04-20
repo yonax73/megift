@@ -199,13 +199,13 @@
    display: flex;
    padding: 0;
  }
- .form-picture img{
-   height: 120px;
-   margin: 0 auto;
-   max-height: 120px;
-   max-width: 120px;
-   width: 120px;
- }
+.form-picture img {
+    height: 220px;
+    margin: 0 auto;
+    max-height: 220px;
+    max-width: 340px;
+    width: 340px;
+}
  .form-picture button{
   width: 100%;
 }
@@ -266,3 +266,20 @@
   overflow: auto;
 }
 
+.alert{  
+    bottom: 0;
+    height: 65px;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 100px;
+    z-index: 9;
+    display: block;
+}
+
+.container{
+	margin-top:65px;
+}
+#edit-picture{
+	width: 90%;
+}

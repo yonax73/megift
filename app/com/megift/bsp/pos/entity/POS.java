@@ -1,13 +1,11 @@
 package com.megift.bsp.pos.entity;
 
-import static com.megift.resources.utils.Constants.convertKilometersToMeteres;
-import static com.megift.resources.utils.Constants.roundTo2Decimals;
-
 import java.util.List;
 
 import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.partner.entity.Partner;
 import com.megift.resources.base.Entity;
+import com.megift.resources.utils.Utils;
 import com.megift.set.location.entity.Location;
 import com.megift.set.location.geolocation.entity.Geolocation;
 
@@ -201,7 +199,7 @@ public class POS extends Entity {
 
 	// TODO:quitar
 	public String getDistanceInMetersStr() {
-		return String.valueOf(roundTo2Decimals(distanceInMeters)).concat(" m");
+		return String.valueOf(Utils.roundTo2Decimals(distanceInMeters)).concat(" m");
 	}
 
 	public String getBusinessName() {
@@ -214,9 +212,9 @@ public class POS extends Entity {
 
 	public String getDistanceFormatted() {
 		if (getDistanceInKiloMeters() >= 1) {
-			return String.valueOf(roundTo2Decimals(getDistanceInKiloMeters())).concat(" km");
+			return String.valueOf(Utils.roundTo2Decimals(getDistanceInKiloMeters())).concat(" km");
 		} else {
-			return String.valueOf(roundTo2Decimals(convertKilometersToMeteres(getDistanceInKiloMeters()))).concat(" m");
+			return String.valueOf(Utils.roundTo2Decimals(Utils.convertKilometersToMeteres(getDistanceInKiloMeters()))).concat(" m");
 		}
 
 	}
