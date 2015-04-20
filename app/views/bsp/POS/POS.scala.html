@@ -23,6 +23,14 @@
 					<span class="text-danger">*</span>
 					<div class="form-group has-feedback"><input type="text" class="form-control input-lg"name="name-contact" data-required="true"placeholder="Nombre Contacto"> <span class="form-control-feedback"></span> <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small></div>
 				</div>
+			    <div class="col-md-12">
+			        <span class="text-danger">*</span>
+			        <div class="form-group has-feedback">
+			            <input type="text" class="form-control input-lg" name="email-POS" data-required="true" placeholder="Email">
+			            <span class="form-control-feedback"></span>
+			            <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+			        </div>
+			    </div>
 				<div class="col-md-12">
 					<span class="text-danger">*</span>
 					<div class="form-group has-feedback"><input type="text" class="form-control input-lg" name="phone-pos"data-required="true" placeholder="Tel茅fono"> <span class="form-control-feedback"></span> <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small></div>
@@ -37,7 +45,7 @@
 				<div class="col-md-12">
 					<span class="text-danger">*</span>
 					<div class="form-group has-feedback">
-						<input type="text" class="form-control input-lg" id="address-pos" name="address-pos" data-required="true" placeholder="Direcci贸n" readonly="true">
+						<input type="text" class="form-control input-lg" id="address-pos" name="address-pos" data-required="true" placeholder="Direcci髇" readonly="true">
 						<span class="input-group-btn form-group">
 							<button class="btn btn-default" type="button" onclick="loadMapAsync()">
 								<i class="fa fa-map-marker"></i>&nbsp;Buscar
@@ -66,10 +74,10 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="page-header">
-				<h2>Direcci贸n Punto de Venta</h2>
+				<h2>Direcci髇 Punto de Venta</h2>
 			</div>
 			<p>
-				Ubica la direcci贸n del punto de venta en el mapa para tener una mejor precisi贸n en el momento de buscar regalos
+				Ubica la direcci髇 del punto de venta en el mapa para tener una mejor precisi髇 en el momento de buscar regalos
 			</p>
 		</div>
 	</div>
@@ -84,7 +92,7 @@
 				</span>
 			</div>
 			<p>
-				<small>Ej: Carrera 25 # 1 A Sur 45 Local 3160 Medell铆n, Antioquia Colombia</small>
+				<small>Ej: Carrera 25 # 1 A Sur 45 Local 3160 Medell韓, Antioquia Colombia</small>
 			</p>
 		</div>
 	</div>
@@ -326,6 +334,7 @@ POSxHR.send(POSForm.serialize());
 	    	document.getElementsByName('id-address-pos')[0].value = POS.location.address.id;
 	    	document.getElementsByName('id-location-pos')[0].value = POS.location.id;
 	    	document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;
+	    	document.getElementsByName('email-POS')[0].value = POS.email;
 	    	document.getElementById('associate-gift-btn').disabled = false;
 	    	initGifts();
 	    });

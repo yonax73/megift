@@ -1,12 +1,9 @@
 package com.megift.set.location.geolocation.entity;
 
-import static com.megift.resources.utils.Constants.convertKilometersToMeteres;
-import static com.megift.resources.utils.Constants.deg2rad;
-import static com.megift.resources.utils.Constants.rad2deg;
-
 import java.time.LocalDate;
 
 import com.megift.resources.base.Entity;
+import com.megift.resources.utils.Utils;
 
 /**
  * @class : GeoLocation.java<br/>
@@ -53,9 +50,10 @@ public class Geolocation extends Entity {
 	 */
 	public static double distance(Geolocation point1, Geolocation point2, char unit) {
 		double theta = point1.getLongitude() - point2.getLongitude();
-		double dist = Math.sin(deg2rad(point1.getLatitude())) * Math.sin(deg2rad(point2.getLatitude())) + Math.cos(deg2rad(point1.getLatitude())) * Math.cos(deg2rad(point2.getLatitude())) * Math.cos(deg2rad(theta));
+		double dist = Math.sin(Utils.deg2rad(point1.getLatitude())) * Math.sin(Utils.deg2rad(point2.getLatitude())) + Math.cos(Utils.deg2rad(point1.getLatitude()))
+		        * Math.cos(Utils.deg2rad(point2.getLatitude())) * Math.cos(Utils.deg2rad(theta));
 		dist = Math.acos(dist);
-		dist = rad2deg(dist);
+		dist = Utils.rad2deg(dist);
 		dist = dist * 60 * 1.1515;
 		if (unit == 'K') {
 			dist = dist * 1.609344;
@@ -66,11 +64,10 @@ public class Geolocation extends Entity {
 	}
 
 	/*
-	 * TODO:quitar
-	 * calculate distance in meters between two points
+	 * TODO:quitar calculate distance in meters between two points
 	 */
 	public static double distanceInMetersBetween(Geolocation point1, Geolocation point2) {
-		return convertKilometersToMeteres(distance(point1, point2, 'K'));
+		return Utils.convertKilometersToMeteres(distance(point1, point2, 'K'));
 	}
 
 	/*

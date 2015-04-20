@@ -4,12 +4,14 @@
 package com.megift.bsp.business.dao;
 
 import static com.megift.resources.utils.Constants.ITEMS_PER_GROUP;
+import static com.megift.resources.utils.Utils.getFileBytes;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import play.Logger;
@@ -25,6 +27,7 @@ import com.megift.set.location.address.entity.Address;
 import com.megift.set.location.entity.Location;
 import com.megift.set.location.phone.entity.Phone;
 import com.megift.set.master.entity.MasterValue;
+import com.megift.set.picture.entity.Picture;
 
 /**
  * company : Megift S.A<br/>
@@ -145,6 +148,12 @@ public class BusinessDao extends Dao {
 				business.setLegalName(rs.getString(21));
 				business.setTradeName(rs.getString(22));
 				business.setWebSite(rs.getString(23));
+				business.setPicture(new Picture(rs.getInt(24)));
+				if (business.getPicture().exists()) {
+					business.getPicture().setMime(rs.getString(25));
+					business.getPicture().setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(26))));
+					business.getPicture().setCoding(rs.getString(27));
+				}
 			}
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the business.\n" + e.getMessage(), e);
@@ -201,6 +210,12 @@ public class BusinessDao extends Dao {
 				business.setLegalName(rs.getString(20));
 				business.setTradeName(rs.getString(21));
 				business.setWebSite(rs.getString(22));
+				business.setPicture(new Picture(rs.getInt(23)));
+				if (business.getPicture().exists()) {
+					business.getPicture().setMime(rs.getString(24));
+					business.getPicture().setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(25))));
+					business.getPicture().setCoding(rs.getString(26));
+				}
 			}
 		} catch (Exception e) {
 			Logger.error("An error has been occurred tryning loading the business.\n" + e.getMessage(), e);
@@ -235,6 +250,12 @@ public class BusinessDao extends Dao {
 					b.setWebSite(rs.getString(4));
 					pos.setDistanceInKiloMeters(rs.getFloat(5));
 					b.setPos(pos);
+					b.setPicture(new Picture(rs.getInt(6)));
+					if (b.getPicture().exists()) {
+						b.getPicture().setMime(rs.getString(7));
+						b.getPicture().setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(8))));
+						b.getPicture().setCoding(rs.getString(9));
+					}
 					businesses.add(b);
 				} while (rs.next());
 			}
@@ -264,6 +285,28 @@ public class BusinessDao extends Dao {
 			close(rs, cst, conn);
 		}
 		return searchCount;
+	}
+
+	/**
+	 * @param business
+	 * @return
+	 */
+	public static boolean updatePicture(Business business) {
+		boolean result = false;
+		CallableStatement cst = null;
+		Connection conn = null;
+		try {
+			conn = DB.getConnection();
+			cst = conn.prepareCall("CALL sp_bsp_businesses_UPDATE_PICTURE(?,?)");
+			cst.setInt(1, business.getId());
+			cst.setInt(2, business.getPicture().getId());
+			result = cst.executeUpdate() > 0;
+		} catch (Exception e) {
+			Logger.error("An error has been occurred trying to update picture business .\n" + e.getMessage(), e);
+		} finally {
+			close(cst, conn);
+		}
+		return result;
 	}
 
 }

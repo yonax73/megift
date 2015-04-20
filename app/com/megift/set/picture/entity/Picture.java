@@ -25,6 +25,8 @@ public class Picture extends Entity {
 	private String src;
 	private File file;
 	private String coding;
+	private String path;
+	private String name;
 	private boolean main;
 
 	/**
@@ -104,6 +106,22 @@ public class Picture extends Entity {
 
 	public void setMain(boolean main) {
 		this.main = main;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

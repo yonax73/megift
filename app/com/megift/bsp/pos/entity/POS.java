@@ -1,13 +1,11 @@
 package com.megift.bsp.pos.entity;
 
-import static com.megift.resources.utils.Constants.convertKilometersToMeteres;
-import static com.megift.resources.utils.Constants.roundTo2Decimals;
-
 import java.util.List;
 
 import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.partner.entity.Partner;
 import com.megift.resources.base.Entity;
+import com.megift.resources.utils.Utils;
 import com.megift.set.location.entity.Location;
 import com.megift.set.location.geolocation.entity.Geolocation;
 
@@ -39,6 +37,7 @@ public class POS extends Entity {
 	private Partner user;
 	private double distanceInMeters;// TDOD: quitar in meters
 	private double distanceInKiloMeters;
+	private String email;
 
 	/**
 	 * @param id
@@ -201,7 +200,7 @@ public class POS extends Entity {
 
 	// TODO:quitar
 	public String getDistanceInMetersStr() {
-		return String.valueOf(roundTo2Decimals(distanceInMeters)).concat(" m");
+		return String.valueOf(Utils.roundTo2Decimals(distanceInMeters)).concat(" m");
 	}
 
 	public String getBusinessName() {
@@ -214,14 +213,29 @@ public class POS extends Entity {
 
 	public String getDistanceFormatted() {
 		if (getDistanceInKiloMeters() >= 1) {
-			return String.valueOf(roundTo2Decimals(getDistanceInKiloMeters())).concat(" km");
+			return String.valueOf(Utils.roundTo2Decimals(getDistanceInKiloMeters())).concat(" km");
 		} else {
-			return String.valueOf(roundTo2Decimals(convertKilometersToMeteres(getDistanceInKiloMeters()))).concat(" m");
+			return String.valueOf(Utils.roundTo2Decimals(Utils.convertKilometersToMeteres(getDistanceInKiloMeters()))).concat(" m");
 		}
 
 	}
 
 	public void setDistanceInKiloMeters(double distanceInKiloMeters) {
 		this.distanceInKiloMeters = distanceInKiloMeters;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email
+	 *            the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

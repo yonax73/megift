@@ -3,6 +3,8 @@ package com.megift.set.picture.logic;
 import java.util.List;
 
 import com.megift.bsp.action.entity.Action;
+import com.megift.bsp.business.dao.BusinessDao;
+import com.megift.bsp.business.entity.Business;
 import com.megift.bsp.gift.entity.Gift;
 import com.megift.bsp.partner.dao.PartnerDao;
 import com.megift.bsp.partner.entity.Partner;
@@ -141,6 +143,23 @@ public class PictureLogic {
 		boolean result = false;
 		if (giftList != null && !giftList.isEmpty()) {
 			result = PictureDao.loadActionMainPictureByGiftList(giftList);
+		}
+		return result;
+	}
+
+	/**
+	 * @param business
+	 * @return
+	 */
+	public static boolean savePictureBusiness(Business business) {
+		boolean result = false;
+		if (business.getPicture().exists()) {
+			result = PictureDao.update(business.getPicture());
+		} else if (business.exists()) {
+			result = PictureDao.create(business.getPicture());
+			if (business.getPicture().exists()) {
+				result = BusinessDao.updatePicture(business);
+			}
 		}
 		return result;
 	}

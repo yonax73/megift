@@ -1,7 +1,6 @@
 package com.megift.bsp.gift.entity;
 
 import static com.megift.resources.utils.Constants.DATE_FORMATTER;
-import static com.megift.resources.utils.Constants.priceWithoutDecimal;
 import static com.megift.resources.utils.Utils.getElapsaTime;
 
 import java.time.LocalDateTime;
@@ -14,6 +13,7 @@ import com.megift.bsp.pos.entity.POS;
 import com.megift.bsp.relationgiftpos.entity.RelationGiftPOS;
 import com.megift.bsp.term_and_condition.TermAndCondition;
 import com.megift.resources.base.Entity;
+import com.megift.resources.utils.Utils;
 import com.megift.set.master.entity.MasterValue;
 import com.megift.set.picture.entity.Picture;
 
@@ -294,7 +294,7 @@ public class Gift extends Entity {
 	}
 
 	public String getPriceFormatted() {
-		return priceWithoutDecimal(price, "$");
+		return Utils.priceWithoutDecimal(price, "$");
 	}
 
 	/**
