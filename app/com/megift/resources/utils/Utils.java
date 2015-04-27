@@ -1,8 +1,13 @@
 package com.megift.resources.utils;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -10,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.GZIPOutputStream;
 
 import play.Logger;
 
@@ -18,6 +24,27 @@ import com.megift.bsp.gift.entity.Gift;
 import com.megift.set.picture.entity.Picture;
 
 public class Utils {
+
+	public static ByteArrayOutputStream gZipCoding(String textPlain) {
+		final InputStream inputStream = new ByteArrayInputStream(textPlain.getBytes());
+		final ByteArrayOutputStream stringOutputStream = new ByteArrayOutputStream((int) (textPlain.length() * 0.75));
+		OutputStream gzipOutputStream;
+		try {
+			gzipOutputStream = new GZIPOutputStream(stringOutputStream);
+
+			final byte[] buf = new byte[5000];
+			int len;
+			while ((len = inputStream.read(buf)) > 0) {
+				gzipOutputStream.write(buf, 0, len);
+			}
+
+			inputStream.close();
+			gzipOutputStream.close();
+		} catch (IOException e) {
+			Logger.error("Ha ocurrido un error intentado comprimir el archivo \n" + e.getMessage(), e);
+		}
+		return stringOutputStream;
+	}
 
 	public static boolean uploadFile(Picture picture, String path) {
 		boolean result = false;
