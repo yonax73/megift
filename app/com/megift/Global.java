@@ -6,8 +6,6 @@ import static play.mvc.Results.notFound;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
-import play.api.mvc.EssentialFilter;
-import play.filters.gzip.GzipFilter;
 import play.libs.F.Promise;
 import play.mvc.Http.RequestHeader;
 import play.mvc.Result;
@@ -43,8 +41,4 @@ public class Global extends GlobalSettings {
 		return Promise.<Result> pure(internalServerError(views.html.resources.errorPage.render()));
 	}
 
-	@Override
-	public <T extends EssentialFilter> Class<T>[] filters() {
-		return new Class[] { GzipFilter.class };
-	}
 }

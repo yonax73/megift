@@ -9,9 +9,8 @@ scalaVersion := "2.11.1"
 libraryDependencies ++= Seq(
   javaJdbc,
   javaEbean,
-  cache,
+  cache,  
   javaWs,
-  filters,
   "mysql" % "mysql-connector-java" % "5.1.18",
   "org.apache.poi" % "poi" % "3.8",
   "org.apache.poi" % "poi-ooxml" % "3.9",
