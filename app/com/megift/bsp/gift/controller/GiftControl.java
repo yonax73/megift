@@ -213,6 +213,8 @@ public class GiftControl extends Controller {
 	public static Result searchGift() {
 		try {
 			response().setHeader("Access-Control-Allow-Origin", "*");
+			response().setHeader("Content-Type", "text/html; charset=UTF-8");
+			response().setHeader("Content-Encoding", "gzip");
 			String result = "No se ha podido completar la solicitud";
 			final Map<String, String[]> data = request().body().asFormUrlEncoded();
 			if (data != null) {

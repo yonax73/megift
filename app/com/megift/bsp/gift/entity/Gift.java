@@ -4,6 +4,8 @@ import static com.megift.resources.utils.Constants.DATE_FORMATTER;
 import static com.megift.resources.utils.Utils.getElapsaTime;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -96,7 +98,7 @@ public class Gift extends Entity {
 
 	public String getElapseTime() {
 		if (expirationDate != null) {
-			return getElapsaTime(LocalDateTime.now(), expirationDate);
+			return getElapsaTime(ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("America/Bogota")), expirationDate);
 		} else {
 			return "";
 		}

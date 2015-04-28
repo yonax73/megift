@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -102,7 +103,7 @@ public class Utils {
 	/*
 	 * elapsed time hours, minutes and seconds format
 	 */
-	public static String getElapsaTime(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime) {
+	public static String getElapsaTime(ZonedDateTime startLocalDateTime, LocalDateTime endLocalDateTime) {
 
 		Date startDate = asDate(startLocalDateTime);
 		Date endDate = asDate(endLocalDateTime);
@@ -125,7 +126,7 @@ public class Utils {
 
 		long elapsedSeconds = different / secondsInMilli;
 
-		return String.format("%d:%d:%d", elapsedHours * elapsedDays, elapsedMinutes, elapsedSeconds);
+		return String.format("%d:%d:%d", (elapsedDays * 24) + elapsedHours, elapsedMinutes, elapsedSeconds);
 
 	}
 
@@ -135,6 +136,10 @@ public class Utils {
 
 	public static Date asDate(LocalDateTime localDateTime) {
 		return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+	}
+
+	public static Date asDate(ZonedDateTime zonaDateTime) {
+		return Date.from(zonaDateTime.toLocalDateTime().atZone(ZoneId.systemDefault()).toInstant());
 	}
 
 	public static LocalDate asLocalDate(Date date) {
