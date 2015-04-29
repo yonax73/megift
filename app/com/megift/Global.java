@@ -14,6 +14,10 @@ import play.mvc.Result;
 
 public class Global extends GlobalSettings {
 
+	public <T extends EssentialFilter> Class<T>[] filters() {
+		return new Class[] { GzipFilter.class };
+	}
+
 	@Override
 	public void onStart(Application app) {
 		Logger.info("Application has started");
@@ -43,8 +47,4 @@ public class Global extends GlobalSettings {
 		return Promise.<Result> pure(internalServerError(views.html.resources.errorPage.render()));
 	}
 
-	@Override
-	public <T extends EssentialFilter> Class<T>[] filters() {
-		return new Class[] { GzipFilter.class };
-	}
 }

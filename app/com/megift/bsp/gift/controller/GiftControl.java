@@ -213,9 +213,8 @@ public class GiftControl extends Controller {
 	public static Result searchGift() {
 		try {
 			response().setHeader("Access-Control-Allow-Origin", "*");
-			response().setHeader("Accept-Encoding", "gzip, deflate");
+			response().setHeader("Content-Type", "text/html; charset=UTF-8");
 			response().setHeader("Content-Encoding", "gzip");
-			response().setHeader("Content-type", "text/plain; charset=UTF-8");
 			String result = "No se ha podido completar la solicitud";
 			final Map<String, String[]> data = request().body().asFormUrlEncoded();
 			if (data != null) {
@@ -230,7 +229,7 @@ public class GiftControl extends Controller {
 					user.getGift().setType(new MasterValue(Integer.parseInt(data.get("gift-type-id")[0])));
 					if (GiftLogic.searchGift(user)) {
 						if (user.getPOSList() != null && !user.getPOSList().isEmpty()) {
-							result = Json.toJson(user.getPOSList()).toString();
+							result = Json.stringify(Json.toJson(user.getPOSList()));
 						} else {
 							result = "No hay Regalos cerca a tu ubicación con este filtro";
 						}
@@ -246,7 +245,7 @@ public class GiftControl extends Controller {
 					user.getGift().getAction().setPosition(position);
 					if (ActionLogic.searchAction(user)) {
 						if (user.getPOSList() != null && !user.getPOSList().isEmpty()) {
-							result = Json.toJson(user.getPOSList()).toString();
+							result = Json.stringify(Json.toJson(user.getPOSList()));
 						} else {
 							result = "No hay acciones cerca a tu ubicación con este filtro";
 						}
@@ -264,7 +263,7 @@ public class GiftControl extends Controller {
 					List<Business> businesses = BusinessLogic.search(b);
 					if (businesses != null) {
 						if (!businesses.isEmpty()) {
-							result = Json.toJson(businesses).toString();
+							result = Json.stringify(Json.toJson(businesses));
 						} else {
 							result = "No hay Empresas cerca a tu ubicación con este filtro";
 						}
@@ -282,7 +281,8 @@ public class GiftControl extends Controller {
 					user.getPos().setBussinesId(Integer.parseInt(data.get("id-business")[0]));
 					if (GiftLogic.searchGift(user)) {
 						if (user.getPOSList() != null && !user.getPOSList().isEmpty()) {
-							result = Json.toJson(user.getPOSList()).toString();
+							result = Json.stringify(Json.toJson(user.getPOSList()));
+
 						} else {
 							result = "No hay Regalos cerca a tu ubicación con este filtro";
 						}

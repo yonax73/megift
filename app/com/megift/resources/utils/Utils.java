@@ -1,21 +1,16 @@
 package com.megift.resources.utils;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.zip.GZIPOutputStream;
 
 import play.Logger;
 
@@ -24,27 +19,6 @@ import com.megift.bsp.gift.entity.Gift;
 import com.megift.set.picture.entity.Picture;
 
 public class Utils {
-
-	public static ByteArrayOutputStream gZipCoding(String textPlain) {
-		final InputStream inputStream = new ByteArrayInputStream(textPlain.getBytes());
-		final ByteArrayOutputStream stringOutputStream = new ByteArrayOutputStream((int) (textPlain.length() * 0.75));
-		OutputStream gzipOutputStream;
-		try {
-			gzipOutputStream = new GZIPOutputStream(stringOutputStream);
-
-			final byte[] buf = new byte[5000];
-			int len;
-			while ((len = inputStream.read(buf)) > 0) {
-				gzipOutputStream.write(buf, 0, len);
-			}
-
-			inputStream.close();
-			gzipOutputStream.close();
-		} catch (IOException e) {
-			Logger.error("Ha ocurrido un error intentado comprimir el archivo \n" + e.getMessage(), e);
-		}
-		return stringOutputStream;
-	}
 
 	public static boolean uploadFile(Picture picture, String path) {
 		boolean result = false;
@@ -129,7 +103,7 @@ public class Utils {
 	/*
 	 * elapsed time hours, minutes and seconds format
 	 */
-	public static String getElapsaTime(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime) {
+	public static String getElapsaTime(ZonedDateTime startLocalDateTime, LocalDateTime endLocalDateTime) {
 
 		Date startDate = asDate(startLocalDateTime);
 		Date endDate = asDate(endLocalDateTime);
@@ -152,7 +126,7 @@ public class Utils {
 
 		long elapsedSeconds = different / secondsInMilli;
 
-		return String.format("%d:%d:%d", elapsedHours * elapsedDays, elapsedMinutes, elapsedSeconds);
+		return String.format("%d:%d:%d", (elapsedDays * 24) + elapsedHours, elapsedMinutes, elapsedSeconds);
 
 	}
 
@@ -162,6 +136,10 @@ public class Utils {
 
 	public static Date asDate(LocalDateTime localDateTime) {
 		return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+	}
+
+	public static Date asDate(ZonedDateTime zonaDateTime) {
+		return Date.from(zonaDateTime.toLocalDateTime().atZone(ZoneId.systemDefault()).toInstant());
 	}
 
 	public static LocalDate asLocalDate(Date date) {

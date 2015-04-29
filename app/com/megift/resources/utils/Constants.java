@@ -20,8 +20,9 @@ public class Constants {
 	public static final String SESSION_BUSINESS_ID = "BUSINESS-LOGIN-ID";
 
 	public static final double KILOMETER_TO_METERS = 1000;// 1 KM IS EQUAL TO
-	                                                      // 1000 METERS
-	public static final int ITEMS_PER_GROUP = 5; // CANTIDAD DE ITEMS QUE SE
-	                                             // CARGAN PARA MOSTRAR REGALOS
+															// 1000 METERS
+	public static final int ITEMS_PER_GROUP = 3; // CANTIDAD DE ITEMS QUE SE
+													// CARGAN PARA MOSTRAR
+													// REGALOS
 
 }

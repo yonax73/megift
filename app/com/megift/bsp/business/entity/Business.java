@@ -43,6 +43,7 @@ public class Business extends Entity {
 	private String webSite;
 	private int position;
 	private Picture picture;
+	private Partner customerService;
 
 	/**
 	 * @param id
@@ -227,11 +228,26 @@ public class Business extends Entity {
 	}
 
 	public Picture getPicture() {
-	    return picture;
-    }
+		return picture;
+	}
 
 	public void setPicture(Picture picture) {
-	    this.picture = picture;
-    }
+		this.picture = picture;
+	}
+
+	/**
+	 * @return the customerService
+	 */
+	public Partner getCustomerService() {
+		return customerService;
+	}
+
+	/**
+	 * @param customerService
+	 *            the customerService to set
+	 */
+	public void setCustomerService(Partner customerService) {
+		this.customerService = customerService;
+	}
 
 }
