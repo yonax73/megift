@@ -23,6 +23,14 @@
 					<span class="text-danger">*</span>
 					<div class="form-group has-feedback"><input type="text" class="form-control input-lg"name="name-contact" data-required="true"placeholder="Nombre Contacto"> <span class="form-control-feedback"></span> <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small></div>
 				</div>
+		        <div class="col-md-12">
+		            <span class="text-danger">*</span>
+		            <div class="form-group has-feedback">
+		                <input type="text" class="form-control input-lg" name="web-site-pos"  placeholder="p&aacute;gina Web">
+		                <span class="form-control-feedback"></span>
+		                <small class="i-form-error-msg text-danger hidden">Este campo es requerido!</small>
+		            </div>
+		        </div>
 			    <div class="col-md-12">
 			        <span class="text-danger">*</span>
 			        <div class="form-group has-feedback">
@@ -335,6 +343,7 @@ POSxHR.send(POSForm.serialize());
 	    	document.getElementsByName('id-location-pos')[0].value = POS.location.id;
 	    	document.getElementsByName('id-geolocation-pos')[0].value = POS.location.address.geolocation.id;
 	    	document.getElementsByName('email-POS')[0].value = POS.email;
+	    	document.getElementsByName('web-site-pos')[0].value = POS.webSite;
 	    	document.getElementById('associate-gift-btn').disabled = false;
 	    	initGifts();
 	    });

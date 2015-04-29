@@ -190,6 +190,8 @@ public class GiftDao extends Dao {
 				business.setId(rs.getInt(22));
 				business.setWebSite(rs.getString(23));
 				pos.setEmail(rs.getString(24));
+				pos.setWebSite(rs.getString(25));
+				pos.setName(rs.getString(26));
 				result = true;
 			}
 		} catch (Exception e) {
