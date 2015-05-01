@@ -885,8 +885,8 @@ function initList(giftTypeId,otherTypeGiftStr,giftStatusId,actionTypeId,otherTyp
 			do{
 				var pic = pictures[j];
 				if(pic.main){	            
-					document.getElementsByName(idPictureStr)[0].value = pic.id;
-					document.getElementById(idImgStr).src = pic.dataURI;
+					document.getElementsByName(idPictureStr)[0].value = pic.id;				        
+					document.getElementById(idImgStr).src = dataURI(pic.mime, pic.coding, pic.src);;
 					found = true;
 				}
 				j++;

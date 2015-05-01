@@ -80,7 +80,7 @@ function coverGift(element,gift){
           do{
             var pic = g.pictures[j];
             if(pic.main){
-             src = pic.dataURI;
+             src =  dataURI(pic.mime, pic.coding, pic.src);
              found = true;
            }
            j++;

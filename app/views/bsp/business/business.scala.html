@@ -439,8 +439,9 @@ function loadBusiness(){
     document.getElementsByName('id-legal-representative')[0].value = business.legalRepresentative.id;
     document.getElementsByName('id-document-legal-representative')[0].value = business.legalRepresentative.document.id;
     var imageBusiness = document.getElementById('picture-business-img');
-    if (business.picture.id > 0) {
-        imageBusiness.src = business.picture.dataURI;
+    var picture = business.picture;
+    if (picture.id > 0) {        
+    	imageBusiness.src = dataURI(picture.mime, picture.coding, picture.src);        
     } else {
         imageBusiness.src = '@routes.Assets.at("images/gift/action.png")';
     }

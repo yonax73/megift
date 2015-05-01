@@ -50,17 +50,6 @@ public class Picture extends Entity {
 		return file == null;
 	}
 
-	public String getDataURI() {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("data:");
-		buffer.append(mime);
-		buffer.append(";");
-		buffer.append(coding);
-		buffer.append(",");
-		buffer.append(src);
-		return buffer.toString();
-	}
-
 	public String getMime() {
 		return mime;
 	}
