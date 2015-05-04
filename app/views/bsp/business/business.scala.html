@@ -441,7 +441,7 @@ function loadBusiness(){
     var imageBusiness = document.getElementById('picture-business-img');
     var picture = business.picture;
     if (picture.id > 0) {        
-    	imageBusiness.src = dataURI(picture.mime, picture.coding, picture.src);        
+    	imageBusiness.src = completePath(picture.path);        
     } else {
         imageBusiness.src = '@routes.Assets.at("images/gift/action.png")';
     }

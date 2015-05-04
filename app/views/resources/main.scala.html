@@ -71,6 +71,17 @@ function signOut(){
 	localStorage.clear();
 	sessionStorage.clear();
 }
+/*
+ * create complete Path
+ */
+ function completePath(path) {
+	if(path){
+		return '@routes.Assets.at("#")'.replace('#',path.replace('public/',''));	
+	}else{
+		return '';
+	}
+	    
+ }
 
 /*
  * create data URI Image
@@ -78,6 +89,7 @@ function signOut(){
  function dataURI(mime,coding,src) {
      return 'data:' + mime + ';' + coding + ',' + src;
  }
+  
 
 </script>
 </body>

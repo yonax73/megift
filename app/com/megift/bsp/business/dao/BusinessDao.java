@@ -151,7 +151,7 @@ public class BusinessDao extends Dao {
 				business.setPicture(new Picture(rs.getInt(24)));
 				if (business.getPicture().exists()) {
 					business.getPicture().setMime(rs.getString(25));
-					business.getPicture().setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(26))));
+					business.getPicture().setPath(rs.getString(26));
 					business.getPicture().setCoding(rs.getString(27));
 				}
 			}
@@ -253,7 +253,7 @@ public class BusinessDao extends Dao {
 					b.setPicture(new Picture(rs.getInt(6)));
 					if (b.getPicture().exists()) {
 						b.getPicture().setMime(rs.getString(7));
-						b.getPicture().setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(8))));
+						b.getPicture().setPath(rs.getString(8));
 						b.getPicture().setCoding(rs.getString(9));
 					}
 					businesses.add(b);

@@ -233,8 +233,8 @@
 								<span class="fa fa-upload">&nbsp;Subir imagen</span>
 							</span>
 						</label>					
-						<button id="save-img-btn" class="btn btn-success btn-lg" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 240, &quot;height&quot;: 120 }" type="button">
-							<span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getCroppedCanvas&quot;, { &quot;width&quot;: 240, &quot;height&quot;: 120 })">
+						<button id="save-img-btn" class="btn btn-success btn-lg" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 235, &quot;height&quot;: 130 }" type="button">
+							<span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getCroppedCanvas&quot;, { &quot;width&quot;: 235, &quot;height&quot;: 130 })">
 								<span id="save-img-ico" class="fa fa-floppy-o"></span>&nbsp;Guardar cambios
 							</span>
 						</button>
@@ -886,7 +886,7 @@ function initList(giftTypeId,otherTypeGiftStr,giftStatusId,actionTypeId,otherTyp
 				var pic = pictures[j];
 				if(pic.main){	            
 					document.getElementsByName(idPictureStr)[0].value = pic.id;				        
-					document.getElementById(idImgStr).src = dataURI(pic.mime, pic.coding, pic.src);;
+					document.getElementById(idImgStr).src = completePath(pic.path);       
 					found = true;
 				}
 				j++;

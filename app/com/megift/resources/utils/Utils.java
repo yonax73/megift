@@ -31,6 +31,7 @@ public class Utils {
 			File newFile = new File(buffer.toString());
 			file.renameTo(newFile);
 			picture.setPath(newFile.getPath());
+			picture.setPath(picture.getPath().replaceAll("\\\\", "/"));
 			result = true;
 		} catch (Exception e) {
 			Logger.error("Ha ocurrido un error intentado subir el archivo al servidor \n" + e.getMessage(), e);

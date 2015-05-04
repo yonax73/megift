@@ -2,14 +2,12 @@ package com.megift.set.picture.dao;
 
 import static com.megift.resources.utils.Utils.concatActionIds;
 import static com.megift.resources.utils.Utils.concatGiftIds;
-import static com.megift.resources.utils.Utils.getFileBytes;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import play.Logger;
@@ -160,7 +158,7 @@ public class PictureDao extends Dao {
 					Picture p = new Picture(rs.getInt(1));
 					p.setMime(rs.getString(2));
 					p.setCoding(rs.getString(3));
-					p.setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(4))));
+					p.setPath(rs.getString(4));
 					p.setMain(rs.getBoolean(5));
 					pictures.add(p);
 				} while (rs.next());
@@ -196,7 +194,7 @@ public class PictureDao extends Dao {
 					Picture p = new Picture(rs.getInt(1));
 					p.setMime(rs.getString(2));
 					p.setCoding(rs.getString(3));
-					p.setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(4))));
+					p.setPath(rs.getString(4));
 					p.setMain(true);
 					/*
 					 * Asociar imagen con regalos por el id
@@ -239,7 +237,7 @@ public class PictureDao extends Dao {
 					Picture p = new Picture(rs.getInt(1));
 					p.setMime(rs.getString(2));
 					p.setCoding(rs.getString(3));
-					p.setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(4))));
+					p.setPath(rs.getString(4));
 					p.setMain(rs.getBoolean(5));
 					pictures.add(p);
 				} while (rs.next());
@@ -269,7 +267,7 @@ public class PictureDao extends Dao {
 					Picture p = new Picture(rs.getInt(1));
 					p.setMime(rs.getString(2));
 					p.setCoding(rs.getString(3));
-					p.setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(4))));
+					p.setPath(rs.getString(4));
 					p.setMain(true);
 					/*
 					 * Asociar imagen con acciones por el id
@@ -306,7 +304,7 @@ public class PictureDao extends Dao {
 					Picture p = new Picture(rs.getInt(1));
 					p.setMime(rs.getString(2));
 					p.setCoding(rs.getString(3));
-					p.setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(4))));
+					p.setPath(rs.getString(4));
 					p.setMain(true);
 					/*
 					 * Asociar imagen con regalos por el id

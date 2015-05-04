@@ -1,14 +1,11 @@
 package com.megift.bsp.partner.dao;
 
-import static com.megift.resources.utils.Utils.getFileBytes;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.LocalDate;
-import java.util.Base64;
 
 import play.Logger;
 import play.db.DB;
@@ -79,7 +76,7 @@ public class PartnerDao extends Dao {
 				partner.setPicture(new Picture(rs.getInt(2)));
 				if (partner.getPicture().exists()) {
 					partner.getPicture().setMime(rs.getString(3));
-					partner.getPicture().setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(4))));
+					partner.getPicture().setPath(rs.getString(4));
 					partner.getPicture().setCoding(rs.getString(5));
 				}
 				partner.getLogin().setEmail(rs.getString(6));

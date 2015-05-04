@@ -77,7 +77,7 @@ public class PictureControl extends Controller {
 				partner.setPicture(picture);
 				if (uploadFile(picture, Constants.IMAGES_PARTNERS_PATH)) {
 					if (PictureLogic.savePicturePartner(partner)) {
-						result = SUCCESS_RESPONSE;
+						result = picture.getPath();
 					} else {
 						result = "Error intentado subir la imagen";
 					}
