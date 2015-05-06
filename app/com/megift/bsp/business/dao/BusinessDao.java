@@ -4,14 +4,12 @@
 package com.megift.bsp.business.dao;
 
 import static com.megift.resources.utils.Constants.ITEMS_PER_GROUP;
-import static com.megift.resources.utils.Utils.getFileBytes;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import play.Logger;
@@ -213,7 +211,7 @@ public class BusinessDao extends Dao {
 				business.setPicture(new Picture(rs.getInt(23)));
 				if (business.getPicture().exists()) {
 					business.getPicture().setMime(rs.getString(24));
-					business.getPicture().setSrc(Base64.getEncoder().encodeToString(getFileBytes(rs.getString(25))));
+					business.getPicture().setPath(rs.getString(25));
 					business.getPicture().setCoding(rs.getString(26));
 				}
 			}
